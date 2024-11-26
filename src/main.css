@@ -1,12 +1,12 @@
-*{
-    padding: 0;
-    margin: 0;
+* {
+  padding: 0;
+  margin: 0;
 }
 .Main {
-    display: flex;
-    justify-content: center;
-    padding-top: 20px;
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
 }
-body{
-    background-color: #F0F7FF;
+body {
+  background-color: #f0f7ff;
 }
