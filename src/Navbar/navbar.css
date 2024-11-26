@@ -108,3 +108,11 @@ hr{
     text-decoration: none;
     font-size: 1em;
 }
+
+.logout:hover {
+    color: #54ABC9;
+}
+
+.logout:hover > a {
+    color: #54ABC9;
+}
