@@ -1,0 +1,109 @@
+
+
+/* Reset du style par défaut */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Style général du body */
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Styles pour la navbar */
+.navbar {
+    margin: 30px;
+    width: 250px;
+    background-color: white;
+    color: black;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+    border-radius: 15px;
+}
+
+/* Style de l'entête de la navbar */
+.navbar-header {
+    text-align: center;
+    margin-bottom: 40px;
+    background-color: #54ABC9;
+    margin: 10px 10px 10px 10px;
+}
+
+.navbar-header h1 {
+    font-size: 1.3em;
+    margin: 5px 0px 5px 0px;
+    color: white;
+}
+
+.logo {
+    width: 50px;
+    height: auto;
+}
+
+/* Styles pour les liens de navigation */
+.nav-links {
+    list-style-type: none;
+    padding: 0;
+}
+
+.nav-links li {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    margin: 0px 10px 0px 10px;
+    border-radius: 0px 10px 10px 0px;
+    
+}
+
+.nav-links li:hover{
+    background-color: #F0F7FF;
+    border-left: solid 3px #54ABC9;
+    color : #54ABC9;
+}
+
+.nav-links li:hover > a{
+    color : #54ABC9;
+}
+
+.nav-logo {
+    width: 25px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.nav-links a {
+    color: black;
+    text-decoration: none;
+    font-size: 0.9em;
+}
+
+
+hr{
+    margin: 40px 30px 0px 30px;
+    border: 1px solid ;
+
+}
+
+/* Styles pour le bouton de déconnexion */
+.logout {
+    margin-top: auto;
+    text-align: center;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.logout-logo {
+    width: 20px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.logout-link {
+    color: black;
+    text-decoration: none;
+    font-size: 1em;
+}
