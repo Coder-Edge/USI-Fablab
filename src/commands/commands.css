@@ -1,0 +1,86 @@
+
+.commands {
+    padding: 20px;
+}
+
+.commands .table {
+    height: 230px;
+    overflow: auto;
+}
+
+.commands .total-price {
+    display: flex;
+    width: 200px;
+    padding: 14px 14px;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #F0F7FF;
+    border-radius: 10px;
+    margin: 10px 0px;
+}
+
+.commands .total-price .label {
+    color: #909090;
+    font-size: 15px;
+    font-weight:700;
+}
+
+.commands .total-price .value {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.commands .total-price .icon-money {
+    width: 60px;
+    color: #5899DD;
+}
+
+.commands .table-commands tbody .btn {
+    background-color: transparent;
+    border: 0;
+    padding-inline: 5px;
+    cursor: pointer;
+}
+
+.commands .table-commands {
+    border-collapse: collapse;
+    min-width: 100%;
+}
+
+.commands .table-commands thead th{
+    font-weight: 200;
+    color: #A2A1A8;
+    text-align: start;
+}
+
+.commands .table-commands th {
+    padding: 16px 8px;
+}
+.commands .table-commands td {
+    padding: 4px 8px;
+}
+
+.commands .table-commands tbody img {
+    width: 36px;
+    height: 36px;
+    border-radius: 100px;
+    margin-right: 4px;
+}
+
+.commands .table-commands tbody td div{
+    display: flex;
+    align-items: center;
+}
+
+.commands .table-commands tr {
+    border-bottom: 1px solid #A2A1A8;
+}
+
+::-webkit-scrollbar-button {
+    width: 5px;
+    color: #5899DD;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #5899DD;
+}
