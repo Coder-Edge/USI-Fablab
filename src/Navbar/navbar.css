@@ -12,14 +12,14 @@ body {
 
 /* Styles pour la navbar */
 .navbar {
-  margin: 30px;
+  margin-top: 20px;
+  margin-left: 30px;
   width: 250px;
   background-color: white;
   color: black;
   height: 90vh;
   display: flex;
   flex-direction: column;
-  padding-top: 20px;
   border-radius: 15px;
 }
 
