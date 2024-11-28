@@ -13,7 +13,8 @@ body {
 /* Styles pour la navbar */
 .navbar {
   margin: 30px;
-  width: 250px;
+  max-width: 250px;
+  min-width: 200px;
   background-color: white;
   color: black;
   height: 90vh;
@@ -108,4 +109,10 @@ hr {
 
 .logout:hover > a {
   color: #54abc9;
+}
+
+@media (width < 900px) {
+  .navbar{
+    display: none;
+  }
 }
