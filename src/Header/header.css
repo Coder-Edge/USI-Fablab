@@ -10,7 +10,7 @@ header .profile-header {
     width: 40px;
     height: 40px;
     align-items: center;
-    border-radius: 8px;
+    border-radius: 15px;
 }
 
 header .header-content {
@@ -23,7 +23,7 @@ header .header-content {
 header .notification-box {
     background-color: white;
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 15px;
 }
 
 header .notification-icon {

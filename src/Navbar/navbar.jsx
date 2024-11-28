@@ -16,7 +16,7 @@ import "./Navbar.css";
 const Navbar = () => {
   const menuItems = [
     { icon: FiGrid, text: "Tableau de bord", active: false },
-    { icon: FiBox, text: "Inventaire", active: true },
+    { icon: FiBox, text: "Inventaire", active: false },
     { icon: FiDollarSign, text: "Budget", active: false },
     { icon: FiCalendar, text: "Calendrier", active: false },
     { icon: FiUsers, text: "Membres", active: false },
@@ -35,7 +35,7 @@ const Navbar = () => {
       </div>
       <ul className="nav-links">
         {menuItems.map((link, index) => (
-          <li key={index}>
+          <li key={index} >
             <link.icon className="nav-logo" />
             <a href={link.text}>{link.text}</a>
           </li>
