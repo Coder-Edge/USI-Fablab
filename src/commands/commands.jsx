@@ -19,9 +19,9 @@ const Commands = () => {
                 <table className="table-commands">
                     <thead>
                         <tr>
-                            <th>Composant</th>
-                            <th>Prix</th>
-                            <th>Quantité</th>
+                            <th className="product-name">Composant</th>
+                            <th className="price">Prix</th>
+                            <th className="action">Quantité</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -35,7 +35,7 @@ const Commands = () => {
                             <td className="price">
                                 $300
                             </td>
-                            <td>
+                            <td className="action">
                                 <button className="btn">{inf}</button>
                                 <span>20</span>
                                 <button className="btn">{sup}</button>
@@ -44,8 +44,8 @@ const Commands = () => {
                         <tr>
                             <td className="product-name">
                                 <div >
-                                    <img src="./src/assets/raspberry.jpg" alt="Raspberry pi" />
-                                    Raspberri py
+                                    <img src="./src/assets/arduino.jpg" alt="Arduino Uno" />
+                                    Rduino Uno
                                 </div>
                             </td>
                             <td className="price">

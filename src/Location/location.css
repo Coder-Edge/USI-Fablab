@@ -1,0 +1,51 @@
+
+
+.location {
+    padding: 30px;
+}
+
+.location .head {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: start;
+}
+
+.head  input {
+    border: 0;
+    outline: 0;
+    width: 100%;
+    height: 24px;
+    padding: 8px 15px;
+    font-size: 16px;
+}
+
+.location .table .table-commands tbody{
+    height: 235px;
+}
+
+.head .search {
+    display: flex;
+    align-items: center;
+    width: 300px;
+    padding: 13px 16px;
+    border: 1px solid #a2a1a83d;
+    border-radius: 10px;
+}
+
+.head .search .icon {
+    width: 24px;
+    height: 24px;
+}
+
+.location .table-commands .product-name {
+    min-width: 170px;
+}
+
+.location .table-commands .emprunter {
+    min-width: 190px;
+}
+
+.location .table-commands .quantity {
+    min-width: 80px;
+}
