@@ -1,5 +1,6 @@
 import Commands from "../commands/commands";
 import Location from "../Location/location";
+import Stocks from "../stocks/stocks";
 import "./dashboard.css"
 
 const Dashboard = () => {
@@ -9,9 +10,7 @@ const Dashboard = () => {
             <div className="grid-content">
                 <Commands />
                 <Location />
-                <div className="bottom">
-                    lorem200
-                </div>
+                <Stocks />
             </div>
         </div>
     )

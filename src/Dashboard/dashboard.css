@@ -26,9 +26,9 @@
     height: 400px;
 }
 
-.dashboard .bottom {
+.dashboard .stocks {
     grid-area: bottom;
-    height: 350px;
+    height: 600px;
 }
 
 .dashboard .grid-content > div {
