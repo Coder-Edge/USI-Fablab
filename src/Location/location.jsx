@@ -1,5 +1,6 @@
 import "./location.css"
 import { IoSearchOutline } from "react-icons/io5";
+import {borrows} from "../models/borows";
 
 const Location = () => {
     return (
@@ -22,113 +23,38 @@ const Location = () => {
                     </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td className="product-name">
-                                <div >
-                                    <img src="./src/assets/raspberry.jpg" alt="Raspberry pi" />
-                                    Raspberri py
-                                </div>
-                            </td>
-                            <td className="emprunter">
-                                Gloire Mankununu
-                            </td>
-                            <td className="quantity">
-                                10
-                            </td>
-                            <td className="status">
-                                12/11/2024
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="product-name">
-                                <div >
-                                    <img src="./src/assets/raspberry.jpg" alt="Raspberry pi" />
-                                    Raspberri py
-                                </div>
-                            </td>
-                            <td className="emprunter">
-                                Claudel Mubenzem
-                            </td>
-                            <td className="quanity">
-                                10
-                            </td>
-                            <td className="status">
-                                12/11/2024
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="product-name">
-                                <div >
-                                    <img src="./src/assets/raspberry.jpg" alt="Raspberry pi" />
-                                    Raspberri py
-                                </div>
-                            </td>
-                            <td className="emprunter">
-                                Remile Bianga
-                            </td>
-                            <td className="quanity">
-                                10
-                            </td>
-                            <td className="status">
-                                12/11/2024
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="product-name">
-                                <div >
-                                    <img src="./src/assets/raspberry.jpg" alt="Raspberry pi" />
-                                    Raspberri py
-                                </div>
-                            </td>
-                            <td className="emprunter">
-                                Nathan Lukamba
-                            </td>
-                            <td className="quanity">
-                                10
-                            </td>
-                            <td className="status">
-                                12/11/2024
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="product-name">
-                                <div >
-                                    <img src="./src/assets/raspberry.jpg" alt="Raspberry pi" />
-                                    Raspberri py
-                                </div>
-                            </td>
-                            <td className="emprunter">
-                                Nathan Lukamba
-                            </td>
-                            <td className="quanity">
-                                10
-                            </td>
-                            <td className="status">
-                                12/11/2024
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="product-name">
-                                <div >
-                                    <img src="./src/assets/raspberry.jpg" alt="Raspberry pi" />
-                                    Raspberri py
-                                </div>
-                            </td>
-                            <td className="emprunter">
-                                Gloire Mankununu
-                            </td>
-                            <td className="quanity">
-                                10
-                            </td>
-                            <td className="status">
-                                12/11/2024
-                            </td>
-                        </tr>
+                        {borrows.map((borrow, borrowIndex) => (
+                            borrow.products.map((item, index) => (
+                            <tr key={`${borrowIndex}-${index}`}>
+                                <td className="product-name">
+                                    <div >
+                                        <img src={item["product"].image} alt={item["product"].name} />
+                                        {item["product"].name.length <= 13 ? item["product"].name: `${item["product"].name.slice(0, 13)} ...`}
+                                    </div>
+                                </td>
+                                <td className="emprunter">
+                                    {borrow.user.name.length <= 18 ? borrow.user.name: `${borrow.user.name.slice(0, 17)} ...`}
+                                </td>
+                                <td className="quantity">
+                                    {item["quantity"]}
+                                </td>
+                                <td className="status">
+                                    {getStringDate(borrow.date)}
+                                </td>
+                            </tr>                                
+                            ))
+                        ))}
                     </tbody>
                 </table>
             </div>
         </div>
     )
+}
+
+function getStringDate(dateparam) {
+    let date = new Date(dateparam)
+    const option = {day: '2-digit', month: '2-digit', year: '2-digit'}
+    return new Intl.DateTimeFormat('fr-FR', option).format(date)
 }
 
 export default Location;

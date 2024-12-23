@@ -13,15 +13,15 @@ const Stocks = () => {
             </div>
             <div className="button-container">
                 <thead>
-                    <div class="toolbar">
-                        <button class="btn add-btn">➕ Ajouter</button>
-                        <button class="btn active">Tous</button>
-                        <button class="btn">Microcontrôleur</button>
-                        <button class="btn">Moteur</button>
-                        <button class="btn">Capteur</button>
-                        <button class="btn">Outils</button>
-                        <button class="btn">Outils</button>
-                        <button class="btn">Outils</button>
+                    <div className="toolbar">
+                        <button className="btn add-btn">➕ Ajouter</button>
+                        <button className="btn active">Tous</button>
+                        <button className="btn">Microcontrôleur</button>
+                        <button className="btn">Moteur</button>
+                        <button className="btn">Capteur</button>
+                        <button className="btn">Outils</button>
+                        <button className="btn">Outils</button>
+                        <button className="btn">Outils</button>
                     </div>
                 </thead>              
                 
