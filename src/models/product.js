@@ -1,6 +1,6 @@
 class Product {
     /**
-     * @param {string} name
+     * @param {string} name 
      * @param {number} price
      * @param {number} quantity
      * @param {String} type
@@ -26,23 +26,40 @@ class Product {
             this.is_available = is_available
         }
     }
+
+
+    /**
+     * 
+     * @param {Array<Product>} list_of_product 
+     * @returns 
+     */
+    static getTypes(list_of_product) {
+        let types = []
+
+        list_of_product.map((product) => {
+            if (!types.includes(product.type)) {
+                types.push(product.type)
+            } 
+        })
+        return types
+    }
 }
 
 let ListProducts = [
-    new Product({name: "Arduino Uno", quantity: 5, price: 25, image:"./src/assets/arduino.jpg", type: "Microcontroleur", is_available: true}),
-    new Product("Rasperry pi M355 hs yhhdh", 80, 20, "./src/assets/raspberry.jpg", "Microcontroleur" , true),
-    new Product("Arduino Uno", 25, 20, "./src/assets/arduino.jpg", "Microcontroleur", true),
-    new Product("Rasperry pi", 80, 20, "./src/assets/raspberry.jpg", "Microcontroleur", true),
-    new Product("Arduino Uno", 25, 20, "./src/assets/arduino.jpg", "Microcontroleur", false),
-    new Product("Rasperry pi", 80, 20, "./src/assets/raspberry.jpg", "Microcontroleur", true),
-    new Product("Arduino Uno", 25, 20, "./src/assets/arduino.jpg", "Microcontroleur", true),
-    new Product("Rasperry pi", 80, 20, "./src/assets/raspberry.jpg", "Microcontroleur", true),
-    new Product("Arduino Uno", 25, 20, "./src/assets/arduino.jpg", "Microcontroleur", false),
-    new Product("Rasperry pi", 80, 20, "./src/assets/raspberry.jpg", "Microcontroleur", true),
-    new Product("Arduino Uno", 25, 20, "./src/assets/arduino.jpg", "Microcontroleur", false),
-    new Product("Rasperry pi", 80, 20, "./src/assets/raspberry.jpg", "Microcontroleur", true),
-    new Product("Arduino Uno", 25, 20, "./src/assets/arduino.jpg", "Microcontroleur", true),
-    new Product("Rasperry pi", 80, 20, "./src/assets/raspberry.jpg", "Microcontroleur", true),
+    new Product({name: "Arduino Uno", quantity: 5, price: 25, image:"./src/assets/arduino.jpg", type: "Microcontroller", is_available: true}),
+    new Product("Rasperry pi M355 hs yhhdh hyedygedeydudueudhedhuehduehd", 80, 20, "./src/assets/raspberry.jpg", "Micro computer" , true),
+    new Product("Arduino Uno", 25, 20, "./src/assets/arduino.jpg", "Microcontroller", true),
+    new Product("Rasperry pi", 80, 20, "./src/assets/raspberry.jpg", "Micro computer", true),
+    new Product("Arduino Uno", 25, 20, "./src/assets/arduino.jpg", "Microcontroller", false),
+    new Product("Rasperry pi", 80, 20, "./src/assets/raspberry.jpg", "Micro computer", true),
+    new Product("Arduino Uno", 25, 20, "./src/assets/arduino.jpg", "Microcontroller", true),
+    new Product("Rasperry pi", 80, 20, "./src/assets/raspberry.jpg", "Micro computer", true),
+    new Product("Arduino Uno", 25, 20, "./src/assets/arduino.jpg", "Microcontroller", false),
+    new Product("Rasperry pi", 80, 20, "./src/assets/raspberry.jpg", "Micro computer", true),
+    new Product("Arduino Uno", 25, 20, "./src/assets/arduino.jpg", "Microcontroller", false),
+    new Product("Rasperry pi", 80, 20, "./src/assets/raspberry.jpg", "Micro computer", true),
+    new Product("Arduino Uno", 25, 20, "./src/assets/arduino.jpg", "Microcontroller", true),
+    new Product("Rasperry pi", 80, 20, "./src/assets/raspberry.jpg", "Micro computer", true),
 ]
 
 export { Product, ListProducts }

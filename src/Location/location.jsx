@@ -1,15 +1,32 @@
 import "./location.css"
 import { IoSearchOutline } from "react-icons/io5";
-import {borrows} from "../models/borows";
+import { borrows } from "../models/borows";
+import { useEffect, useState } from "react";
 
 const Location = () => {
+
+    // data acquisition
+    const [data, setData] = useState([])
+
+    useEffect(() => {
+        setData(borrows)
+    }, [])
+
+    // search
+    const [searchTerm, setSearchTerm] = useState([])
+
+    const handleSearch = (e) => {
+        let value = e.target.value.toLowerCase()
+        setSearchTerm(value)
+    }
+
     return (
         <div className="location">
             <div className="head">
                 <h2>Location</h2>
                 <div className="search">
                     <IoSearchOutline className="icon" />
-                    <input type="search" placeholder="Recherche" />
+                    <input type="search" placeholder="Recherche" onChange={handleSearch} />
                 </div>
             </div>
             <div className="table">
@@ -23,8 +40,13 @@ const Location = () => {
                         </tr>
                     </thead>
                     <tbody style={{ maxHeight: "240px" }}>
-                        {borrows.map((borrow, ind0) => (
-                            borrow.products.map((item, ind1) => (
+                        {data
+                        .map((borrow, ind0) => (
+                            borrow.products
+                            .filter((a) => {
+                                return a["product"].name.toLowerCase().includes(searchTerm) || borrow.user.name.toLowerCase().includes(searchTerm)
+                            })
+                            .map((item, ind1) => (
                                 <tr key={`${ind0}-${ind1}`}>
                                     <td className="component" style={{ width: "32%" }}>
                                         <div>
