@@ -7,8 +7,6 @@ import { commands } from "../models/command";
 const Commands = () => {
     //Total price
     const [sum, setSum] = useState(0);
-
-    console.log(commands);
     
     // Calcul du total à chaque mise à jour de `commands`
     useEffect(() => {
@@ -18,12 +16,9 @@ const Commands = () => {
             }, 0);
         }, 0);
         setSum(total);
-    }, [commands]); 
+    }, [commands]);     
 
-    console.log(sum);
-    
-
-    // button price
+    // button quantity
     const sup = ">"
     const inf = "<"
 
@@ -33,40 +28,39 @@ const Commands = () => {
             <div className="total-price">
                 <div className="info-price">
                     <p className="label">Cout total</p>
-                    <p className="value">{sum}</p>
+                    <p className="value">${sum}</p>
                 </div>
                 <FaMoneyBills className="icon-money"/>
             </div>
             <div className="table">
-                <table className="table-commands">
+                <table>
                     <thead>
                         <tr>
-                            <th className="product-name">Composant</th>
-                            <th className="price">Prix</th>
-                            <th className="action">Quantité</th>
+                            <th style={{ width: "50%" }} className="component">Composant</th>
+                            <th className="price" style={{ width: "20%" }}>Prix</th>
+                            <th className="quantity" style={{ width: "20%" }}>Quantité</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {commands.map((command, indexCommand) => (
-                            command.products.map((item, indexPro) => (
-                            <tr key={`${indexCommand}-${indexPro}`}>
-                                <td className="product-name">
-                                    <div >
-                                        <img src={item['product'].image} alt={item['product'].name} />
+                    <tbody style={{ maxHeight: "170px" }}>
+                        {commands.map((command, ind0) => (
+                            command.products.map((item, ind1) => (
+                                <tr key={`${ind0}-${ind1}`}>
+                                    <td className="component" style={{ width: "50%" }}>
+                                        <div>
+                                        <img src={item["product"].image} alt=""/>
                                         {item['product'].name.length <= 15 ? item['product'].name: `${item['product'].name.slice(0, 12)}...` }
-                                    </div>
-                                </td>
-                                <td className="price">
-                                    ${item['product'].price * item['quantity']}
-                                    
-                                </td>
-                                <td className="action">
-                                    <button className="btn">{inf}</button>
-                                    <span>{item['quantity']}</span>
-                                    <button className="btn">{sup}</button>
-                                </td>
-                            </tr>
-                            ))
+                                        </div>
+                                    </td>
+                                    <td className="price" style={{ width: "20%" }}>
+                                        ${item['product'].price * item['quantity']}
+                                    </td>
+                                    <td className="quantity" style={{ width: "20%" }}>
+                                        <button className="btn">{inf}</button>
+                                        <span>{item['quantity']}</span>
+                                        <button className="btn">{sup}</button>
+                                    </td>
+                                </tr>
+                            )) 
                         ))}
                     </tbody>
                 </table>

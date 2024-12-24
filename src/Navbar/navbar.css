@@ -5,11 +5,6 @@
   box-sizing: border-box;
 }
 
-/* Style général du body */
-body {
-  font-family: Arial, sans-serif;
-}
-
 /* Styles pour la navbar */
 .navbar {
   margin-top: 20px;
@@ -17,7 +12,7 @@ body {
   width: 250px;
   background-color: white;
   color: black;
-  height: 90vh;
+  height: 90%;
   display: flex;
   flex-direction: column;
   border-radius: 15px;

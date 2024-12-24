@@ -1,7 +1,9 @@
 
 
 .stocks {
-    padding: 10px;
+    padding: 30px;
+    width: 100%;
+    overflow: hidden;
 }
 
 .stocks .head {
@@ -20,22 +22,7 @@
     font-size: 16px;
 }
 
-.stocks .table .table-commands tbody{
-    height: 2000px;
-    align-items: center;
-    justify-content: center;
-}
-
 .stocks .head .search {
-    display: flex;
-    align-items: center;
-    width: 300px;
-    padding: 13px 16px;
-    border: 1px solid #a2a1a83d;
-    border-radius: 10px;
-}
-
-.stocks .btn .search {
     display: flex;
     align-items: center;
     width: 300px;
@@ -49,198 +36,74 @@
     height: 24px;
 }
 
-.stocks .table-commands .product-name {
-    min-width: 220px;
-}
-
-.stocks .table-commands .emprunter {
-    min-width: 220px;
-}
-
-.stocks .table-commands .price {
-    min-width: 220px;
-}
-
-.stocks .table-commands .quantity {
-    min-width: 180px;
-}
-
-
-
 /* Styles de base pour le conteneur */
 .stocks .toolbar {
     display: flex;
+    width: 100%;
     align-items: center;
     gap: 20px; /* Espacement entre les boutons */
     padding: 10px 20px;
     border-radius: 8px;
+    overflow-x: auto;
 }
 
 /* Styles pour les boutons */
-.stocks .btn {
+.stocks .toolbar button {
     padding: 10px 20px;
     font-size: 14px;
     font-weight: 500;
-    background-color: #ffffff;
+    border: 0;
     border-radius: 6px;
+    background-color: #f1f1f1;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
 }
 
+.stocks .toolbar button:hover {
+  background-color: #c6dcf5;
+}
+
 /* Bouton actif */
-.stocks .btn.active {
+.stocks .toolbar button.active {
     background-color: #007bff;
     color: #ffffff;
     border-color: #007bff;
 }
 
 /* Bouton Ajouter */
-.stocks .add-btn {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-    font-weight: bold;
-    background-color: #e7f5ff;
-    border: 1px solid #87ceeb;
+.stocks .toolbar button:first-child {
+  min-width: 120px;
 }
 
-/* Effets de survol */
-.stocks .btn:hover {
-    background-color: #f0f0f0;
-
+/* Schrollbar Toolbar */
+.stocks .toolbar::-webkit-scrollbar{
+  height: 8px;
 }
 
-
-
-
-/* Styles généraux pour la table */
-.stocks .status-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-    font-family: Arial, sans-serif;
-  }
-  
-  .stocks .status {
-    padding: 10px;
-    display: inline-block;
-    font-size: 14px;
-    font-weight: bold;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    text-align: center;
-    width: 120px; /* Ajuster si besoin */
-  }
-  
-  /* Styles pour chaque type de statut */
-  .stocks .status1 {
-    background-color: #e8f7e8; /* Vert clair */
-    color: #2ca02c;          /* Vert foncé */
-    display: inline-block;
-    border-radius: 10px;
-  }
-  
-  .stocks .status2 {
-    background-color: #fff7e6; /* Jaune pâle */
-    color: #ff9a00;           /* Orange */
-    border-radius: 10px;
-    
-  }
-  
-  .stocks .status3 {
-    background-color: #ffe6e6; /* Rouge clair */
-    color: #d80000;           /* Rouge foncé */
-    border-radius: 10px;
-  }
-  
-
-
-
-
-  /* Table styles */
-  .stocks .status-table {
-    width: 100%;
-    border-collapse: collapse;
-    align-items: center;
-    justify-content: center;
-    font-family: Arial, sans-serif;
-  }
-  
-  /* Cell styles */
-  .stocks .status {
-    display: flex; /* Utiliser Flexbox pour organiser les éléments */
-    align-items: center;
-    padding: 10px;
-    border-collapse: collapse;
-    font-size: 14px;
-    font-weight: bold;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    background-color: #ffffff; /* Couleur de fond neutre */
-  }
-  
-  /* Bande colorée (plus fine) */
-  .stocks .status-badge {
-    display: inline-block;
-    width: 10px; /* Réduire la largeur de la bande */
-    height: 100%; /* Prendre toute la hauteur de la cellule */
-    border-radius: 4px;
-    margin-right: 10px;
-  }
-  
-  /* Texte */
-  .stocks .status-text {
-    flex-grow: 1; /* Prend l'espace restant */
-    color: #333;
-  }
-  
-  /* Couleurs spécifiques pour chaque statut */
-  .stocks .status-badge.available {
-    background-color: #2ca02c; /* Vert pour Disponible */
-  }
-  
-  .stocks .status-badge.to-order {
-    background-color: #ff9a00; /* Orange pour À commander */
-  }
-  
-  .stocks .status-badge.unavailable {
-    background-color: #d80000; /* Rouge pour Indisponible */
+.stocks .toolbar::-webkit-scrollbar-thumb {
+  background-color: #b4b4b4;
+  border-radius: 4px;
 }
-  
 
-/* Styles généraux pour la table */
-.stocks .status-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-    align-items: center;
-    justify-content: center;
-    font-family: Arial, sans-serif;
-  }
-  
-  .stocks .status {
-    padding: 4px 10px;
-    font-size: 14px;
-    font-weight: bold;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-  }
-  
-  /* Styles pour chaque type de statut */
-  .stocks .status.available {
-    background-color: #e8f7e8; /* Vert clair */
-    color: #2ca02c;          /* Vert foncé */
-  }
-  
-  .stocks .status.to-order {
-    background-color: #fff7e6; /* Jaune pâle */
-    color: #ff9a00;           /* Orange */
-  }
-  
-  .stocks .status.unavailable {
-    background-color: #ffe6e6; /* Rouge clair */
-    color: #d80000;           /* Rouge foncé */
-  }
-  
+.stocks .toolbar::-webkit-scrollbar-thumb:hover {
+  background-color: #5899DD;
+}
+ 
+
+/* Styles pour chaque type de statut */
+.stocks .available >* {
+  background-color: #e8f7e8; /* Vert clair */
+  color: #2ca02c;          /* Vert foncé */
+} 
+
+.stocks .status > * {
+  padding: 4px;
+  text-align: center;
+  border-radius: 4px;
+  margin-right: 8px;
+}
+ 
+.stocks .unavailable >* {
+  background-color: #f7e8e8; /* Vert clair */
+  color: #a02c2c;          /* Vert foncé */
+}  

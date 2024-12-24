@@ -1,7 +1,13 @@
 import "./stocks.css"
 import { IoSearchOutline } from "react-icons/io5";
+import { ListProducts } from "../models/product";
 
 const Stocks = () => {
+
+    // button quantity
+    const sup = ">"
+    const inf = "<"
+
     return (
         <div className="stocks">
             <div className="head">
@@ -10,24 +16,67 @@ const Stocks = () => {
                     <IoSearchOutline className="icon" />
                     <input type="search" placeholder="Recherche" />
                 </div>
+
             </div>
-            <div className="button-container">
-                <thead>
-                    <div className="toolbar">
-                        <button className="btn add-btn">➕ Ajouter</button>
-                        <button className="btn active">Tous</button>
-                        <button className="btn">Microcontrôleur</button>
-                        <button className="btn">Moteur</button>
-                        <button className="btn">Capteur</button>
-                        <button className="btn">Outils</button>
-                        <button className="btn">Outils</button>
-                        <button className="btn">Outils</button>
-                    </div>
-                </thead>              
+            <div className="toolbar">
+                <button>➕ Ajouter</button>
+                <button className="active">Tous</button>
+                <button>Microcontrôleur</button>
+                <button>Moteur</button>
+                <button>Capteur</button>
+                <button>Batterie</button>
+                <button>Outils</button>
+                <button>Outils</button>
+                <button>Moteur</button>
+                <button>Capteur</button>
+                <button>Outils</button>
+                <button>Outils</button>
+                <button>Outils</button>
+            </div>            
                 
+
+            <div className="table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th className="component" style={{ width: "40%" }}>Nom</th>
+                            <th className="price" style={{ width: "15%" }}>Prix</th>
+                            <th className="type" style={{ width: "15%" }}>Type</th>
+                            <th className="quantity" style={{ width: "15%" }}>Quantité</th>
+                            <th style={{ width: "15%" }}>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody style={{ maxHeight: "280px" }}>
+                    {ListProducts.map((product, index) => (
+                        <tr key={index}>
+                            <td className="component" style={{ width: "40%" }}>
+                                <div >
+                                    <img src={product.image} alt={product.name} />
+                                    {product.name.length <= 15 ? product.name: `${product.name.slice(0, 15)} ...`}
+                                </div>
+                            </td>
+                            <td className="price" style={{ width: "15%" }}>
+                                {product.price * product.quantity}
+                            </td>
+                            <td className="type" style={{ width: "15%" }}>
+                                {product.type}
+                            </td>
+                            <td className="quantity" style={{ width: "15%" }}>
+                                <button className="btn">{inf}</button>
+                                <span>{product.quantity}</span>
+                                <button className="btn">{sup}</button>
+                            </td>
+                            <td className={product.is_available ? "status available": "status unavailable"} style={{ width: "15%" }}>
+                                <p>{product.is_available ? "Disponible": "Pas disponible"}</p>
+                            </td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
             </div>
             
-            <div className="table">
+            {/*<div className="table">
                 <table className="table-commands">
                 <thead>
                     <tr>
@@ -39,70 +88,31 @@ const Stocks = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td className="product-name">
-                            <div >
-                                <img src="./src/assets/raspberry.jpg" alt="Raspberry pi" />
-                                Raspberri py
-                            </div>
-                        </td>
-                            <td className="price">
-                                $3000
-                        </td>
+                    {ListProducts.map((product, index) => (
+                        <tr key={index}>
+                            <td className="product-name">
+                                <div >
+                                    <img src={product.image} alt={product.name} />
+                                    {product.name.length <= 15 ? product.name: `${product.name.slice(0, 15)} ...`}
+                                </div>
+                            </td>
+                                <td className="price">
+                                    {product.price * product.quantity}
+                            </td>
                             <td className="emprunter">
-                                Microcontroleur
+                                {product.type}
                             </td>
                             <td className="quantity">
-                            <p>&lt;20&gt;</p>
+                                <p>&lt;20&gt;</p>
                             </td>
                             <td className="status available">
                                 Disponible
                             </td>
                         </tr>
-                        <tr>
-                        <td className="product-name">
-                            <div >
-                                <img src="./src/assets/raspberry.jpg" alt="Raspberry pi" />
-                                Raspberri py
-                            </div>
-                        </td>
-                            <td className="price">
-                                $3000
-                        </td>
-                            <td className="emprunter">
-                                Microcontroleur
-                            </td>
-                            <td className="quantity">
-                            <p>&lt;20&gt;</p>
-                            </td>
-                            <td className="status to-order">
-                                Commander
-                            </td>
-                        </tr>
-                        <tr>
-                        <td className="product-name">
-                            <div >
-                                <img src="./src/assets/raspberry.jpg" alt="Raspberry pi" />
-                                Raspberri py
-                            </div>
-                        </td>
-                            <td className="price">
-                                $3000
-                        </td>
-                            <td className="emprunter">
-                                Microcontroleur
-                            </td>
-                            <td className="quantity">
-                            <p>&lt;20&gt;</p>
-                            </td>
-                            <td className="status unavailable">
-                                Indisponible                
-                            </td>
-                        </tr>
-                        
+                    ))}                        
                     </tbody>
                 </table>
-            </div>
+            </div>*/}
         </div>
     )
 }

@@ -28,7 +28,7 @@
 
 .dashboard .stocks {
     grid-area: bottom;
-    height: 600px;
+    height: 500px;
 }
 
 .dashboard .grid-content > div {

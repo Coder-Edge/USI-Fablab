@@ -13,35 +13,35 @@ const Location = () => {
                 </div>
             </div>
             <div className="table">
-                <table className="table-commands">
-                <thead>
-                    <tr>
-                        <th className="product-name">Composant</th>
-                        <th className="emprunter">Emprunter</th>
-                        <th className="quantity">Quantité</th>
-                        <th>Status</th>
-                    </tr>
+                <table>
+                    <thead>
+                        <tr>
+                            <th className="component" style={{ width: "32%" }}>Composant</th>
+                            <th className="emprunter" style={{ width: "33%" }}>Emprunter</th>
+                            <th className="quantity" style={{ width: "20%" }}>Quantité</th>
+                            <th style={{ width: "15%" }}>Status</th>
+                        </tr>
                     </thead>
-                    <tbody>
-                        {borrows.map((borrow, borrowIndex) => (
-                            borrow.products.map((item, index) => (
-                            <tr key={`${borrowIndex}-${index}`}>
-                                <td className="product-name">
-                                    <div >
-                                        <img src={item["product"].image} alt={item["product"].name} />
-                                        {item["product"].name.length <= 13 ? item["product"].name: `${item["product"].name.slice(0, 13)} ...`}
-                                    </div>
-                                </td>
-                                <td className="emprunter">
-                                    {borrow.user.name.length <= 18 ? borrow.user.name: `${borrow.user.name.slice(0, 17)} ...`}
-                                </td>
-                                <td className="quantity">
-                                    {item["quantity"]}
-                                </td>
-                                <td className="status">
-                                    {getStringDate(borrow.date)}
-                                </td>
-                            </tr>                                
+                    <tbody style={{ maxHeight: "240px" }}>
+                        {borrows.map((borrow, ind0) => (
+                            borrow.products.map((item, ind1) => (
+                                <tr key={`${ind0}-${ind1}`}>
+                                    <td className="component" style={{ width: "32%" }}>
+                                        <div>
+                                            <img src={item["product"].image} alt=""/>
+                                            {item['product'].name.length <= 15 ? item['product'].name: `${item['product'].name.slice(0, 12)}...` }
+                                        </div>
+                                    </td>
+                                    <td className="emprunter" style={{ width: "33%" }}>
+                                        {borrow.user.name.length <= 18 ? borrow.user.name: `${borrow.user.name.slice(0, 16)} ...`}
+                                    </td>
+                                    <td className="quantity" style={{ width: "20%" }}>
+                                        {item["quantity"]}
+                                    </td>
+                                    <td className="status" style={{ width: "15%" }}>
+                                        {getStringDate(borrow.date)}
+                                    </td>
+                                </tr>
                             ))
                         ))}
                     </tbody>
