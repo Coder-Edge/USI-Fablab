@@ -4,12 +4,6 @@
   padding: 0;
   box-sizing: border-box;
 }
-
-/* Style général du body */
-body {
-  font-family: Arial, sans-serif;
-}
-
 /* Styles pour la navbar */
 .navbar {
   margin-top: 20px;
