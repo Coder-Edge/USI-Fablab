@@ -1,10 +1,10 @@
 
-.dashboard {
+.manager-inventory {
     margin-left: 15px; 
     height: 100%;
 }
 
-.dashboard .grid-content {
+.manager-inventory .grid-content {
     margin-top: 20px;
     display: grid;
     margin-right: 20px;
@@ -14,24 +14,24 @@
     gap: 20px;
 }
 
-.dashboard .location {
+.manager-inventory .location {
     grid-area: right;
     min-width: 380px;
     height: 400px;
 }
 
-.dashboard .commands {
+.manager-inventory .commands {
     grid-area: left;
     min-width: 380px;
     height: 400px;
 }
 
-.dashboard .stocks {
+.manager-inventory .stocks {
     grid-area: bottom;
-    height: 600px;
+    height: 500px;
 }
 
-.dashboard .grid-content > div {
+.manager-inventory .grid-content > div {
     background-color: white;
     border-radius: 14px;
 }

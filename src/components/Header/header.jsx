@@ -2,9 +2,10 @@ import "./header.css"
 
 import { IoIosNotificationsOutline } from "react-icons/io";
 
-const Header = () => {
+const Header = ({title}) => {
     return (
         <header>
+            <h1>{title}</h1>
             <div className="header-content">
                 <div className="notification-box">
                     <IoIosNotificationsOutline className="notification-icon"/>
@@ -13,7 +14,7 @@ const Header = () => {
                     <p className="username">Ignace</p>
                     <p className="user-role">Manager</p>
                 </div>
-                <img src="./src/assets/profile.jpg" alt="User Profile" className="profile-header" />
+                <img src="/src/assets/profile.jpg" alt="User Profile" className="profile-header" />
             </div>
         </header>
     )

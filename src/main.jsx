@@ -1,22 +1,30 @@
 import React from "react";
-import ReactDom from "react-dom";
-
-import Navbar from "./Navbar/navbar"; //importation du composant navbar
+import ReactDom from "react-dom/client";
+import Navbar from "./components/Navbar/navbar"; //importation du composant navbar
 import "./main.css"; //importation du fichier style main.css
-import Header from "./Header/header";
-import Dashboard from "./Dashboard/dashboard";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Header from "./components/Header/header";
+import InventoryMNG from "./pages/manager/Inventory/inventory";
+import InventorySTD from "./pages/student/inventory/inventory";
 
 export default function Main() {
   return (
-  <>
+  <Router>
     <main>
       <Navbar />
       <div className="main-content">
-        <Header />
-        <Dashboard />
+        <Routes>
+          <Route index element={<><Header title={"Inventaire"}/><InventoryMNG/></>}/>
+          <Route path="manager">
+            <Route path="inventory" element={<><Header title={"Inventaire"}/><InventoryMNG/></>}/>
+          </Route>
+          <Route path="student">
+            <Route path="inventory" element={<><Header title={"Inventaire"}/><InventorySTD/></>}/>
+          </Route>
+        </Routes>
       </div>
     </main>
-  </>
+  </Router>
   );
 }
 

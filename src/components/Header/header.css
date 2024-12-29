@@ -2,8 +2,9 @@
 header {
     width: 100%;
     display: flex;
-    justify-content: end;
-    padding-inline: 50px;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline: 20px 50px;
 }
 
 header .profile-header {
@@ -15,9 +16,10 @@ header .profile-header {
 
 header .header-content {
     display: flex;
-    justify-content: space-between;
+    justify-content: end;
     align-items: center;
-    min-width: 180px;
+    width: 160px;
+    justify-content: space-between;
 }
 
 header .notification-box {
