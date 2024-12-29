@@ -3,6 +3,11 @@
     padding: 30px;
 }
 
+/* command search head */
+.commands .head .search {
+    width: 200px;
+}
+
 .commands .button-add{
     width: 100%;
     display: flex;
@@ -18,7 +23,7 @@
 .total-price {
     display: flex;
     width: 200px;
-    padding: 14px 14px;
+    padding: 8px 14px;
     align-items: center;
     justify-content: space-between;
     background-color: #F0F7FF;
@@ -28,12 +33,12 @@
 
 .total-price .label {
     color: #909090;
-    font-size: 15px;
-    font-weight:500;
+    font-size: 13px;
+    font-weight:400;
 }
 
 .total-price .value {
-    font-size: 20px;
+    font-size: 17px;
     font-weight: 600;
 }
 
@@ -47,6 +52,10 @@
 .table table {
     width: 100%;
     border-collapse: collapse;
+}
+
+.table table >* {
+    font-size: 13px;
 }
 
 .table table thead th {

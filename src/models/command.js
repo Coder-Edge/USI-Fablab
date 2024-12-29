@@ -7,30 +7,40 @@ class Command {
      * @param {int} id 
      * @param {Date} date 
      * @param {User} user 
-     * @param {List(dic(product, quantity))} product 
+     * @param {boolean} status 
+     * @param {Product} product 
      */
     
-    constructor (id, date,user, products) {
+    constructor (id, date, user, product, quantity,status) {
         if(typeof id === "object" && id != null) {
-            const {id:borrowId, date: borrowDate, user: borrowUser, products: borrowProduct} = id
-            this.id = borrowId
-            this.date = borrowDate
-            this.user = borrowUser
-            this.products = borrowProduct
+            const {id: commandId, date: commandDate, user: commandUser, product: commandProduct, status: commandStatus, quantity: commandQuantity} = id
+            this.id = commandId
+            this.date = commandDate
+            this.user = commandUser
+            this.product = commandProduct
+            this.status = commandStatus
+            this.quantity = commandQuantity
         } else {
             this.id = id
             this.date = date
             this.user = user
-            this.products = products
+            this.product = product
+            this.status = status
+            this.quantity = quantity
         }
     }
 }
 
 const commands = [
-    new Command({date: Date.now(), user: users[0], products: [{product: ListProducts[1], quantity: 20}, {product: ListProducts[2], quantity: 12}, {product: ListProducts[3], quantity: 10}]}),
-    new Command({date: Date.now(), user: users[2], products: [{product: ListProducts[0], quantity: 5}, {product: ListProducts[0], quantity: 14}]}),
-    new Command({date: Date.now(), user: users[3], products: [{product: ListProducts[5], quantity: 20}, {product: ListProducts[2], quantity: 4}]}),
-    new Command({date: Date.now(), user: users[0], products: [{product: ListProducts[4], quantity: 20}]})
+    new Command({date: Date.now(), user: users[1], product: ListProducts[0], quantity: 2, status: 0}),
+    new Command({date: Date.now(), user: users[0], product: ListProducts[1], quantity: 10, status: 0}),
+    new Command({date: Date.now(), user: users[2], product: ListProducts[1], quantity: 10, status: 0}),
+    new Command({date: Date.now(), user: users[3], product: ListProducts[1], quantity: 8, status: 0}),
+    new Command({date: Date.now(), user: users[0], product: ListProducts[0], quantity: 5, status: 0}),
+    new Command({date: Date.now(), user: users[0], product: ListProducts[1], quantity: 2, status: 0}),
+    new Command({date: Date.now(), user: users[2], product: ListProducts[0], quantity: 5, status: 0}),
+    new Command({date: Date.now(), user: users[1], product: ListProducts[0], quantity: 3, status: 0}),
+    new Command({date: Date.now(), user: users[3], product: ListProducts[0], quantity: 10, status: 0}),
 ]
 
 export { Command, commands }

@@ -4,14 +4,14 @@
     overflow: hidden;
 }
 
-.stocks .head {
+.head {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: start;
+    align-items: center;
 }
 
-.stocks .head  input {
+.head  input {
     border: 0;
     outline: 0;
     width: 100%;
@@ -20,7 +20,7 @@
     font-size: 16px;
 }
 
-.stocks .head .search {
+.head .search {
     display: flex;
     align-items: center;
     width: 300px;
@@ -29,7 +29,7 @@
     border-radius: 10px;
 }
 
-.stocks .head .search .icon {
+.head .search .icon {
     width: 24px;
     height: 24px;
 }
