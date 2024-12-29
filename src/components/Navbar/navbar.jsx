@@ -28,7 +28,7 @@ const Navbar = () => {
     <div className="navbar">
       <div className="navbar-header">
         <img
-          src="./src/assets/LogoFabLab.jpg"
+          src="/src/assets/LogoFabLab.jpg"
           alt="Logo Fablab ULC"
           className="logo"
         />
@@ -43,7 +43,6 @@ const Navbar = () => {
       </ul>
 
       <hr />
-
       <div className="logout">
         <FiLogOut className="logout-logo" />
         <a href="#" className="logout-link">

@@ -1,13 +1,15 @@
 import "./commands.css"
 import { FaMoneyBills } from "react-icons/fa6";
 import { useEffect, useState } from "react";
-import { commands } from "../models/command";
+import { commands } from "../../models/command";
+import Button from "../button/Button";
+import ButtonAdd from "../stocks/button-add";
 
 
 const Commands = () => {
     //Total price
     const [sum, setSum] = useState(0);
-    
+
     // Calcul du total à chaque mise à jour de `commands`
     useEffect(() => {
         const total = commands.reduce((accCommand, command) => {
@@ -16,21 +18,17 @@ const Commands = () => {
             }, 0);
         }, 0);
         setSum(total);
-    }, [commands]);     
+    }, [commands]);
 
-    // button quantity
-    const sup = ">"
-    const inf = "<"
-
-    return(
+    return (
         <div className="commands">
             <h2>Commandes</h2>
             <div className="total-price">
                 <div className="info-price">
                     <p className="label">Cout total</p>
-                    <p className="value">${sum}</p>
+                    <p className="value">$ {sum}</p>
                 </div>
-                <FaMoneyBills className="icon-money"/>
+                <FaMoneyBills className="icon-money" />
             </div>
             <div className="table">
                 <table>
@@ -47,24 +45,25 @@ const Commands = () => {
                                 <tr key={`${ind0}-${ind1}`}>
                                     <td className="component" style={{ width: "50%" }}>
                                         <div>
-                                        <img src={item["product"].image} alt=""/>
-                                        {item['product'].name.length <= 15 ? item['product'].name: `${item['product'].name.slice(0, 12)}...` }
+                                            <img src={item["product"].image} alt="" />
+                                            {item['product'].name.length <= 15 ? item['product'].name : `${item['product'].name.slice(0, 12)}...`}
                                         </div>
                                     </td>
                                     <td className="price" style={{ width: "20%" }}>
                                         ${item['product'].price * item['quantity']}
                                     </td>
                                     <td className="quantity" style={{ width: "20%" }}>
-                                        <button className="btn">{inf}</button>
+                                        <button className="btn">&lt;</button>
                                         <span>{item['quantity']}</span>
-                                        <button className="btn">{sup}</button>
+                                        <button className="btn">&gt;</button>
                                     </td>
                                 </tr>
-                            )) 
+                            ))
                         ))}
                     </tbody>
                 </table>
             </div>
+            <ButtonAdd child={"Ajouter au stock"} />
         </div>
     )
 }

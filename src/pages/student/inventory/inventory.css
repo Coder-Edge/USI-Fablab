@@ -1,0 +1,17 @@
+.student-inventory {
+    margin: 20px;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.student-inventory .stocks {
+    height: 460px;
+}
+
+.student-inventory .stocks .table table tbody {
+    height: 260px;
+}
+
+.student-inventory .table-student {
+    margin: 0 30px;
+}

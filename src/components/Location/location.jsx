@@ -1,6 +1,6 @@
 import "./location.css"
 import { IoSearchOutline } from "react-icons/io5";
-import { borrows } from "../models/borows";
+import { borrows } from "../../models/borows";
 import { useEffect, useState } from "react";
 
 const Location = () => {

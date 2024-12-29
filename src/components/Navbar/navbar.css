@@ -13,13 +13,19 @@ body {
 .navbar {
   margin-top: 20px;
   margin-left: 30px;
-  width: 250px;
+  width: 300px;
   background-color: white;
   color: black;
-  height: 90%;
+  height: 93%;
   display: flex;
   flex-direction: column;
   border-radius: 15px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.navbar::-webkit-scrollbar {
+  display: none;
 }
 
 /* Style de l'entête de la navbar */
@@ -52,6 +58,7 @@ body {
   padding: 15px;
   margin: 0px 10px 0px 10px;
   border-radius: 0px 10px 10px 0px;
+  transition: all .3s;
 }
 
 .nav-links li:hover {

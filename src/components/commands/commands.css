@@ -3,6 +3,18 @@
     padding: 30px;
 }
 
+.commands .button-add{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.commands .table table tbody {
+   height: 130px;
+}
+
 .total-price {
     display: flex;
     width: 200px;
@@ -17,12 +29,12 @@
 .total-price .label {
     color: #909090;
     font-size: 15px;
-    font-weight:700;
+    font-weight:500;
 }
 
 .total-price .value {
     font-size: 20px;
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .total-price .icon-money {
@@ -39,13 +51,15 @@
 
 .table table thead th {
     text-align: start;
-    border-bottom: 1px solid #909090;
+    border-bottom: 1px solid #dddddd;
     padding: 14px 0px;
+    color: #A2A1A8;
+    font-weight: normal;
 }
 
 .table table tbody td {
     text-align: start;
-    border-bottom: 1px solid #909090;
+    border-bottom: 1px solid #dddddd;
     padding: 4px 0px;
 }
 
