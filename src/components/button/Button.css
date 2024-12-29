@@ -7,7 +7,7 @@ button.button {
     border: 1px solid #A2A1A8;
     background-color: transparent;
     cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.3s;
 }
 
 button.button:hover {

@@ -1,0 +1,63 @@
+
+.st-filter {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.288);
+    backdrop-filter: blur(3px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.st-filter .popup-content {
+    width: 350px;
+    border-radius: 14px;
+    background-color: white;
+}
+
+.st-filter .popup-content .st-filter-content {
+    padding: 30px 20px;
+}
+
+.st-filter .popup-content .filter-types {
+    margin-top: 20px;
+}
+
+.st-filter .popup-content .filter-toolbox-types {
+    margin-top: 10px;
+    display: flex;
+    justify-content: start;
+    flex-wrap: wrap;
+}
+
+.st-filter .filter-toolbox-types > * {
+    margin: 0px 10px 10px 0px
+}
+
+.st-filter .filter-toolbox-types button {
+    padding: 5px 8px;
+}
+
+.st-filter .filter-quantity {
+    margin-top: 10px;
+}
+
+.st-filter .filter-quantity .filter-toolbox-quantity .filter-radio-btn {
+    padding: 4px 5px;
+    display: flex;
+    align-items: center;
+}
+
+.st-filter .filter-quantity .filter-toolbox-quantity .filter-radio-btn > *:first-child {
+    margin-right: 8px;
+}
+
+.st-filter .filter-bottom {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.st-filter .filter-bottom button {
+    padding: 8px 12px;
+}

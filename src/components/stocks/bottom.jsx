@@ -1,20 +1,15 @@
-import { ListProducts } from "../../models/product"
- 
-    const Bottom = ({numberItemDisplay, setNumberItemDisplay, activeNumberGroup, setActiveNumberGroup}) => {
 
-     
+const Bottom = ({numberItemDisplay, setNumberItemDisplay, activeNumberGroup, setActiveNumberGroup, data}) => {
 
     // Group of items displayed
     function getGroupeNumber() {
-        let listLength = ListProducts.length
+        let listLength = data.length
         let q = listLength % numberItemDisplay
         let n = Math.trunc(listLength / numberItemDisplay)
         if (q) n ++
 
         return n
-    } 
-
-    
+    }    
 
     // Change of group of items
     const increaseActiveNumber = () => {
@@ -35,7 +30,8 @@ import { ListProducts } from "../../models/product"
                 <label htmlFor="number">Affichage</label>
                 <select value={numberItemDisplay} name="display" id="number" 
                 onChange={(e) => {
-                    setNumberItemDisplay(e.target.value)                    
+                    setNumberItemDisplay(e.target.value)
+                    setActiveNumberGroup(1)                  
                 }}>
                     <option value="10">10</option>
                     <option value="20">20</option>
@@ -43,7 +39,7 @@ import { ListProducts } from "../../models/product"
                     <option value="100">100</option>
                 </select>
             </div>
-            <p>Affichage de {numberItemDisplay * (activeNumberGroup-1)} à {numberItemDisplay * activeNumberGroup} de {ListProducts.length} membres</p>
+            <p>Affichage de {numberItemDisplay * (activeNumberGroup-1)} à {numberItemDisplay * activeNumberGroup} de {data.length} membres</p>
             <div className="row-number">
                 <button 
                     className={activeNumberGroup == 1? "non-valaible-btn": ""}

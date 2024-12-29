@@ -30,6 +30,12 @@ const InventoryMNG = () => {
     // Filter type data
     const [type, setType] = useState('')
 
+    const SetTypeFilter = (e) => {
+        setType(e)
+        setBtnActive(e)
+        setData(ListProducts.filter(p=>p.type.toLocaleLowerCase().match(e)))
+    }
+
 
     return (
         <div className="manager-inventory">
@@ -47,8 +53,7 @@ const InventoryMNG = () => {
                                 child={<><MdAddCircleOutline /> Ajouter</>} />}
                         types={types}
                         btnActive={btnActive}
-                        setBtnActive={setBtnActive}
-                        setType={setType} />
+                        SetTypeFilter={SetTypeFilter}/>
 
                     <Table data={data} type={type} searchTerm={searchTerm} />
 

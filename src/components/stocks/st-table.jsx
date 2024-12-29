@@ -14,13 +14,10 @@ const TableSTD = ({data, type, searchTerm, numberItemDisplay, activeNumberGroup}
                     </tr>
                 </thead>
 
-                <tbody style={{ maxHeight: "280px" }}>
+                <tbody>
                     {data
                         .filter((product) => {
                             return product.type.toLowerCase().includes(searchTerm) || product.name.toLowerCase().includes(searchTerm)
-                        })
-                        .filter((product) => {
-                            return product.type.toLowerCase().match(type)
                         })
                         .slice(numberItemDisplay * (activeNumberGroup-1), numberItemDisplay * activeNumberGroup)
                         .map((product, index) => (

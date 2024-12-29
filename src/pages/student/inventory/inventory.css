@@ -5,13 +5,23 @@
 }
 
 .student-inventory .stocks {
-    height: 460px;
+    position: relative;
+    height: 520px;
 }
 
 .student-inventory .stocks .table table tbody {
-    height: 260px;
+    height: 330px;
+    overflow-y: auto;
 }
 
 .student-inventory .table-student {
     margin: 0 30px;
+}
+
+
+.student-inventory .st-filter {
+    position: absolute;
+    visibility: hidden;
+    top: 0;
+    left: 0;
 }
