@@ -4,14 +4,6 @@
   padding: 0;
   box-sizing: border-box;
 }
-<<<<<<< HEAD:src/Navbar/navbar.css
-=======
-
-body {
-  overflow: hidden;
-}
-
->>>>>>> c3fa413eeefe5a2ac6a116fa2f4edbc25b77c29e:src/components/Navbar/navbar.css
 /* Styles pour la navbar */
 .navbar {
   margin-top: 20px;
