@@ -16,7 +16,7 @@ import "./Navbar.css";
 const Navbar = () => {
   const menuItems = [
     { icon: FiGrid, text: "Tableau de bord", active: false },
-    { icon: FiBox, text: "Inventaire", active: true },
+    { icon: FiBox, text: "Inventaire", active: false },
     { icon: FiDollarSign, text: "Budget", active: false },
     { icon: FiCalendar, text: "Calendrier", active: false },
     { icon: FiUsers, text: "Membres", active: false },
@@ -28,14 +28,14 @@ const Navbar = () => {
     <div className="navbar">
       <div className="navbar-header">
         <img
-          src="./src/assets/LogoFabLab.jpg"
+          src="/src/assets/LogoFabLab.jpg"
           alt="Logo Fablab ULC"
           className="logo"
         />
       </div>
       <ul className="nav-links">
         {menuItems.map((link, index) => (
-          <li key={index}>
+          <li key={index} >
             <link.icon className="nav-logo" />
             <a href={link.text}>{link.text}</a>
           </li>
@@ -43,7 +43,6 @@ const Navbar = () => {
       </ul>
 
       <hr />
-
       <div className="logout">
         <FiLogOut className="logout-logo" />
         <a href="#" className="logout-link">

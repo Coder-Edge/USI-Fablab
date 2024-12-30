@@ -1,0 +1,35 @@
+button.button {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    border: 0;
+    border-radius: 6px;
+    border: 1px solid #A2A1A8;
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button.button:hover {
+  background-color: #e6e4e4;
+}
+
+/* Bouton actif */
+button.button.active {
+    background-color: #007bff;
+    color: #ffffff;
+    border-color: #007bff;
+}
+
+/* Bouton Ajouter */
+button.button:first-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button.button:first-child >:first-child {
+  width: 20px;
+  height: 20px;
+  margin-right: 3px;
+}
