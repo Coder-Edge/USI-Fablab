@@ -9,6 +9,7 @@ import InventorySTD from "./pages/student/inventory/inventory";
 import InventoryEXT from "./pages/extern/inventory/inventory";
 import InventoryMBR from "./pages/member/Inventory/inventory";
 import NavbarOTH from "./components/Navbar/other-nav";
+import Calendrier from "./pages/Calendrier/calendrier";
 
 export default function Main() {
   return (
@@ -49,6 +50,12 @@ export default function Main() {
         <Navbar />
         <Routes>
             <Route index element={<div className="main-content"><Header title={"Inventaire"}/><InventoryMBR/></div>}/>
+        </Routes>
+      </Router>
+
+      <Router basename="calendar">
+        <Routes>
+          <Route index element={<Calendrier/>}/>
         </Routes>
       </Router>
 

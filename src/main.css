@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&display=swap');
 
+:root {
+  --primary-color: white;
+  --secondary-color: #54abc9;
+  --background-color: #f0f7ff;
+}
+
 * {
   padding: 0px;
   margin: 0px;
@@ -7,7 +13,6 @@
 }
 
 #root {
-  height: 1080px;
   overflow: hidden;
 }
 
