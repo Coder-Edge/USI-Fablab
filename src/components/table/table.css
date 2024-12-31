@@ -1,0 +1,92 @@
+/* Table decoration */
+
+.table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table table >* {
+    font-size: 13px;
+}
+
+.table table thead th {
+    text-align: start;
+    border-bottom: 1px solid #dddddd;
+    padding: 14px 0px;
+    color: #A2A1A8;
+    font-weight: normal;
+}
+
+.table table tbody td {
+    text-align: start;
+    border-bottom: 1px solid #dddddd;
+    padding: 4px 0px;
+}
+
+.table table thead th.quantity {
+    text-align: center;
+}
+
+.table table tbody td.quantity {
+    text-align: center;
+}
+.table table tr td.component div {
+    display: flex;
+    align-items: center;
+}
+
+.table table tr td img {
+    width: 36px;
+    height: 36px;
+    border-radius: 100px;
+    margin-right: 4px;
+}
+
+/* quantity button */
+.table table td.quantity button {
+    background-color: transparent;
+    border: 0;
+    padding-inline: 4px;
+    cursor: pointer;
+}
+
+.table table td.quantity button.unable {
+    color: #dddddd;
+}
+
+/*Fixed thead */
+.table table thead {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+/*Fixed scrollable */
+
+.table table tbody {
+    display: block;
+    overflow-y: auto; /* Active le scroll vertical */
+    width: 100%;
+}
+
+/* Column alignment */
+
+.table table tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+/* Scrollbar */
+.table table tbody::-webkit-scrollbar {
+    width: 6px;
+}
+
+.table table tbody::-webkit-scrollbar-thumb {
+    background-color: #909090;
+    border-radius: 4px;
+}
+
+.table table tbody::-webkit-scrollbar-thumb:hover {
+    background-color: #5899DD;
+}

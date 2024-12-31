@@ -6,25 +6,54 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./components/Header/header";
 import InventoryMNG from "./pages/manager/Inventory/inventory";
 import InventorySTD from "./pages/student/inventory/inventory";
+import InventoryEXT from "./pages/extern/inventory/inventory";
+import InventoryMBR from "./pages/member/Inventory/inventory";
+import NavbarOTH from "./components/Navbar/other-nav";
 
 export default function Main() {
   return (
-  <Router>
+
     <main>
-      <Navbar />
-      <div className="main-content">
+
+      <Router basename="">
         <Routes>
-          <Route index element={<><Header title={"Inventaire"}/><InventoryMNG/></>}/>
-          <Route path="manager">
-            <Route path="inventory" element={<><Header title={"Inventaire"}/><InventoryMNG/></>}/>
-          </Route>
-          <Route path="student">
-            <Route path="inventory" element={<><Header title={"Inventaire"}/><InventorySTD/></>}/>
-          </Route>
+          <Route index element={<><Navbar /><div className="main-content"><Header title={"Inventaire"}/><InventoryMNG/></div></> }/>
         </Routes>
-      </div>
+      </Router>
+
+      <Router basename="manager">
+        <Navbar />
+        <Routes>
+            <Route index element={<div className="main-content"><Header title={"Inventaire"}/><InventoryMNG/></div>}/>
+        </Routes>
+      </Router>
+
+
+      <Router basename="student">
+        <NavbarOTH />
+        <Routes>
+            <Route index element={<div className="main-content"><Header title={"Inventaire"}/><InventorySTD/></div>}/>
+        </Routes>
+      </Router>
+
+
+      <Router basename="extern">
+        <NavbarOTH />
+        <Routes>
+            <Route index element={<div className="main-content"><Header title={"Inventaire"}/><InventoryEXT/></div>}/>
+        </Routes>
+      </Router>
+
+
+      <Router basename="member">
+        <Navbar />
+        <Routes>
+            <Route index element={<div className="main-content"><Header title={"Inventaire"}/><InventoryMBR/></div>}/>
+        </Routes>
+      </Router>
+
+
     </main>
-  </Router>
   );
 }
 

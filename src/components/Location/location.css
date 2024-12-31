@@ -11,6 +11,10 @@
     align-items: start;
 }
 
+.location .table table tbody {
+    height: 240px;
+}
+
 .head  input {
     border: 0;
     outline: 0;
