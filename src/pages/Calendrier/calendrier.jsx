@@ -23,8 +23,4 @@ export default function Calendrier() {
             />
           </div>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> d04549314d070e427f8ba3d228ae11303308b8da
