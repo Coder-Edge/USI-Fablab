@@ -20,7 +20,6 @@ export default function Main() {
 
       <Router basename="">
         <Routes>
-<<<<<<< HEAD
           <Route index element={<><Header title={"Inventaire"}/><InventoryMNG/></>}/>
           <Route path="manager">
             <Route path="inventory" element={<><Header title={"Inventaire"}/><InventoryMNG/></>}/>
@@ -34,9 +33,7 @@ export default function Main() {
             <Route path="test" element={<><Header title={"Test"}/><App/></>}/>
           </Route>
 
-=======
           <Route index element={<><Navbar /><div className="main-content"><Header title={"Inventaire"}/><InventoryMNG/></div></> }/>
->>>>>>> d04549314d070e427f8ba3d228ae11303308b8da
         </Routes>
       </Router>
 
