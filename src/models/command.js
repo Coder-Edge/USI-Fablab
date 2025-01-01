@@ -33,14 +33,14 @@ class Command {
 
 const commands = [
     new Command({date: Date.now(), user: users[1], product: ListProducts[0], quantity: 2, status: 0}),
-    new Command({date: Date.now(), user: users[0], product: ListProducts[1], quantity: 10, status: 0}),
-    new Command({date: Date.now(), user: users[2], product: ListProducts[1], quantity: 10, status: 0}),
-    new Command({date: Date.now(), user: users[3], product: ListProducts[1], quantity: 8, status: 0}),
-    new Command({date: Date.now(), user: users[0], product: ListProducts[0], quantity: 5, status: 0}),
+    new Command({date: Date.now(), user: users[0], product: ListProducts[15], quantity: 10, status: 0}),
+    new Command({date: Date.now(), user: users[2], product: ListProducts[6], quantity: 10, status: 0}),
+    new Command({date: Date.now(), user: users[3], product: ListProducts[8], quantity: 8, status: 0}),
+    new Command({date: Date.now(), user: users[0], product: ListProducts[7], quantity: 5, status: 0}),
     new Command({date: Date.now(), user: users[0], product: ListProducts[1], quantity: 2, status: 0}),
-    new Command({date: Date.now(), user: users[2], product: ListProducts[0], quantity: 5, status: 0}),
-    new Command({date: Date.now(), user: users[1], product: ListProducts[0], quantity: 3, status: 0}),
-    new Command({date: Date.now(), user: users[3], product: ListProducts[0], quantity: 10, status: 0}),
+    new Command({date: Date.now(), user: users[2], product: ListProducts[2], quantity: 5, status: 0}),
+    new Command({date: Date.now(), user: users[1], product: ListProducts[5], quantity: 3, status: 0}),
+    new Command({date: Date.now(), user: users[3], product: ListProducts[14], quantity: 10, status: 0}),
 ]
 
 export { Command, commands }

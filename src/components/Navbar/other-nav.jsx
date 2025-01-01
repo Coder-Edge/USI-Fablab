@@ -1,25 +1,18 @@
-import React from "react";
+
 import {
-  FiGrid,
   FiBox,
-  FiDollarSign,
   FiCalendar,
-  FiUsers,
-  FiShoppingBag,
   FiSettings,
   FiLogOut,
 } from "react-icons/fi";
 
-import "./Navbar.css";
+import { MdOutlineShoppingBag } from "react-icons/md";
 
-const Navbar = () => {
+const NavbarOTH = () => {
   const menuItems = [
-    { icon: FiGrid, text: "Tableau de bord", active: true },
+    { icon: MdOutlineShoppingBag, text: "Boutique", active: false },
     { icon: FiBox, text: "Inventaire", active: false },
-    { icon: FiDollarSign, text: "Budget", active: false },
     { icon: FiCalendar, text: "Calendrier", active: false },
-    { icon: FiUsers, text: "Membres", active: false },
-    { icon: FiShoppingBag, text: "Boutique", active: false },
     { icon: FiSettings, text: "Paramètre", active: false },
   ];
 
@@ -52,4 +45,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default NavbarOTH;

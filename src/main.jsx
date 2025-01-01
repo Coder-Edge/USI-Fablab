@@ -6,17 +6,21 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./components/Header/header";
 import InventoryMNG from "./pages/manager/Inventory/inventory";
 import InventorySTD from "./pages/student/inventory/inventory";
+import InventoryEXT from "./pages/extern/inventory/inventory";
+import InventoryMBR from "./pages/member/Inventory/inventory";
+import NavbarOTH from "./components/Navbar/other-nav";
 import Calendrier from "./pages/Calendrier/calendrier";
 
 import App from "./Test/test"
 
 export default function Main() {
   return (
-  <Router>
+
     <main>
-      <Navbar />
-      <div className="main-content">
+
+      <Router basename="">
         <Routes>
+<<<<<<< HEAD
           <Route index element={<><Header title={"Inventaire"}/><InventoryMNG/></>}/>
           <Route path="manager">
             <Route path="inventory" element={<><Header title={"Inventaire"}/><InventoryMNG/></>}/>
@@ -30,10 +34,51 @@ export default function Main() {
             <Route path="test" element={<><Header title={"Test"}/><App/></>}/>
           </Route>
 
+=======
+          <Route index element={<><Navbar /><div className="main-content"><Header title={"Inventaire"}/><InventoryMNG/></div></> }/>
+>>>>>>> d04549314d070e427f8ba3d228ae11303308b8da
         </Routes>
-      </div>
+      </Router>
+
+      <Router basename="manager">
+        <Navbar />
+        <Routes>
+            <Route index element={<div className="main-content"><Header title={"Inventaire"}/><InventoryMNG/></div>}/>
+        </Routes>
+      </Router>
+
+
+      <Router basename="student">
+        <NavbarOTH />
+        <Routes>
+            <Route index element={<div className="main-content"><Header title={"Inventaire"}/><InventorySTD/></div>}/>
+        </Routes>
+      </Router>
+
+
+      <Router basename="extern">
+        <NavbarOTH />
+        <Routes>
+            <Route index element={<div className="main-content"><Header title={"Inventaire"}/><InventoryEXT/></div>}/>
+        </Routes>
+      </Router>
+
+
+      <Router basename="member">
+        <Navbar />
+        <Routes>
+            <Route index element={<div className="main-content"><Header title={"Inventaire"}/><InventoryMBR/></div>}/>
+        </Routes>
+      </Router>
+
+      <Router basename="calendar">
+        <Routes>
+          <Route index element={<Calendrier/>}/>
+        </Routes>
+      </Router>
+
+
     </main>
-  </Router>
   );
 }
 

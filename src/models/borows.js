@@ -38,13 +38,21 @@ function setEnddate(date, num_of_days) {
 
 const borrows = [
     new Borrow({user: users[0], product: ListProducts[1], quantity: 3, date: Date.now(), enddate: setEnddate(Date.now(), 3)}),
-    new Borrow({user: users[2], product: ListProducts[0], quantity: 10, date: Date.now(), enddate: setEnddate(Date.now(), 3)}),
-    new Borrow({user: users[3], product: ListProducts[1], quantity: 4, date: Date.now(), enddate: setEnddate(Date.now(), 3)}),
-    new Borrow({user: users[1], product: ListProducts[0], quantity: 1, date: Date.now(), enddate: setEnddate(Date.now(), 3)}),
-    new Borrow({user: users[3], product: ListProducts[0], quantity: 8, date: Date.now(), enddate: setEnddate(Date.now(), 3)}),
-    new Borrow({user: users[0], product: ListProducts[0], quantity: 6, date: Date.now(), enddate: setEnddate(Date.now(), 3)}),
-    new Borrow({user: users[2], product: ListProducts[1], quantity: 2, date: Date.now(), enddate: setEnddate(Date.now(), 3)}),
-    new Borrow({user: users[1], product: ListProducts[1], quantity: 9, date: Date.now(), enddate: setEnddate(Date.now(), 3)}),
+    new Borrow({user: users[2], product: ListProducts[0], quantity: 3, date: Date.now(), enddate: setEnddate(Date.now(), 2)}),
+    new Borrow({user: users[3], product: ListProducts[1], quantity: 4, date: Date.now(), enddate: setEnddate(Date.now(), 4)}),
+    new Borrow({user: users[1], product: ListProducts[15], quantity: 1, date: Date.now(), enddate: setEnddate(Date.now(), 7)}),
+    new Borrow({user: users[3], product: ListProducts[8], quantity: 8, date: Date.now(), enddate: setEnddate(Date.now(), 2)}),
+    new Borrow({user: users[0], product: ListProducts[0], quantity: 6, date: Date.now(), enddate: setEnddate(Date.now(), 1)}),
+    new Borrow({user: users[2], product: ListProducts[4], quantity: 2, date: Date.now(), enddate: setEnddate(Date.now(), 4)}),
+    new Borrow({user: users[1], product: ListProducts[1], quantity: 9, date: Date.now(), enddate: setEnddate(Date.now(), 2)}),
+    new Borrow({user: users[0], product: ListProducts[7], quantity: 3, date: Date.now(), enddate: setEnddate(Date.now(), 3)}),
+    new Borrow({user: users[2], product: ListProducts[3], quantity: 3, date: Date.now(), enddate: setEnddate(Date.now(), 2)}),
+    new Borrow({user: users[3], product: ListProducts[13], quantity: 4, date: Date.now(), enddate: setEnddate(Date.now(), 4)}),
+    new Borrow({user: users[1], product: ListProducts[12], quantity: 1, date: Date.now(), enddate: setEnddate(Date.now(), 7)}),
+    new Borrow({user: users[3], product: ListProducts[8], quantity: 8, date: Date.now(), enddate: setEnddate(Date.now(), 2)}),
+    new Borrow({user: users[0], product: ListProducts[9], quantity: 6, date: Date.now(), enddate: setEnddate(Date.now(), 1)}),
+    new Borrow({user: users[2], product: ListProducts[1], quantity: 2, date: Date.now(), enddate: setEnddate(Date.now(), 4)}),
+    new Borrow({user: users[1], product: ListProducts[1], quantity: 9, date: Date.now(), enddate: setEnddate(Date.now(), 2)}),
 ]
 
 export { Borrow, borrows }
