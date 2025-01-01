@@ -69,11 +69,14 @@ export default function Main() {
 
           {/* Route pour le calendrier */}
           <Route path="/calendar/*" element={
-            <Routes>
-              <Route index element={<Calendrier />} />
-            </Routes>
+            <>
+              <Navbar />
+              <Routes>
+                <Route index element={<div className="main-content"><Header title={"Calendrier"} /><Calendrier /></div>} />
+              </Routes>
+            </>
           }/>
-
+          
           {/* Route pour le test */}
           <Route path="/test/*" element={
             <Routes>
