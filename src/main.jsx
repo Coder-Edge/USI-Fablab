@@ -8,6 +8,8 @@ import InventoryMNG from "./pages/manager/Inventory/inventory";
 import InventorySTD from "./pages/student/inventory/inventory";
 import Calendrier from "./pages/Calendrier/calendrier";
 
+import App from "./Test/test"
+
 export default function Main() {
   return (
   <Router>
@@ -23,6 +25,11 @@ export default function Main() {
           <Route path="student">
             <Route path="inventory" element={<><Header title={"Inventaire"}/><InventorySTD/></>}/>
           </Route>
+
+          <Route path="test">
+            <Route path="test" element={<><Header title={"Test"}/><App/></>}/>
+          </Route>
+
         </Routes>
       </div>
     </main>
