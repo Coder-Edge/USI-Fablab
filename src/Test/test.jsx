@@ -15,11 +15,13 @@ function App() {
     },[])
     return(
         <>
-            {/* {
-                items.map(i => (
-                    <p>t</p>
-                ))
-            } */}
+            <div style={{display : "block"}}>
+            {
+               items.map(item => (
+                <p key={item._id}>{item.name}, {item.description}</p>
+              )) 
+            }
+            </div>
         </>
     )
 }
