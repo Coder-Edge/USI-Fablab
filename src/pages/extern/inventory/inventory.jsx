@@ -3,18 +3,14 @@ import { Product, ListProducts } from "../../../models/product";
 import Button from "../../../components/button/Button";
 import HeadStocks from "../../../components/stocks/head-stock";
 import ToolBox from "../../../components/stocks/toolbox";
-import TableSTD from "../../../components/stocks/student-table";
 import { MdFilterList } from "react-icons/md";
 import "./inventory.css"
 import "../../../components/stocks/stocks.css"
 import Bottom from "../../../components/stocks/bottom";
 import STFilter from "../../../components/popup/st-filter";
-import BorrowForm from "../../../components/borrow-form/borrow-form";
+import TableEXT from "../../../components/stocks/extern-table";
 
-//borrow context
-export const BorrowContext = React.createContext()
-
-const InventorySTD = () => {
+const InventoryEXT = () => {
 
     const Mycontext = React.createContext()
 
@@ -100,7 +96,7 @@ const InventorySTD = () => {
                     btnActive={btnActive}
                     SetTypeFilter={(e) => {filterAll(e, quantityFilter)}} />
 
-                <TableSTD
+                <TableEXT
                     data={data} 
                     type={type} 
                     searchTerm={searchTerm} 
@@ -114,11 +110,6 @@ const InventorySTD = () => {
                     activeNumberGroup={activeNumberGroup}
                     setActiveNumberGroup={setActiveNumberGroup} 
                     data={data}/>
-
-                <BorrowContext.Provider value={{borrowList, setBorrowList}}>
-                    <BorrowForm/>
-                </BorrowContext.Provider>
-
             </div>
 
             <Mycontext.Provider value={{btnActive, filterAll, quantityFilter, types}}>
@@ -129,4 +120,4 @@ const InventorySTD = () => {
     )
 }
 
-export default InventorySTD;
+export default InventoryEXT;

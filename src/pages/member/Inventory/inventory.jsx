@@ -1,5 +1,3 @@
-import CommandsMNG from "../../../components/commands/manager-commands";
-import LocationMNG from "../../../components/Location/manager-location";
 import { useState, useEffect } from "react";
 import { MdAddCircleOutline } from "react-icons/md";
 import { Product, ListProducts } from "../../../models/product";
@@ -10,8 +8,10 @@ import Table from "../../../components/stocks/manager-table";
 import ButtonAdd from "../../../components/stocks/button-add";
 import "./inventory.css"
 import "../../../components/stocks/stocks.css"
+import CommandsMBR from "../../../components/commands/member-commands";
+import LocationMBR from "../../../components/Location/member-location";
 
-const InventoryMNG = () => {
+const InventoryMBR = () => {
 
     //data acquisition
     const [data, setData] = useState([])
@@ -40,8 +40,8 @@ const InventoryMNG = () => {
     return (
         <div className="manager-inventory">
             <div className="grid-content">
-                <CommandsMNG />
-                <LocationMNG />
+                <CommandsMBR />
+                <LocationMBR />
                 <div className="stocks">
                     <HeadStocks
                         title={"Stocks"}
@@ -64,4 +64,4 @@ const InventoryMNG = () => {
     )
 }
 
-export default InventoryMNG;
+export default InventoryMBR;

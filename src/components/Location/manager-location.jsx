@@ -1,36 +1,35 @@
 import "./location.css"
-import { IoSearchOutline } from "react-icons/io5";
 import { borrows } from "../../models/borows";
 import { useEffect, useState } from "react";
 import HeadStocks from "../stocks/head-stock";
+import DynamicTable from "../table/table";
 
-const Location = () => {
+const LocationMNG = () => {
 
     // data acquisition
     const [data, setData] = useState([])
 
     useEffect(() => {
         setData(borrows)
-    }, [])    
+    }, [])
 
     // search
     const [searchTerm, setSearchTerm] = useState("")
 
     return (
         <div className="location">
-            <HeadStocks title={"Location"} setSearchTerm={setSearchTerm}/>
-            <div className="table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th className="component" style={{ width: "27%" }}>Composant</th>
-                            <th className="emprunter" style={{ width: "23%" }}>Emprunter</th>
-                            <th className="quantity" style={{ width: "15%" }}>Quantité</th>
-                            <th style={{ width: "35%" }}>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody style={{ maxHeight: "240px" }}>
-                        {data
+            <HeadStocks title={"Location"} setSearchTerm={setSearchTerm} />
+            <DynamicTable
+                theadChild={
+                    <tr>
+                        <th className="component" style={{ width: "27%" }}>Composant</th>
+                        <th className="emprunter" style={{ width: "23%" }}>Emprunter</th>
+                        <th className="quantity" style={{ width: "15%" }}>Quantité</th>
+                        <th style={{ width: "35%" }}>Status</th>
+                    </tr>
+                }
+                tbodyChild={
+                    data
                         .filter((a) => {
                             return a.product.name.toLowerCase().includes(searchTerm) || a.user.name.toLowerCase().includes(searchTerm)
                         })
@@ -38,12 +37,12 @@ const Location = () => {
                             <tr key={ind0}>
                                 <td className="component" style={{ width: "27%" }}>
                                     <div>
-                                        <img src={borrow.product.image} alt={borrow.product.name}/>
-                                        {borrow.product.name.length <= 15 ? borrow.product.name: `${borrow.product.name.slice(0, 12)}...` }
+                                        <img src={borrow.product.image} alt={borrow.product.name} />
+                                        {borrow.product.name.length <= 15 ? borrow.product.name : `${borrow.product.name.slice(0, 12)}...`}
                                     </div>
                                 </td>
                                 <td className="emprunter" style={{ width: "23%" }}>
-                                    {borrow.user.name.length <= 17 ? borrow.user.name: `${borrow.user.name.slice(0, 14)} ...`}
+                                    {borrow.user.name.length <= 17 ? borrow.user.name : `${borrow.user.name.slice(0, 14)} ...`}
                                 </td>
                                 <td className="quantity" style={{ width: "15%" }}>
                                     <button className="btn">&lt;</button>
@@ -54,18 +53,16 @@ const Location = () => {
                                     Du {getStringDate(borrow.date)} au {getStringDate(borrow.enddate)}
                                 </td>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+                        ))
+                } />
         </div>
     )
 }
 
 function getStringDate(dateparam) {
     let date = new Date(dateparam)
-    const option = {day: '2-digit', month: '2-digit', year: '2-digit'}
+    const option = { day: '2-digit', month: '2-digit', year: '2-digit' }
     return new Intl.DateTimeFormat('fr-FR', option).format(date)
 }
 
-export default Location;
+export default LocationMNG;

@@ -4,9 +4,10 @@ import { useEffect, useState } from "react";
 import { commands } from "../../models/command";
 import ButtonAdd from "../stocks/button-add";
 import HeadStocks from "../stocks/head-stock";
+import DynamicTable from "../table/table";
 
 
-const Commands = () => {
+const CommandsMNG = () => {
 
     // research
     const [searchTerm, setSearchTerm] = useState("")
@@ -24,7 +25,7 @@ const Commands = () => {
 
     return (
         <div className="commands">
-            <HeadStocks title={"Commandes"} setSearchTerm={setSearchTerm}/>
+            <HeadStocks title={"Commandes"} setSearchTerm={setSearchTerm} />
             <div className="total-price">
                 <div className="info-price">
                     <p className="label">Cout total</p>
@@ -32,17 +33,16 @@ const Commands = () => {
                 </div>
                 <FaMoneyBills className="icon-money" />
             </div>
-            <div className="table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th style={{ width: "50%" }} className="component">Composant</th>
-                            <th className="price" style={{ width: "20%" }}>Prix</th>
-                            <th className="quantity" style={{ width: "20%" }}>Quantité</th>
-                        </tr>
-                    </thead>
-                    <tbody style={{ maxHeight: "170px" }}>
-                        {commands
+            <DynamicTable
+                theadChild={
+                    <tr>
+                        <th style={{ width: "50%" }} className="component">Composant</th>
+                        <th className="price" style={{ width: "20%" }}>Prix</th>
+                        <th className="quantity" style={{ width: "20%" }}>Quantité</th>
+                    </tr>
+                }
+                tbodyChild={
+                    commands
                         .filter((command) => (
                             command.product.name.toLowerCase().includes(searchTerm) || command.user.name.toLowerCase().includes(searchTerm)
                         ))
@@ -63,13 +63,11 @@ const Commands = () => {
                                     <button className="btn">&gt;</button>
                                 </td>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+                        ))
+                } />
             <ButtonAdd child={"Ajouter au stock"} />
         </div>
     )
 }
 
-export default Commands;
+export default CommandsMNG;

@@ -1,0 +1,24 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&display=swap");
+
+:root {
+  --primary-color: #4caf50;
+  --secondary-color: #f44336;
+  --background-color: #f0f7ff;
+}
+
+* {
+  padding: 0px;
+  margin: 0px;
+  font-family: "Lexend", sans-serif;
+}
+
+.cal {
+  overflow-y: auto;
+  margin-top: 20px;
+  background-color: white;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 16px;
+  align-items: center;
+  justify-content: center;
+}

@@ -16,9 +16,9 @@ button.button:hover {
 
 /* Bouton actif */
 button.button.active {
-    background-color: #007bff;
+    background-color: #5899DD;
     color: #ffffff;
-    border-color: #007bff;
+    border: 0;
 }
 
 /* Bouton Ajouter */

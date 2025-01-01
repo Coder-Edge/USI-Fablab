@@ -46,20 +46,22 @@ class Product {
 }
 
 let ListProducts = [
-    new Product({name: "Arduino Uno", quantity: 5, price: 25, image:"/src/assets/arduino.jpg", type: "microcontroleur", is_available: true}),
-    new Product("Rasperry pi M355 hs yhhdh hyedygedeydudueudhedhuehduehd", 80, 20, "/src/assets/raspberry.jpg", "Micro-ordinateur" , true),
-    new Product("Arduino Uno", 25, 20, "/src/assets/arduino.jpg", "microcontroleur", true),
-    new Product("Rasperry pi", 80, 20, "/src/assets/raspberry.jpg", "Micro-ordinateur", true),
-    new Product("Arduino Uno", 25, 20, "/src/assets/arduino.jpg", "microcontroleur", false),
-    new Product("Rasperry pi", 80, 20, "/src/assets/raspberry.jpg", "Micro-ordinateur", true),
-    new Product("Arduino Uno", 25, 20, "/src/assets/arduino.jpg", "microcontroleur", true),
-    new Product("Rasperry pi", 80, 20, "/src/assets/raspberry.jpg", "Micro-ordinateur", true),
-    new Product("Arduino Uno", 25, 20, "/src/assets/arduino.jpg", "microcontroleur", false),
-    new Product("Rasperry pi", 80, 20, "/src/assets/raspberry.jpg", "Micro-ordinateur", true),
-    new Product("Arduino Uno", 25, 20, "/src/assets/arduino.jpg", "microcontroleur", false),
-    new Product("Rasperry pi", 80, 20, "/src/assets/raspberry.jpg", "Micro-ordinateur", true),
-    new Product("Arduino Uno", 25, 20, "/src/assets/arduino.jpg", "microcontroleur", true),
-    new Product("Rasperry pi", 80, 20, "/src/assets/raspberry.jpg", "Micro-ordinateur", true),
+    new Product("arduino uno", 20, 43, "/src/assets/products/arduino.jpg", "microcontroleur", true),
+    new Product("moteur brushless", 35, 12, "/src/assets/products/brushless_motor.jpeg", "motor", true),
+    new Product("Boussole numerique", 8, 10, "/src/assets/products/digital_compass.jpeg", "capteur", true),
+    new Product("Esp32", 15, 6, "/src/assets/products/esp32.jpeg", "microcontroleur", true),
+    new Product("Ublox Gps neo 7m", 6, 3, "/src/assets/products/gps_ublox.jpeg", "capteur", true),
+    new Product("Capteur Infrarouge", 4, 8, "/src/assets/products/infrared_sensor.jpeg", "capteur", true),
+    new Product("Cables males", 1, 87, "/src/assets/products/male_wire.jpeg", "cable", true),
+    new Product("Capteur ultrasonique", 5, 14, "/src/assets/products/ultrasonic_sensor.jpeg", "capteur", true),
+    new Product("Cables femeles", 1, 32, "/src/assets/products/female_wire.jpg", "cable", true),
+    new Product("Gps Neo 6m", 10, 6, "/src/assets/products/gps_neo_m-.jpg", "capteur", true),
+    new Product("Ecran lcd", 5, 13, "/src/assets/products/lcd_screen.jpg", "ecran", true),
+    new Product("Leds", 1, 54, "/src/assets/products/leds.jpg", "led", true),
+    new Product("Cables males-Femeles", 1, 63, "/src/assets/products/male_female_wire.jpg", "cable", true),
+    new Product("Motor 12V", 13, 6, "/src/assets/products/motor12V.jpg", "motor", true),
+    new Product("Raspberry pi", 100, 3, "/src/assets/products/raspberry.jpg", "microcontroleur", true),
+    new Product("Gps Neo 8m", 10, 4, "/src/assets/products/gps_neo_8m.webp", "capteur", true),
 ]
 
 export { Product, ListProducts }
