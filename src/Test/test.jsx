@@ -15,11 +15,17 @@ function App() {
     },[])
     return(
         <>
-            {/* {
+            {
                 items.map(i => (
                     <p>t</p>
                 ))
-            } */}
+            }
+
+{
+                items.map(i => (
+                    <p>t</p>
+                ))
+            }
         </>
     )
 }
