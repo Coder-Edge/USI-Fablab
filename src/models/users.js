@@ -24,10 +24,10 @@ class User {
 }
 
 const users = [
-    new User("Gloire Mankununu", "gloire@mankunun.com", "eiir,f@z12", "Manager"),
-    new User("Remile Bianga", "remile@bianga.com", "ttstèaé1", "Student"),
-    new User("Nathan Lukamba", "natha@lukamba.com", "sttts425", "Member"),
-    new User("Claudel Mubenzem Mfumu Africain", "claudel@mubenzem.com", "rrzrr152", "Extern"),
+    new User("Gloire Mankununusakjdfj df", "gloire@mankunwekdnfklnun.com", "eiir,kenflkf@z12", "Manager"),
+    new User("Remile Biangasadnflknd", "remile@biafwkanflnga.com", "ttsfwenftèaé1", "Student"),
+    new User("Nathan Lukambaslkdnfnd", "natha@lukafweknmba.com", "stttefnlfs425", "Member"),
+    new User("Claudel Mubenzem Mfumu Africainsdknflken", "claudelfeknf@mubenzem.com", "rrzrr152", "Extern"),
 ]
 
 export {User, users}

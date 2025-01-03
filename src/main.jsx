@@ -10,7 +10,9 @@ import InventoryEXT from "./pages/extern/inventory/inventory";
 import InventoryMBR from "./pages/member/Inventory/inventory";
 import NavbarOTH from "./components/Navbar/other-nav";
 import Calendrier from "./pages/Calendrier/calendrier";
+import Membres from "./pages/Members_fablab/members";
 import App from "./Test/test";
+import Appusers from "./Test/testuser";
 
 export default function Main() {
   return (
@@ -76,11 +78,21 @@ export default function Main() {
               </Routes>
             </>
           }/>
+
+          {/* Route pour les membres */}
+          <Route path="/membres_fablab/*" element={
+            <>
+              <Navbar />
+              <Routes>
+                <Route index element={<div className="main-content"><Header title={"Membres"} /><Membres /></div>} />
+              </Routes>
+            </>
+          }/>
           
           {/* Route pour le test */}
           <Route path="/test/*" element={
             <Routes>
-              <Route index element={<App />} />
+              <Route index element={<Appusers />} />
             </Routes>
           }/>
         </Routes>
