@@ -11,6 +11,7 @@ import InventoryMBR from "./pages/member/Inventory/inventory";
 import NavbarOTH from "./components/Navbar/other-nav";
 import Calendrier from "./pages/Calendrier/calendrier";
 import App from "./Test/test";
+import Appusers from "./Test/testuser";
 
 export default function Main() {
   return (
@@ -80,7 +81,7 @@ export default function Main() {
           {/* Route pour le test */}
           <Route path="/test/*" element={
             <Routes>
-              <Route index element={<App />} />
+              <Route index element={<Appusers />} />
             </Routes>
           }/>
         </Routes>
