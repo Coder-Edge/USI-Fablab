@@ -80,7 +80,7 @@ export default function Main() {
           }/>
 
           {/* Route pour les membres */}
-          <Route path="/membres/*" element={
+          <Route path="/membres_fablab/*" element={
             <>
               <Navbar />
               <Routes>
