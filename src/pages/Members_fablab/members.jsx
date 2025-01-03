@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 
-function Appusers() {
+function Membres() {
     const [user, setItems] = useState([])
     useEffect(() => {
         const fetchData = async() => {
@@ -25,4 +25,4 @@ function Appusers() {
     )
 }
 
-export default Appusers
+export default Membres
