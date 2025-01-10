@@ -1,6 +1,7 @@
 /* Table decoration */
 
 .table table {
+    position: relative;
     width: 100%;
     border-collapse: collapse;
 }

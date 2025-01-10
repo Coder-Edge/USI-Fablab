@@ -104,6 +104,9 @@
   
 }
 
+
+/* Bottom page number dispklay style */
+
 .bottom-stock {
   display: flex;
   justify-content: space-between;
