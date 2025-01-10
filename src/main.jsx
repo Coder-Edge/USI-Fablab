@@ -13,6 +13,8 @@ import Calendrier from "./pages/Calendrier/calendrier";
 import Membres from "./pages/Members_fablab/members";
 import App from "./Test/test";
 import Appusers from "./Test/testuser";
+import UserForm from "./pages/Input_user/input_user";
+
 
 export default function Main() {
   return (
@@ -93,6 +95,13 @@ export default function Main() {
           <Route path="/test/*" element={
             <Routes>
               <Route index element={<Appusers />} />
+            </Routes>
+          }/>
+
+          {/* Route pour l'enregistrement des user */}
+          <Route path="/input_user/*" element={
+            <Routes>
+              <Route index element={<UserForm />} />
             </Routes>
           }/>
         </Routes>
