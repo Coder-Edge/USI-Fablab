@@ -26,28 +26,28 @@ const users = [
 const usersToInsert = users
   
   // Fonction pour insérer les utilisateurs directement
-const insertUsers = async () => {
-    try {
-      for (const user of usersToInsert) {
-        // Vérifie si l'utilisateur existe déjà par son email
-        const existingUser = await userModel.findOne({ email: user.email });
+// const insertUsers = async () => {
+//     try {
+//       for (const user of usersToInsert) {
+//         // Vérifie si l'utilisateur existe déjà par son email
+//         const existingUser = await userModel.findOne({ email: user.email });
   
-        if (existingUser) {
-          console.log(`L'utilisateur avec l'email ${user.email} existe déjà :`, existingUser);
-        } else {
-          // Insère l'utilisateur s'il n'existe pas
-          const insertedUser = await userModel.create(user);
-          console.log("Utilisateur inséré avec succès :", insertedUser);
-        }
-      }
-    } catch (error) {
-      console.error("Erreur lors de l'insertion des utilisateurs :", error);
-    }
-  };
+//         if (existingUser) {
+//           console.log(`L'utilisateur avec l'email ${user.email} existe déjà :`, existingUser);
+//         } else {
+//           // Insère l'utilisateur s'il n'existe pas
+//           const insertedUser = await userModel.create(user);
+//           console.log("Utilisateur inséré avec succès :", insertedUser);
+//         }
+//       }
+//     } catch (error) {
+//       console.error("Erreur lors de l'insertion des utilisateurs :", error);
+//     }
+//   };
   
   
   // Appeler la fonction d'insertion
-  insertUsers();
+  // insertUsers();
   
   // Route pour récupérer les utilisateurs
   app.get("/users/", async (req, res) => {
@@ -58,6 +58,11 @@ const insertUsers = async () => {
       return res.status(500).json({ message: "Erreur lors de la récupération des utilisateurs", error });
     }
   });
+
+  app.post('/reg/', async (req,res) => {
+    const b = req.body;
+    console.log(b);
+  })
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");

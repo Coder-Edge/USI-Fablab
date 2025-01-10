@@ -5,7 +5,7 @@ function UserForm() {
     name: "",
     email: "",
     password: "",
-    usertype:"",
+    usertype:"Membrer",
   });
 
   // Fonction pour mettre à jour le state
@@ -17,10 +17,31 @@ function UserForm() {
     }));
   };
 
+  const insertUsers = async (users) => {
+    try {
+      const response = await fetch("http://localhost:3000/reg/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(users), // Convertir les utilisateurs en JSON
+      });
+  
+      if (response.ok) {
+        const result = await response.json();
+        console.log("Résultat de l'opération :", result);
+      } else {
+        console.error("Erreur lors de l'insertion :", response.statusText);
+      }
+    } catch (error) {
+      console.error("Erreur lors de la requête :", error);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(userData);
-    alert(userData) // Affiche les données utilisateur
+    // console.log(userData);
+    insertUsers(userData); // Affiche les données utilisateur
   };
 
   return (
