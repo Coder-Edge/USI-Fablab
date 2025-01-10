@@ -3,6 +3,9 @@ const connectDB = require("./db.cjs");
 const itemModel = require("./Models/items.cjs");
 const userModel = require("./Models/users.cjs");
 const cors = require("cors");
+const bcrypt = require('bcrypt');
+
+
 
 const app = express();
 app.use(express.json());
@@ -30,6 +33,7 @@ app.get("/users/", async (req, res) => {
   }
 });
 
+
 app.post("/registre/", async (req, res) => {
   const usersToInsert = req.body; // Les utilisateurs envoyés dans la requête POST
 
@@ -44,6 +48,8 @@ app.post("/registre/", async (req, res) => {
         `L'utilisateur avec l'email ${usersToInsert.email} existe déjà.`
       );
     } else {
+
+      usersToInsert.password = await bcrypt.hash(usersToInsert.password, 10);
       // Insère l'utilisateur s'il n'existe pas
       const insertedUser = await userModel.create(usersToInsert);
       console.log("Utilisateur inséré avec succès :", insertedUser);
