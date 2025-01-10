@@ -19,7 +19,7 @@ function UserForm() {
 
   const insertUsers = async (users) => {
     try {
-      const response = await fetch("http://localhost:3000/reg/", {
+      const response = await fetch("http://localhost:3000/registre/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

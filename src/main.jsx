@@ -13,7 +13,7 @@ import Calendrier from "./pages/Calendrier/calendrier";
 import Membres from "./pages/Members_fablab/members";
 import App from "./Test/test";
 import Appusers from "./Test/testuser";
-import UserForm from "./pages/Input_user/input_user";
+import UserForm from "./pages/Registre/registre";
 
 
 export default function Main() {
