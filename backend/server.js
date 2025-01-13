@@ -1,10 +1,9 @@
 const express = require("express");
 const connectDB = require("./db.js");
-const itemModel = require("./Models/items.cjs");
-const userModel = require("./Models/users.cjs");
+const itemModel = require("./Models/items.js");
+const userModel = require("./Models/users.js");
 const cors = require("cors");
 const bcrypt = require('bcrypt');
-
 
 
 const app = express();
@@ -63,11 +62,6 @@ app.post("/registre/", async (req, res) => {
       .json({ message: "Erreur lors de l'insertion des utilisateurs", error });
   }
 });
-
-app.post("user/login/", async (req, res) => {
-  console.log("rererre");
-  
-})
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
