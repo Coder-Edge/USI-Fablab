@@ -104,6 +104,13 @@ export default function Main() {
               <Route index element={<UserForm />} />
             </Routes>
           }/>
+
+          {/* Route pour la connexion de l'utilisateur */}
+          <Route path="/registre/*" element={
+            <Routes>
+              <Route index element={<UserForm />} />
+            </Routes>
+          }/>
         </Routes>
       </Router>
     </main>
