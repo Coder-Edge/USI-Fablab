@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 
+
 function UserForm() {
   const [userData, setUserData] = useState({
     name: "",
     email: "",
     password: "",
-    usertype:"Membrer",
+    usertype:"Member",
   });
 
   // Fonction pour mettre à jour le state
@@ -40,7 +41,7 @@ function UserForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(userData);
+    console.log(userData);
     insertUsers(userData); // Affiche les données utilisateur
   };
 
@@ -77,11 +78,11 @@ function UserForm() {
       <div>
         <label>UserType:</label>
         <select
-            name="usertype"
+            name="userType"
             value={userData.usertype}
             onChange={handleChange}
                 >
-                <option value="Membrer">Membrer</option>
+                <option value="Member">Member</option>
                 <option value="Student">Student</option>
                 <option value="Extern">Extern</option>
         </select>

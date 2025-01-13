@@ -94,12 +94,12 @@ export default function Main() {
           {/* Route pour le test */}
           <Route path="/test/*" element={
             <Routes>
-              <Route index element={<Appusers />} />
+              <Route index element={<App />} />
             </Routes>
           }/>
 
           {/* Route pour l'enregistrement des user */}
-          <Route path="/input_user/*" element={
+          <Route path="/registre/*" element={
             <Routes>
               <Route index element={<UserForm />} />
             </Routes>
