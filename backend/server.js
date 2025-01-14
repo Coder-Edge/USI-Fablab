@@ -2,7 +2,7 @@ const express = require("express");
 const connectDB = require("./db.js");
 const cors = require("cors");
 const multer = require("multer");
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 const ImageModel = require("./Models/image.js");
 const itemModel = require("./Models/items.js");
 const userModel = require("./Models/users.js");
@@ -24,15 +24,12 @@ app.get("/users/", async (req, res) => {
     const users = await userModel.find();
     return res.json({ user: users });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        message: "Erreur lors de la récupération des utilisateurs",
-        error,
-      });
+    return res.status(500).json({
+      message: "Erreur lors de la récupération des utilisateurs",
+      error,
+    });
   }
 });
-
 
 app.post("/registre/", async (req, res) => {
   const usersToInsert = req.body; // Les utilisateurs envoyés dans la requête POST
@@ -48,7 +45,6 @@ app.post("/registre/", async (req, res) => {
         `L'utilisateur avec l'email ${usersToInsert.email} existe déjà.`
       );
     } else {
-
       usersToInsert.password = await bcrypt.hash(usersToInsert.password, 10);
       // Insère l'utilisateur s'il n'existe pas
       const insertedUser = await userModel.create(usersToInsert);
@@ -67,26 +63,25 @@ app.post("/registre/", async (req, res) => {
 //image
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './uploads') 
+    cb(null, "./uploads");
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now()+"-"+file.originalname)
-  }
-})
- 
-const upload = multer({storage})
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
 
-app.post("/single/", upload.single("image") , async (req,res) => {
-  try{
-      const {path, filename} = req.file
-      const image = await ImageModel({path, filename})
-      await image.save()
-      res.send({"msg": "Image Uploaded"})
-  }catch(error){
-      res.send({"error": "Error while uploading image"})
-  }
-})
+const upload = multer({ storage });
 
+app.post("/single/", upload.single("image"), async (req, res) => {
+  try {
+    const { path, filename } = req.file;
+    const image = await ImageModel({ path, filename });
+    await image.save();
+    res.send({ msg: "Image Uploaded" });
+  } catch (error) {
+    res.send({ error: "Error while uploading image" });
+  }
+});
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
