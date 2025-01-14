@@ -1,10 +1,11 @@
 const express = require("express");
 const connectDB = require("./db.js");
+const cors = require("cors");
+const multer = require("multer");
+const bcrypt = require('bcrypt');
+const ImageModel = require("./Models/image.js");
 const itemModel = require("./Models/items.js");
 const userModel = require("./Models/users.js");
-const cors = require("cors");
-const bcrypt = require('bcrypt');
-
 
 const app = express();
 app.use(express.json());
@@ -62,6 +63,30 @@ app.post("/registre/", async (req, res) => {
       .json({ message: "Erreur lors de l'insertion des utilisateurs", error });
   }
 });
+
+//image
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads') 
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now()+"-"+file.originalname)
+  }
+})
+ 
+const upload = multer({storage})
+
+app.post("/single/", upload.single("image") , async (req,res) => {
+  try{
+      const {path, filename} = req.file
+      const image = await ImageModel({path, filename})
+      await image.save()
+      res.send({"msg": "Image Uploaded"})
+  }catch(error){
+      res.send({"error": "Error while uploading image"})
+  }
+})
+
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");

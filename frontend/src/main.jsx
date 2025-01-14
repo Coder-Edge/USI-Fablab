@@ -14,6 +14,7 @@ import Membres from "./pages/Members_fablab/members";
 import App from "./Test/test";
 import Appusers from "./Test/testuser";
 import UserForm from "./pages/Registre/registre";
+import Product from "./pages/Add_product/product";
 
 
 export default function Main() {
@@ -109,6 +110,13 @@ export default function Main() {
           <Route path="/registre/*" element={
             <Routes>
               <Route index element={<UserForm />} />
+            </Routes>
+          }/>
+
+          {/* Route pour ajouter les produits */}
+          <Route path="/add_product/*" element={
+            <Routes>
+              <Route index element={<Product />} />
             </Routes>
           }/>
         </Routes>

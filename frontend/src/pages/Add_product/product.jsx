@@ -26,7 +26,7 @@ export default function Product() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div>
+      {/* <div>
         <label htmlFor="name">Nom du produit :</label>
         <input
           id="name"
@@ -80,16 +80,17 @@ export default function Product() {
           checked={userData.is_available}
           onChange={handleChange}
         />
-      </div>
+      </div> */}
 
       <div>
         <label htmlFor="image">URL de l'image :</label>
         <input
           id="image"
-          type="text"
+          type="file"
           name="image"
           value={userData.image}
           onChange={handleChange}
+          accept="image/*"
         />
       </div>
 
