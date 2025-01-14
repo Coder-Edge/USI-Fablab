@@ -1,8 +1,9 @@
 const express = require("express");
 const connectDB = require("./db.js");
 const cors = require("cors");
-const multer = require("multer");
+const multer = require("multer"); 
 const bcrypt = require("bcrypt");
+const path = require("path")
 const ImageModel = require("./Models/image.js");
 const itemModel = require("./Models/items.js");
 const userModel = require("./Models/users.js");
@@ -10,6 +11,7 @@ const userModel = require("./Models/users.js");
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.use(express.static("uploads"))
 
 connectDB();
 
@@ -60,7 +62,7 @@ app.post("/registre/", async (req, res) => {
   }
 });
 
-//image
+//Save the image in db
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "./uploads");
@@ -80,6 +82,22 @@ app.post("/single/", upload.single("image"), async (req, res) => {
     res.send({ msg: "Image Uploaded" });
   } catch (error) {
     res.send({ error: "Error while uploading image" });
+  }
+});
+
+//Get image in db
+app.get('/img/:id', async (req, res) => {
+  const {id} = req.params
+  try{
+      const image = await ImageModel.findById(id)
+
+      if (!image) res.send({"msg":"Image Not Found"})
+
+      const imagePath = path.join(__dirname, "uploads", image.filename)
+      res.sendFile(imagePath)
+
+  }catch (error){
+    res.send({"error":"Unable to get image"})
   }
 });
 

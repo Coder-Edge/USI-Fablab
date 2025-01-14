@@ -14,13 +14,7 @@ function Appusers() {
     },[])
     return(
         <>
-            <div style={{display : "block"}}>
-            {
-               user.map(u => (
-                <p key={u._id}>{u.name} : {u.userType}</p>
-              )) 
-            }
-            </div>
+            
         </>
     )
 }
