@@ -1,9 +1,9 @@
 const express = require("express");
 const connectDB = require("./db.js");
 const cors = require("cors");
-const multer = require("multer");
+const multer = require("multer"); 
 const bcrypt = require("bcrypt");
-const path = require("path");
+const path = require("path")
 const ImageModel = require("./Models/image.js");
 const itemModel = require("./Models/items.js");
 const userModel = require("./Models/users.js");
@@ -12,7 +12,7 @@ const ProductModel = require("./Models/product.js");
 const app = express();
 app.use(express.json());
 app.use(cors());
-app.use(express.static("uploads"));
+app.use(express.static("uploads"))
 
 connectDB();
 
@@ -82,10 +82,7 @@ app.post("/products", upload.single("image"), async (req, res) => {
     const { path: imagePath, filename } = req.file;
 
     // Sauvegarder l'image dans la base de données
-    const savedImage = await new ImageModel({
-      path: imagePath,
-      filename,
-    }).save();
+    const savedImage = await new ImageModel({ path: imagePath, filename }).save();
 
     // Sauvegarder le produit avec l'ID de l'image
     const product = new ProductModel({
@@ -99,19 +96,9 @@ app.post("/products", upload.single("image"), async (req, res) => {
 
     const savedProduct = await product.save();
 
-    res
-      .status(201)
-      .json({
-        message: "Produit enregistré avec succès",
-        product: savedProduct,
-      });
+    res.status(201).json({ message: "Produit enregistré avec succès", product: savedProduct });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error: "Erreur lors de l'enregistrement du produit",
-        details: error.message,
-      });
+    res.status(500).json({ error: "Erreur lors de l'enregistrement du produit", details: error.message });
   }
 });
 
