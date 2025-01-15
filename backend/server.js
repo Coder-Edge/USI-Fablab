@@ -1,17 +1,18 @@
 const express = require("express");
 const connectDB = require("./db.js");
 const cors = require("cors");
-const multer = require("multer"); 
+const multer = require("multer");
 const bcrypt = require("bcrypt");
-const path = require("path")
+const path = require("path");
 const ImageModel = require("./Models/image.js");
 const itemModel = require("./Models/items.js");
 const userModel = require("./Models/users.js");
+const ProductModel = require("./Models/product.js");
 
 const app = express();
 app.use(express.json());
 app.use(cors());
-app.use(express.static("uploads"))
+app.use(express.static("uploads"));
 
 connectDB();
 
@@ -74,30 +75,43 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-app.post("/single/", upload.single("image"), async (req, res) => {
+// Route pour enregistrer un produit avec une image
+app.post("/products", upload.single("image"), async (req, res) => {
   try {
-    const { path, filename } = req.file;
-    const image = await ImageModel({ path, filename });
-    await image.save();
-    res.send({ msg: "Image Uploaded" });
+    const { name, price, quantity, type, is_available } = req.body;
+    const { path: imagePath, filename } = req.file;
+
+    // Sauvegarder l'image dans la base de données
+    const savedImage = await new ImageModel({
+      path: imagePath,
+      filename,
+    }).save();
+
+    // Sauvegarder le produit avec l'ID de l'image
+    const product = new ProductModel({
+      name,
+      price,
+      quantity,
+      type,
+      is_available,
+      image: savedImage._id,
+    });
+
+    const savedProduct = await product.save();
+
+    res
+      .status(201)
+      .json({
+        message: "Produit enregistré avec succès",
+        product: savedProduct,
+      });
   } catch (error) {
-    res.send({ error: "Error while uploading image" });
-  }
-});
-
-//Get image in db
-app.get('/img/:id', async (req, res) => {
-  const {id} = req.params
-  try{
-      const image = await ImageModel.findById(id)
-
-      if (!image) res.send({"msg":"Image Not Found"})
-
-      const imagePath = path.join(__dirname, "uploads", image.filename)
-      res.sendFile(imagePath)
-
-  }catch (error){
-    res.send({"error":"Unable to get image"})
+    res
+      .status(500)
+      .json({
+        error: "Erreur lors de l'enregistrement du produit",
+        details: error.message,
+      });
   }
 });
 

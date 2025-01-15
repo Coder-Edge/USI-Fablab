@@ -7,7 +7,7 @@ const productSchema = new mongoose.Schema({
     quantity : { type: Number, required: true },
     type : { type: String, required: true },
     is_available : { type: Boolean, required: true },
-    image : { type: String, required: true },
+    image : { type: mongoose.Schema.Types.ObjectId, ref: "Image", required: true },
 });
 
 // Création du modèle
