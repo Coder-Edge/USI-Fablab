@@ -42,7 +42,6 @@ export default function ProductForm() {
       const data = await response.json();
       if (response.ok) {
         alert("Produit enregistré avec succès !");
-        console.log(data);
       } else {
         alert("Erreur : " + data.error);
       }
