@@ -102,6 +102,31 @@ app.post("/products", upload.single("image"), async (req, res) => {
   }
 });
 
+// Get all products
+app.get("/get/products", async (req, res) => {
+  try {
+    const products = await ProductModel.find();
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch products" });
+  }
+});
+
+// Serve images
+app.get("/img/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const image = await ImageModel.findById(id);
+    if (!image) return res.status(404).send({ msg: "Image Not Found" });
+
+    const imagePath = path.join(__dirname, "uploads", image.filename);
+    res.sendFile(imagePath);
+  } catch (error) {
+    res.status(500).send({ error: "Unable to get image" });
+  }
+});
+
+
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
 });
