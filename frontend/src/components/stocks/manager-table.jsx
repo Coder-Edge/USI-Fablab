@@ -23,7 +23,7 @@ const Table = ({ data, type, searchTerm }) => {
                         <tr key={index}>
                             <td className="component" style={{ width: "40%" }}>
                                 <div >
-                                    <img src={product.image} alt={product.name} />
+                                    <img src={`http://localhost:3000/img/${product.image}`} alt={product.name} />
                                     {product.name.length <= 27 ? product.name : `${product.name.slice(0, 25)} ...`}
                                 </div>
                             </td>
