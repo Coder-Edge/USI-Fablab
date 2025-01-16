@@ -22,7 +22,7 @@ const TableEXT = ({ data, searchTerm, numberItemDisplay, activeNumberGroup, onCl
                         <tr key={index}>
                             <td className="component" style={{ width: "30%" }}>
                                 <div >
-                                    <img src={product.image} alt={product.name} />
+                                    <img src={`http://localhost:3000/img/${product.image}`} alt={product.name} />
                                     {product.name.length <= 20 ? product.name : `${product.name.slice(0, 18)} ...`}
                                 </div>
                             </td>

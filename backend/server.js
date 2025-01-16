@@ -112,7 +112,7 @@ app.get("/get/products", async (req, res) => {
   }
 });
 
-// Serve images
+// Get images
 app.get("/img/:id", async (req, res) => {
   const { id } = req.params;
   try {
@@ -125,7 +125,6 @@ app.get("/img/:id", async (req, res) => {
     res.status(500).send({ error: "Unable to get image" });
   }
 });
-
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
