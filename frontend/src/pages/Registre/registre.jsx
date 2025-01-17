@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "../../api/api"
 
 
 function UserForm() {
@@ -20,17 +21,12 @@ function UserForm() {
 
   const insertUsers = async (users) => {
     try {
-      const response = await fetch("http://localhost:3000/registre/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(users), // Convertir les utilisateurs en JSON
-      });
+      const response = await axios.post("/users/registre/", users)
   
-      if (response.ok) {
-        const result = await response.json();
-        console.log("Résultat de l'opération :", result);
+      if (response.status === 200) {
+        console.log(response);
+        
+        console.log("Opération reussie");
       } else {
         console.error("Erreur lors de l'insertion :", response.statusText);
       }

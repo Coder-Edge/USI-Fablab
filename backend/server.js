@@ -2,16 +2,30 @@ const express = require("express");
 const connectDB = require("./db.js");
 const cors = require("cors");
 const multer = require("multer");
-const bcrypt = require("bcrypt");
+const cookieParser = require("cookie-parser")
 const ImageModel = require("./Models/image.js");
 const itemModel = require("./Models/items.js");
 const userModel = require("./Models/users.js");
+const { authentification, typePermission, Role } = require("./permission/permission")
+const userRoute = require("./routes/users")
 
 const app = express();
-app.use(express.json());
-app.use(cors());
 
 connectDB();
+
+// authorisation de source
+const corsOption = {
+  credentials: true,
+  origin: ["http://localhost:5173"]
+}
+
+app.use(cookieParser())
+app.use(cors(corsOption))
+app.use(express.json())
+
+app.use("/users", userRoute)
+
+// S'execute avant chaque requette autre que ceux de login et register
 
 app.get("/", async (req, res) => {
   const response = await itemModel.find();
@@ -19,7 +33,7 @@ app.get("/", async (req, res) => {
 });
 
 // Route pour récupérer les utilisateurs
-app.get("/users/", async (req, res) => {
+app.get("/users", async (req, res) => {
   try {
     const users = await userModel.find();
     return res.json({ user: users });
@@ -28,35 +42,6 @@ app.get("/users/", async (req, res) => {
       message: "Erreur lors de la récupération des utilisateurs",
       error,
     });
-  }
-});
-
-app.post("/registre/", async (req, res) => {
-  const usersToInsert = req.body; // Les utilisateurs envoyés dans la requête POST
-
-  try {
-    // Vérifie si l'utilisateur existe déjà par son email
-    const existingUser = await userModel.findOne({
-      email: usersToInsert.email,
-    });
-
-    if (existingUser) {
-      console.log(
-        `L'utilisateur avec l'email ${usersToInsert.email} existe déjà.`
-      );
-    } else {
-      usersToInsert.password = await bcrypt.hash(usersToInsert.password, 10);
-      // Insère l'utilisateur s'il n'existe pas
-      const insertedUser = await userModel.create(usersToInsert);
-      console.log("Utilisateur inséré avec succès :", insertedUser);
-    }
-
-    res.status(200).json({ message: "Opération terminée" });
-  } catch (error) {
-    console.error("Erreur lors de l'insertion des utilisateurs :", error);
-    res
-      .status(500)
-      .json({ message: "Erreur lors de l'insertion des utilisateurs", error });
   }
 });
 
@@ -83,6 +68,10 @@ app.post("/single/", upload.single("image"), async (req, res) => {
   }
 });
 
+app.use((req, res) => {
+  res.status(404).json({message: "The url doesn't exist"})
+})
+
 app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+  console.log("Server is running on http://localhost:3000");
 });

@@ -10,6 +10,7 @@ import "../../../components/stocks/stocks.css"
 import Bottom from "../../../components/stocks/bottom";
 import STFilter from "../../../components/popup/st-filter";
 import BorrowForm from "../../../components/borrow-form/borrow-form";
+import axios from "../../../api/api"
 
 //borrow context
 export const BorrowContext = React.createContext()
@@ -26,9 +27,16 @@ const InventorySTD = () => {
     const [data, setData] = useState([])
     const [types, setTypes] = useState([])
 
+    async function getProtected() {
+        const respose = await axios.get("/users/protected", {withCredentials: true})
+        console.log(respose);
+    }
+
     useEffect(() => {
         setData(ListProducts)
         setTypes(Product.getTypes(ListProducts))
+        
+        getProtected()
     }, [])  
 
     //search

@@ -12,9 +12,10 @@ import NavbarOTH from "./components/Navbar/other-nav";
 import Calendrier from "./pages/Calendrier/calendrier";
 import Membres from "./pages/Members_fablab/members";
 import App from "./Test/test";
-import Appusers from "./Test/testuser";
 import UserForm from "./pages/Registre/registre";
 import Product from "./pages/Add_product/product";
+import LoginForm from "./pages/Login/login";
+import AuthContext, { AuthProvider } from "./auth/AuthProvider";
 
 
 export default function Main() {
@@ -33,6 +34,7 @@ export default function Main() {
             </>
           }/>
 
+
           <Route path="/manager/*" element={
             <>
               <Navbar />
@@ -41,6 +43,7 @@ export default function Main() {
               </Routes>
             </>
           }/>
+
 
           {/* Route pour le student */}
           <Route path="/student/*" element={
@@ -52,8 +55,7 @@ export default function Main() {
             </>
           }/>
 
-          {/* Route pour le extern */}
-          <Route path="/extern/*" element={
+          {/* Route pour le extern */}          <Route path="/extern/*" element={
             <>
               <NavbarOTH />
               <Routes>
@@ -61,9 +63,8 @@ export default function Main() {
               </Routes>
             </>
           }/>
-
-          {/* Route pour le member */}
-          <Route path="/member/*" element={
+  
+          {/* Route pour le member */}          <Route path="/member/*" element={
             <>
               <Navbar />
               <Routes>
@@ -107,9 +108,9 @@ export default function Main() {
           }/>
 
           {/* Route pour la connexion de l'utilisateur */}
-          <Route path="/registre/*" element={
+          <Route path="/login/*" element={
             <Routes>
-              <Route index element={<UserForm />} />
+              <Route index element={<LoginForm />} />
             </Routes>
           }/>
 
@@ -126,4 +127,8 @@ export default function Main() {
 }
 
 //Afficher le composant Main
-ReactDom.createRoot(document.querySelector("#root")).render(<Main />);
+ReactDom.createRoot(document.querySelector("#root")).render(
+  <AuthProvider >
+    <Main />
+  </AuthProvider>
+);
