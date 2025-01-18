@@ -33,14 +33,14 @@ export default function Main() {
         <Routes>
 
           <Route element={<UnknowRequire />}>
-          <Route index element={
-            <>
-              <NavbarOTH />
-              <div
-                className="main-content"><Header title={"Inventaire"} name={"Unknown"} role={"Extern"} />
-                <InventoryEXT />
-              </div>
-            </>} />
+            <Route index element={
+              <>
+                <NavbarOTH />
+                <div
+                  className="main-content"><Header title={"Inventaire"} name={"Unknown"} role={"Extern"} />
+                  <InventoryEXT />
+                </div>
+              </>} />
           </Route>
 
           <Route element={<RequireAuth />}>
@@ -116,7 +116,9 @@ export default function Main() {
           <Route path="/test" element={<App />} />
 
           {/* Route pour l'enregistrement des user */}
-          <Route path="/register" element={<UserForm />} />
+          <Route element={<UnknowRequire />}>
+            <Route path="/register" element={<UserForm />} />
+          </Route>
 
           {/* Route pour la connexion de l'utilisateur */}
           <Route element={<UnknowRequire />}>
