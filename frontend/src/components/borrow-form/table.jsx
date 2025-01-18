@@ -39,7 +39,7 @@ const BorrowTable = () => {
                     <tr key={ind}>
                         <td style={{ width: "35%" }} className="component">
                             <div>
-                                <img src={product.product.image} alt={product.product.name} />
+                                <img src={`http://localhost:3000/img/${product.product.image}`} alt={product.product.name} />
                                 {product.product.name.length <= 15 ? product.product.name : `${product.product.name.slice(0, 12)}...`}
                             </div>
                         </td>
