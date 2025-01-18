@@ -50,7 +50,7 @@ const Navbar = () => {
         if (logout()) navigate("/login")
       }}>
         <FiLogOut className="logout-logo" />
-        <a href="#" className="logout-link">
+        <a className="logout-link">
           Déconnexion
         </a>
       </div>
