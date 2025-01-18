@@ -2,19 +2,33 @@ const express = require("express");
 const connectDB = require("./db.js");
 const cors = require("cors");
 const multer = require("multer"); 
-const bcrypt = require("bcrypt");
+const cookieParser = require("cookie-parser")
 const path = require("path")
 const ImageModel = require("./Models/image.js");
 const itemModel = require("./Models/items.js");
 const userModel = require("./Models/users.js");
+const { authentification, typePermission, Role } = require("./permission/permission")
+const userRoute = require("./routes/users")
 const ProductModel = require("./Models/product.js");
 
 const app = express();
-app.use(express.json());
-app.use(cors());
 app.use(express.static("uploads"))
 
 connectDB();
+
+// authorisation de source
+const corsOption = {
+  credentials: true,
+  origin: ["http://localhost:5173"]
+}
+
+app.use(cookieParser())
+app.use(cors(corsOption))
+app.use(express.json())
+
+app.use("/users", userRoute)
+
+// S'execute avant chaque requette autre que ceux de login et register
 
 app.get("/", async (req, res) => {
   const response = await itemModel.find();
@@ -22,7 +36,7 @@ app.get("/", async (req, res) => {
 });
 
 // Route pour récupérer les utilisateurs
-app.get("/users/", async (req, res) => {
+app.get("/users", async (req, res) => {
   try {
     const users = await userModel.find();
     return res.json({ user: users });
@@ -126,6 +140,10 @@ app.get("/img/:id", async (req, res) => {
   }
 });
 
+app.use((req, res) => {
+  res.status(404).json({message: "The url doesn't exist"})
+})
+
 app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+  console.log("Server is running on http://localhost:3000");
 });

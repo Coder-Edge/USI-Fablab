@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { MdAddCircleOutline } from "react-icons/md";
-import { Product, ListProducts } from "../../../models/product";
 import Button from "../../../components/button/Button";
 import HeadStocks from "../../../components/stocks/head-stock";
 import ToolBox from "../../../components/stocks/toolbox";
@@ -14,12 +13,25 @@ import LocationMBR from "../../../components/Location/member-location";
 const InventoryMBR = () => {
 
     //data acquisition
+    const [allProducts, setAllProducts] = useState([]); // Store all products
     const [data, setData] = useState([])
     const [types, setTypes] = useState([])
     useEffect(() => {
-        setData(ListProducts)
-        setTypes(Product.getTypes(ListProducts))
-    }, [])
+          // Appel à l'API pour récupérer les produits
+          const fetchProducts = async () => {
+            try {
+              const response = await fetch("http://localhost:3000/get/products");
+              const products = await response.json();
+              setAllProducts(products);  // Store all products
+              setData(products);  // Start with all products as filtered
+              setTypes([...new Set(products.map((product) => product.type.toLowerCase()))]);
+            } catch (error) {
+              console.error("Erreur lors de la récupération des produits :", error);
+            }
+          };
+      
+          fetchProducts();
+        }, []);
 
     //search
     const [searchTerm, setSearchTerm] = useState("")
