@@ -1,32 +1,36 @@
 const express = require("express");
 const connectDB = require("./db.js");
 const cors = require("cors");
-const multer = require("multer"); 
-const cookieParser = require("cookie-parser")
-const path = require("path")
+const multer = require("multer");
+const cookieParser = require("cookie-parser");
+const path = require("path");
 const ImageModel = require("./Models/image.js");
 const itemModel = require("./Models/items.js");
 const userModel = require("./Models/users.js");
-const { authentification, typePermission, Role } = require("./permission/permission")
-const userRoute = require("./routes/users")
+const {
+  authentification,
+  typePermission,
+  Role,
+} = require("./permission/permission");
+const userRoute = require("./routes/users");
 const ProductModel = require("./Models/product.js");
 
 const app = express();
-app.use(express.static("uploads"))
+app.use(express.static("uploads"));
 
 connectDB();
 
 // authorisation de source
 const corsOption = {
   credentials: true,
-  origin: ["http://localhost:5173"]
-}
+  origin: ["http://localhost:5173"],
+};
 
-app.use(cookieParser())
-app.use(cors(corsOption))
-app.use(express.json())
+app.use(cookieParser());
+app.use(cors(corsOption));
+app.use(express.json());
 
-app.use("/users", userRoute)
+app.use("/users", userRoute);
 
 // Route pour récupérer les utilisateurs
 app.get("/users", async (req, res) => {
@@ -89,7 +93,10 @@ app.post("/products", upload.single("image"), async (req, res) => {
     const { path: imagePath, filename } = req.file;
 
     // Sauvegarder l'image dans la base de données
-    const savedImage = await new ImageModel({ path: imagePath, filename }).save();
+    const savedImage = await new ImageModel({
+      path: imagePath,
+      filename,
+    }).save();
 
     // Sauvegarder le produit avec l'ID de l'image
     const product = new ProductModel({
@@ -103,9 +110,15 @@ app.post("/products", upload.single("image"), async (req, res) => {
 
     const savedProduct = await product.save();
 
-    res.status(201).json({ message: "Produit enregistré avec succès", product: savedProduct });
+    res.status(201).json({
+      message: "Produit enregistré avec succès",
+      product: savedProduct,
+    });
   } catch (error) {
-    res.status(500).json({ error: "Erreur lors de l'enregistrement du produit", details: error.message });
+    res.status(500).json({
+      error: "Erreur lors de l'enregistrement du produit",
+      details: error.message,
+    });
   }
 });
 
@@ -134,8 +147,8 @@ app.get("/img/:id", async (req, res) => {
 });
 
 app.use((req, res) => {
-  res.status(404).json({message: "The url doesn't exist"})
-})
+  res.status(404).json({ message: "The url doesn't exist" });
+});
 
 app.listen(3000, () => {
   console.log("Server is running on http://localhost:3000");
