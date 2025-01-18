@@ -1,4 +1,5 @@
 import React from "react";
+import logout from "./logout";
 import {
   FiGrid,
   FiBox,
@@ -11,6 +12,7 @@ import {
 } from "react-icons/fi";
 
 import "./Navbar.css";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const menuItems = [
@@ -22,6 +24,8 @@ const Navbar = () => {
     { icon: FiShoppingBag, text: "Boutique", active: false },
     { icon: FiSettings, text: "Paramètre", active: false },
   ];
+
+  const navigate = useNavigate()
 
   return (
     <div className="navbar">
@@ -42,7 +46,9 @@ const Navbar = () => {
       </ul>
 
       <hr />
-      <div className="logout">
+      <div className="logout" onClick={() => {
+        if (logout()) navigate("/login")
+      }}>
         <FiLogOut className="logout-logo" />
         <a href="#" className="logout-link">
           Déconnexion

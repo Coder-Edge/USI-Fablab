@@ -5,10 +5,14 @@ import {
   FiSettings,
   FiLogOut,
 } from "react-icons/fi";
-
+import logout from "./logout";
 import { MdOutlineShoppingBag } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const NavbarOTH = () => {
+
+  const navigate = useNavigate()
+
   const menuItems = [
     { icon: MdOutlineShoppingBag, text: "Boutique", active: false },
     { icon: FiBox, text: "Inventaire", active: false },
@@ -35,7 +39,9 @@ const NavbarOTH = () => {
       </ul>
 
       <hr />
-      <div className="logout">
+      <div className="logout" onClick={() => {
+        if (logout()) navigate("/login")
+      }}>
         <FiLogOut className="logout-logo" />
         <a href="#" className="logout-link">
           Déconnexion

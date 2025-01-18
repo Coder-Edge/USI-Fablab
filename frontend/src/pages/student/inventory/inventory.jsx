@@ -27,16 +27,9 @@ const InventorySTD = () => {
     const [data, setData] = useState([])
     const [types, setTypes] = useState([])
 
-    async function getProtected() {
-        const respose = await axios.get("/users/protected", {withCredentials: true})
-        console.log(respose);
-    }
-
     useEffect(() => {
         setData(ListProducts)
         setTypes(Product.getTypes(ListProducts))
-        
-        getProtected()
     }, [])  
 
     //search

@@ -4,41 +4,15 @@ import axios from "../../api/api"
 
 const LoginForm = () => {
     const navigate = useNavigate()
-    let from = location.state?.from?.pathname
 
     const login = async (data) => {
-        console.log(data);
         
-        await axios.post("/users/login", data, {withCredentials: true})
+        await axios.post("/users/login", data)
         .then(async (res) => {
-            console.log(res.data.accessToken);
-        
-            if (res.data.isvalid) {
-                setAuth({email: data.email, accessToken: res.data.accessToken, role: res.data.type})
-                switch (res.data.type) {
-                    case "Extern":                        
-                        from = from || "/extern"
-                        break;
-
-                    case "Member":  
-                        from = from || "/member"                      
-                        break;
-
-                    case "Manager": 
-                        from = from || "/manager"                       
-                        break;
-
-                    case "Student":  
-                        from = from || "/student"                      
-                        break;
-                
-                }
-                console.log(from);
-                
-                navigate(from, {replace: true})
-            }
+            const type = res.data.user.userType.toLowerCase()
+            navigate(`/${type}`)
         }).catch((error) => {
-            console.log(error);
+            console.log(error.response.data.message);
         }) 
     }
 
@@ -47,7 +21,6 @@ const LoginForm = () => {
 
         let formData = new FormData(e.target)
         let data = {email: formData.get("email"), password: formData.get("password")}
-        
         login(data)
     }
 

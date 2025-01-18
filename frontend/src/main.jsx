@@ -15,111 +15,107 @@ import App from "./Test/test";
 import UserForm from "./pages/Registre/registre";
 import Product from "./pages/Add_product/product";
 import LoginForm from "./pages/Login/login";
-import AuthContext, { AuthProvider } from "./auth/AuthProvider";
+import useAuth, { AuthProvider } from "./auth/AuthProvider";
+import PageNotFound from "./pages/error/notfound";
+import RequireAuth from "./auth/requiredAuth";
+import Permission from "./auth/permission";
+import Role from "./api/roles";
 
 
 export default function Main() {
+
+  const {auth} = useAuth()
+
   return (
     <main>
       <Router>
         <Routes>
+
+          <Route element={<RequireAuth />}>
           {/* Route pour le manager */}
-
-          <Route path="/*" element={
-            <>
-              <Navbar />
-              <Routes>
-                <Route index element={<div className="main-content"><Header title={"Inventaire"} /><InventoryMNG /></div>} />
-              </Routes>
-            </>
-          }/>
-
-
+          <Route element={<Permission role={[Role.manager]}/>}>
           <Route path="/manager/*" element={
             <>
               <Navbar />
               <Routes>
-                <Route index element={<div className="main-content"><Header title={"Inventaire"} /><InventoryMNG /></div>} />
+                <Route index element={<div className="main-content"><Header title={"Inventaire"} name={auth.name} role={auth.userType} /><InventoryMNG /></div>} />
               </Routes>
             </>
           }/>
+          </Route>
 
 
           {/* Route pour le student */}
+          <Route element={<Permission role={[Role.student]}/>}>
           <Route path="/student/*" element={
             <>
               <NavbarOTH />
               <Routes>
-                <Route index element={<div className="main-content"><Header title={"Inventaire"} /><InventorySTD /></div>} />
+                <Route index element={<div className="main-content"><Header title={"Inventaire"} name={auth.name} role={auth.userType} /><InventorySTD /></div>} />
               </Routes>
             </>
           }/>
+          </Route>
 
-          {/* Route pour le extern */}          <Route path="/extern/*" element={
+          {/* Route pour le extern */}
+          <Route element={<Permission role={[Role.extern]}/>}>      
+          <Route path="/extern/*" element={
             <>
               <NavbarOTH />
               <Routes>
-                <Route index element={<div className="main-content"><Header title={"Inventaire"} /><InventoryEXT /></div>} />
+                <Route index element={<div className="main-content"><Header title={"Inventaire"} name={auth.name} role={auth.userType} /><InventoryEXT /></div>} />
               </Routes>
             </>
           }/>
+          </Route>
   
-          {/* Route pour le member */}          <Route path="/member/*" element={
+          {/* Route pour le member */}
+          <Route element={<Permission role={[Role.member]}/>}>             
+          <Route path="/member/*" element={
             <>
               <Navbar />
               <Routes>
-                <Route index element={<div className="main-content"><Header title={"Inventaire"} /><InventoryMBR /></div>} />
+                <Route index element={<div className="main-content"><Header title={"Inventaire"} name={auth.name} role={auth.userType} /><InventoryMBR /></div>} />
               </Routes>
             </>
           }/>
+          </Route> 
 
           {/* Route pour le calendrier */}
-          <Route path="/calendar/*" element={
+          <Route path="/calendar" element={
             <>
               <Navbar />
-              <Routes>
-                <Route index element={<div className="main-content"><Header title={"Calendrier"} /><Calendrier /></div>} />
-              </Routes>
+              <div className="main-content"><Header title={"Calendrier"} name={auth.name} role={auth.userType} /><Calendrier /></div>
             </>
           }/>
+          </Route>
 
           {/* Route pour les membres */}
-          <Route path="/membres_fablab/*" element={
+          <Route path="/membres/*" element={
             <>
               <Navbar />
               <Routes>
-                <Route index element={<div className="main-content"><Header title={"Membres"} /><Membres /></div>} />
+                <Route index element={<div className="main-content"><Header title={"Membres"} /> name={auth.name} role={auth.userType}<Membres /></div>} />
               </Routes>
             </>
           }/>
           
           {/* Route pour le test */}
-          <Route path="/test/*" element={
-            <Routes>
-              <Route index element={<App />} />
-            </Routes>
-          }/>
+          <Route path="/test" element={<App />} />
 
           {/* Route pour l'enregistrement des user */}
-          <Route path="/registre/*" element={
-            <Routes>
-              <Route index element={<UserForm />} />
-            </Routes>
-          }/>
+          <Route path="/register" element={<UserForm />} />
 
           {/* Route pour la connexion de l'utilisateur */}
-          <Route path="/login/*" element={
-            <Routes>
-              <Route index element={<LoginForm />} />
-            </Routes>
-          }/>
+           <Route path="/login" element={<LoginForm />} />
 
           {/* Route pour ajouter les produits */}
-          <Route path="/add_product/*" element={
-            <Routes>
-              <Route index element={<Product />} />
-            </Routes>
-          }/>
+          <Route path="/add-product" element={<Product />} />
+
+          {/* Chaemin introuvable */}
+          <Route path="*" element={<PageNotFound/>}/>
+          
+
         </Routes>
       </Router>
     </main>

@@ -1,15 +1,39 @@
-import { Navigate, Outlet, useLocation } from "react-router-dom";
-import useAuth from "./useAuth";
+import { Navigate, Outlet } from "react-router-dom";
+import axios from "../api/api"
+import { useEffect, useState } from "react";
+import useAuth from "./AuthProvider";
 
-const RequireAuth = ({type}) => {
-    const { auth } = useAuth()
-    const location = useLocation()
+const RequireAuth = () => {
 
-    console.log(auth);
-    
+    const [loading, setLoading] = useState(true)
+    const [status, setStatus] = useState(200)
+    const {setAuth} = useAuth()
+
+    useEffect(() => {
+
+        const getUser = async () => {
+            await axios.get("/users/user")
+                .then((res) => {
+                    setStatus(200)
+                    setAuth(res.data.user)
+                })
+                .catch((err) => {
+                    setStatus(err.status)
+                })
+
+            setLoading(false)
+        }
+        
+        getUser()
+
+    }, [])
 
     return (
-        <Outlet />
+        status === 200 && !loading
+        ? <Outlet />
+        : loading
+        ? <div> Loading ..... </div>
+        :<Navigate to={"/login"} />
     )
 }
 
