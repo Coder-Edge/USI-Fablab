@@ -28,13 +28,6 @@ app.use(express.json())
 
 app.use("/users", userRoute)
 
-// S'execute avant chaque requette autre que ceux de login et register
-
-app.get("/", async (req, res) => {
-  const response = await itemModel.find();
-  return res.json({ items: response });
-});
-
 // Route pour récupérer les utilisateurs
 app.get("/users", async (req, res) => {
   try {
