@@ -16,6 +16,7 @@ const RequireAuth = () => {
                 .then((res) => {
                     setStatus(200)
                     setAuth(res.data.user)
+                    setLoading(false)
                 })
                 .catch((err) => {
                     setStatus(err.status)

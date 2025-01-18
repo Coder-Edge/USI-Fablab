@@ -20,74 +20,86 @@ import PageNotFound from "./pages/error/notfound";
 import RequireAuth from "./auth/requiredAuth";
 import Permission from "./auth/permission";
 import Role from "./api/roles";
+import UnknowRequire from "./auth/requiredUnknown";
 
 
 export default function Main() {
 
-  const {auth} = useAuth()
+  const { auth } = useAuth()
 
   return (
     <main>
       <Router>
         <Routes>
 
+          <Route element={<UnknowRequire />}>
+          <Route index element={
+            <>
+              <NavbarOTH />
+              <div
+                className="main-content"><Header title={"Inventaire"} name={"Unknown"} role={"Extern"} />
+                <InventoryEXT />
+              </div>
+            </>} />
+          </Route>
+
           <Route element={<RequireAuth />}>
-          {/* Route pour le manager */}
-          <Route element={<Permission role={[Role.manager]}/>}>
-          <Route path="/manager/*" element={
-            <>
-              <Navbar />
-              <Routes>
-                <Route index element={<div className="main-content"><Header title={"Inventaire"} name={auth.name} role={auth.userType} /><InventoryMNG /></div>} />
-              </Routes>
-            </>
-          }/>
-          </Route>
+            {/* Route pour le manager */}
+            <Route element={<Permission role={[Role.manager]} />}>
+              <Route path="/manager/*" element={
+                <>
+                  <Navbar />
+                  <Routes>
+                    <Route index element={<div className="main-content"><Header title={"Inventaire"} name={auth.name} role={auth.userType} /><InventoryMNG /></div>} />
+                  </Routes>
+                </>
+              } />
+            </Route>
 
 
-          {/* Route pour le student */}
-          <Route element={<Permission role={[Role.student]}/>}>
-          <Route path="/student/*" element={
-            <>
-              <NavbarOTH />
-              <Routes>
-                <Route index element={<div className="main-content"><Header title={"Inventaire"} name={auth.name} role={auth.userType} /><InventorySTD /></div>} />
-              </Routes>
-            </>
-          }/>
-          </Route>
+            {/* Route pour le student */}
+            <Route element={<Permission role={[Role.student]} />}>
+              <Route path="/student/*" element={
+                <>
+                  <NavbarOTH />
+                  <Routes>
+                    <Route index element={<div className="main-content"><Header title={"Inventaire"} name={auth.name} role={auth.userType} /><InventorySTD /></div>} />
+                  </Routes>
+                </>
+              } />
+            </Route>
 
-          {/* Route pour le extern */}
-          <Route element={<Permission role={[Role.extern]}/>}>      
-          <Route path="/extern/*" element={
-            <>
-              <NavbarOTH />
-              <Routes>
-                <Route index element={<div className="main-content"><Header title={"Inventaire"} name={auth.name} role={auth.userType} /><InventoryEXT /></div>} />
-              </Routes>
-            </>
-          }/>
-          </Route>
-  
-          {/* Route pour le member */}
-          <Route element={<Permission role={[Role.member]}/>}>             
-          <Route path="/member/*" element={
-            <>
-              <Navbar />
-              <Routes>
-                <Route index element={<div className="main-content"><Header title={"Inventaire"} name={auth.name} role={auth.userType} /><InventoryMBR /></div>} />
-              </Routes>
-            </>
-          }/>
-          </Route> 
+            {/* Route pour le extern */}
+            <Route element={<Permission role={[Role.extern]} />}>
+              <Route path="/extern/*" element={
+                <>
+                  <NavbarOTH />
+                  <Routes>
+                    <Route index element={<div className="main-content"><Header title={"Inventaire"} name={auth.name} role={auth.userType} /><InventoryEXT /></div>} />
+                  </Routes>
+                </>
+              } />
+            </Route>
 
-          {/* Route pour le calendrier */}
-          <Route path="/calendar" element={
-            <>
-              <Navbar />
-              <div className="main-content"><Header title={"Calendrier"} name={auth.name} role={auth.userType} /><Calendrier /></div>
-            </>
-          }/>
+            {/* Route pour le member */}
+            <Route element={<Permission role={[Role.member]} />}>
+              <Route path="/member/*" element={
+                <>
+                  <Navbar />
+                  <Routes>
+                    <Route index element={<div className="main-content"><Header title={"Inventaire"} name={auth.name} role={auth.userType} /><InventoryMBR /></div>} />
+                  </Routes>
+                </>
+              } />
+            </Route>
+
+            {/* Route pour le calendrier */}
+            <Route path="/calendar" element={
+              <>
+                <Navbar />
+                <div className="main-content"><Header title={"Calendrier"} name={auth.name} role={auth.userType} /><Calendrier /></div>
+              </>
+            } />
           </Route>
 
           {/* Route pour les membres */}
@@ -98,8 +110,8 @@ export default function Main() {
                 <Route index element={<div className="main-content"><Header title={"Membres"} /> name={auth.name} role={auth.userType}<Membres /></div>} />
               </Routes>
             </>
-          }/>
-          
+          } />
+
           {/* Route pour le test */}
           <Route path="/test" element={<App />} />
 
@@ -107,14 +119,16 @@ export default function Main() {
           <Route path="/register" element={<UserForm />} />
 
           {/* Route pour la connexion de l'utilisateur */}
-           <Route path="/login" element={<LoginForm />} />
+          <Route element={<UnknowRequire />}>
+            <Route path="/login" element={<LoginForm />} />
+          </Route>
 
           {/* Route pour ajouter les produits */}
           <Route path="/add-product" element={<Product />} />
 
           {/* Chaemin introuvable */}
-          <Route path="*" element={<PageNotFound/>}/>
-          
+          <Route path="*" element={<PageNotFound />} />
+
 
         </Routes>
       </Router>
