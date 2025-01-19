@@ -16,7 +16,6 @@ const UnknowRequire = () => {
                 .then((res) => {
                     setUrl(`/${res.data.user.userType.toLowerCase()}`)
                     setAuth(res.data.user)
-                    console.log(url);
                     setLoading(false)
                 })
                 .catch((err) => {
@@ -27,11 +26,7 @@ const UnknowRequire = () => {
 
         getUser()
 
-    }, [])
-    
-
-    console.log(auth);
-    
+    }, [])  
 
     return (
         loading && !url
