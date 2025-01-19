@@ -3,17 +3,19 @@ const connectDB = require("./db.js");
 const cors = require("cors");
 const multer = require("multer");
 const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken")
 const path = require("path");
-const ImageModel = require("./Models/image.js");
-const itemModel = require("./Models/items.js");
-const userModel = require("./Models/users.js");
 const {
   authentification,
   typePermission,
   Role,
 } = require("./permission/permission");
 const userRoute = require("./routes/users");
+const ImageModel = require("./Models/image.js");
+const userModel = require("./Models/users.js");
 const ProductModel = require("./Models/product.js");
+const BorrowModel = require("./Models/borrow.js");
+const { console } = require("inspector");
 
 const app = express();
 app.use(express.static("uploads"));
@@ -145,6 +147,53 @@ app.get("/img/:id", async (req, res) => {
     res.status(500).send({ error: "Unable to get image" });
   }
 });
+
+//borrow product
+app.post("/borrow", async (req, res) => {
+  console.log("moi");
+  // try {
+  //     const { startDate, endDate, motif, borrowList } = req.body;
+
+  //     // Validation des champs
+  //     if (!startDate || !endDate || !motif || !borrowList) {
+  //         return res.status(400).json({ message: "All fields are required" });
+  //     }
+
+  //     // Récupération de l'utilisateur pour valider qu'il existe
+  //     const cookie = req.cookies.jwt
+  //     const data = jwt.verify(cookie, process.env.ACCESS_TOKEN_SECRET)
+      
+
+  //     // Liste de produits : Vérification si chaque produit existe et la quantité
+  //     for (let item of borrowList) {
+  //         const product = await ProductModel.findById(item.product.id);
+  //         if (!product) {
+  //             return res.status(404).json({ message: `Product with ID ${item.product.id} not found` });
+  //         }
+  //         if (product.quantity < item.quantity) {
+  //             return res.status(400).json({ message: `Not enough stock for product ID ${item.product.id}` });
+  //         }
+  //     }
+
+  //     // Création de l'emprunt
+  //     const borrow = new BorrowModel({
+  //         user: data._id,
+  //         startDate,
+  //         endDate,
+  //         motif,
+  //         borrowList
+  //     });
+
+  //     // Sauvegarde dans la base de données
+  //     await borrow.save();
+
+  //     // Réponse de succès
+  //     res.status(201).json({ message: "Borrow registered successfully", borrow });
+  // } catch (error) {
+  //     res.status(500).json({ message: "Server error", error });
+  // }
+});
+
 
 app.use((req, res) => {
   res.status(404).json({ message: "The url doesn't exist" });
