@@ -1,9 +1,9 @@
 import { MdAddCircleOutline } from "react-icons/md";
 import Button from "../button/Button"
 
-const ButtonAdd = ({child, type, onClick}) => {
+const ButtonAdd = ({child, type, onClick, className}) => {
     return(
-        <div className="button-add">
+        <div className={`button-add ${className}`}>
             <Button
             child={child}
             className={"active"} 

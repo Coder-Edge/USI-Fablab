@@ -11,11 +11,11 @@ router.post("/login", unknownPermission, async (req, res) => {
     const user = await userModel.findOne({ email: email })
 
     if (!user) {
-        return res.status(400).json({ message: "Bad email" })
+        return res.status(400).json({ message: "Email incorrect" })
     }
 
     if (! await bcrypt.compare(password, user.password)) {
-        return res.status(400).json({ message: "Bad password" })
+        return res.status(400).json({ message: "Mot de passe incorrect" })
     }
 
     const accessToken = jwt.sign({ _id: user._id.toString() }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "7d" })
@@ -26,9 +26,9 @@ router.post("/login", unknownPermission, async (req, res) => {
         maxAge: 7 * 24 * 60 * 60 * 1000
     })
 
-    const {name, userType} = user
+    const { name, userType } = user
 
-    res.status(200).json({ message: "success", user: {name, email,userType}})
+    res.status(200).json({ message: "success", user: { name, email, userType } })
 
 });
 
@@ -38,7 +38,10 @@ router.post("/logout", authentification, (req, res) => {
 })
 
 router.post("/registre", unknownPermission, async (req, res) => {
-    const usersToInsert = req.body; // Les utilisateurs envoyés dans la requête POST  
+    const usersToInsert = req.body; // Les utilisateurs envoyés dans la requête POST 
+    
+    console.log(usersToInsert);
+    
 
     try {
         // Vérifie si l'utilisateur existe déjà par son email
@@ -47,29 +50,26 @@ router.post("/registre", unknownPermission, async (req, res) => {
         });
 
         if (existingUser) {
-            console.log(
-                `L'utilisateur avec l'email ${usersToInsert.email} existe déjà.`
-            );
-        } else {
-            usersToInsert.password = await bcrypt.hash(usersToInsert.password, parseInt(process.env.DECRIPT_SALT));
-            // Insère l'utilisateur s'il n'existe pas
-            const insertedUser = await userModel.create(usersToInsert);
+            return res.status(401).json({ message: "Cet email est déjà utilisé" })
         }
 
-        res.status(200).json({ message: "Opération terminée" });
+        usersToInsert.password = await bcrypt.hash(usersToInsert.password, parseInt(process.env.DECRIPT_SALT));
+        // Insère l'utilisateur s'il n'existe pas
+        await userModel.create(usersToInsert);
+
+        res.status(200).json({ message: "Utilisateur enregistré" });
     } catch (error) {
-        console.error("Erreur lors de l'insertion des utilisateurs :", error);
         res
             .status(500)
             .json({ message: "Erreur lors de l'insertion des utilisateurs", error });
     }
 });
 
-router.get("/user", authentification,async (req, res) => {
+router.get("/user", authentification, async (req, res) => {
     try {
         user = await userModel.findById(req.user)
         const { name, email, userType } = user
-        res.status(200).json({ message: "Success", user: { name, email, userType }})
+        res.status(200).json({ message: "Success", user: { name, email, userType } })
 
     } catch (err) { return res.status(404).json({ message: "No user with that id" }) }
 })
