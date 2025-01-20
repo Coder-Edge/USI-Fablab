@@ -6,9 +6,9 @@ const borrowSchema = new mongoose.Schema({
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
   motif: { type: String, required: true },
-  borrowList: [
+  Listborrow: [
     {
-      id: {
+      product_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Product",
         required: true,
