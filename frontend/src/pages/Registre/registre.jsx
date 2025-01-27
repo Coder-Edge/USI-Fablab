@@ -115,6 +115,7 @@ function UserForm() {
           >
             <option value={Role.student}>Etudiant</option>
             <option value={Role.extern}>Personne exterieure</option>
+            <option value={Role.manager}>Manager</option>
           </select>
         </div>
         <p>Avez-vous un compte? <a href="/login">Se connecter</a></p>

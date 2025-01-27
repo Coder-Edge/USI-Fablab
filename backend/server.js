@@ -47,31 +47,46 @@ app.get("/users", async (req, res) => {
 });
 
 app.post("/registre/", async (req, res) => {
-  const usersToInsert = req.body; // Les utilisateurs envoyés dans la requête POST
+  const usersToInsert = req.body; // Les informations de l'utilisateur envoyées dans la requête POST
 
   try {
-    // Vérifie si l'utilisateur existe déjà par son email
-    const existingUser = await userModel.findOne({
-      email: usersToInsert.email,
-    });
+    // Vérifie si un utilisateur avec l'email existe déjà
+    const existingUser = await userModel.findOne({ email: usersToInsert.email });
 
     if (existingUser) {
-      console.log(
-        `L'utilisateur avec l'email ${usersToInsert.email} existe déjà.`
-      );
-    } else {
-      usersToInsert.password = await bcrypt.hash(usersToInsert.password, 10);
-      // Insère l'utilisateur s'il n'existe pas
-      const insertedUser = await userModel.create(usersToInsert);
-      console.log("Utilisateur inséré avec succès :", insertedUser);
+      return res.status(400).json({
+        message: `L'utilisateur avec l'email ${usersToInsert.email} existe déjà.`,
+      });
     }
 
-    res.status(200).json({ message: "Opération terminée" });
+    // Si le rôle est "manager", vérifie s'il y a déjà un manager existant
+    if (usersToInsert.userType.toLowerCase() === Role.manager.toLowerCase()) {
+      console.log("Nonnnnnnnnnnnnnnnnnnn bordelllllllllllllllllllllllll marcheeeeeeeeeeee")
+      const existingManager = await userModel.findOne({ userType: Role.manager });
+      if (existingManager) {
+        return res.status(400).json({
+          message: "Un manager existe déjà. Vous ne pouvez pas en créer un autre.",
+        });
+      }
+    }
+
+    // Hash du mot de passe avant de créer l'utilisateur
+    usersToInsert.password = await bcrypt.hash(usersToInsert.password, 10);
+
+    // Crée le nouvel utilisateur
+    const insertedUser = await userModel.create(usersToInsert);
+    console.log("Utilisateur inséré avec succès :", insertedUser);
+
+    res.status(201).json({
+      message: "Utilisateur créé avec succès",
+      user: insertedUser,
+    });
   } catch (error) {
     console.error("Erreur lors de l'insertion des utilisateurs :", error);
-    res
-      .status(500)
-      .json({ message: "Erreur lors de l'insertion des utilisateurs", error });
+    res.status(500).json({
+      message: "Erreur lors de l'insertion des utilisateurs",
+      error,
+    });
   }
 });
 
