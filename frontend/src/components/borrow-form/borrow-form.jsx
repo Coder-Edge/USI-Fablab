@@ -68,6 +68,7 @@ const BorrowForm = () => {
         endDate,
         borrowList,
       };
+      // console.log(borrowList);
       const insertborrow = async (b) => {
         await axios
           .post("/borrow", b)
