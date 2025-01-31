@@ -24,8 +24,8 @@ const LoginForm = () => {
                 navigate(`/${type}`)
             }).catch((error) => {
                 if (error.code === 'ERR_NETWORK') {
-                    setErrorMsg("Le serveur ne repond pas")
-                } else {
+                    setErrorMsg("Une erreur se produit lors de la connection")
+                } else {    
                     setErrorMsg(error.response.data.message)
                 }
             })
