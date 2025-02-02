@@ -277,9 +277,10 @@ app.get("/calendar", async (req, res) => {
     
     const formattedBorrows = borrows.map((borrow) => ({
       id: borrow._id,
-      title: borrow.user.name, // Nom de l'emprunteur
+      title: `Emprunt de : ${borrow.user.name}`,// Nom de l'emprunteur
       start: borrow.startDate,   // Date formatée en YYYY-MM-DD
       end: borrow.endDate,
+      motif: borrow.motif,
       description: borrow.Listborrow
         .map((item) => `${item.product_name} (x${item.quantity})`) // Liste des items avec leur quantité
         .join(", "),
