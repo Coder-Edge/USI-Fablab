@@ -7,6 +7,7 @@ import ButtonAdd from "../stocks/button-add";
 import { useContext, useRef } from "react";
 import { BorrowContext } from "../../pages/student/inventory/inventory";
 import axios from "../../api/api";
+import Swal from "sweetalert2"; // Import de SweetAlert2
 
 const BorrowForm = () => {
   // form Ref
@@ -68,18 +69,34 @@ const BorrowForm = () => {
         endDate,
         borrowList,
       };
+
       const insertborrow = async (b) => {
-        await axios
-          .post("/borrow", b)
-          .then((res) => {
-            setBorrowList([]);
-            formRef.current.reset();
-            console.log(res.data.message);
-          })
-          .catch((err) => {
-            console.error("Erreur lors de la requête :", err);
+        try {
+          const res = await axios.post("/borrow", b);
+          setBorrowList([]);
+          formRef.current.reset();
+          
+          // Afficher un message de succès avec SweetAlert2
+          Swal.fire({
+            title: "Emprunt validé !",
+            text: "Votre emprunt a été enregistré avec succès.",
+            icon: "success",
+            confirmButtonText: "OK",
           });
+
+        } catch (err) {
+          console.error("Erreur lors de la requête :", err);
+          
+          // Afficher un message d'erreur en cas d'échec
+          Swal.fire({
+            title: "Erreur",
+            text: "Une erreur s'est produite lors de l'enregistrement de l'emprunt.",
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+        }
       };
+
       // Send POST request to /borrow
       insertborrow(dataToSend);
     }
@@ -90,22 +107,14 @@ const BorrowForm = () => {
       <div className="borrow-form">
         <div className="form-content">
           <div className="head-form-borrow">
-            <Button
-              child={<IoCloseSharp />}
-              type={"button"}
-              onClick={closeForm}
-            />
+            <Button child={<IoCloseSharp />} type={"button"} onClick={closeForm} />
             <h3>Formulaire d'emprunt</h3>
           </div>
           <div className="list-items-form-borrow">
             <h3>Liste d'items</h3>
             <BorrowTable />
             <ButtonAdd
-              child={
-                <>
-                  <MdAddCircleOutline /> Ajouter
-                </>
-              }
+              child={<><MdAddCircleOutline /> Ajouter</>}
               type={"button"}
               onClick={closeForm}
             />
@@ -119,9 +128,7 @@ const BorrowForm = () => {
                   type="date"
                   name="start-date"
                   id="start-date"
-                  defaultValue={`${defaultDate.getFullYear()}-${
-                    defaultDate.getMonth() + 1
-                  }-${defaultDate.getDate()}`}
+                  defaultValue={`${defaultDate.getFullYear()}-${defaultDate.getMonth() + 1}-${defaultDate.getDate()}`}
                 />
               </div>
               <div className="borrow-end-date">
@@ -130,20 +137,14 @@ const BorrowForm = () => {
                   type="date"
                   name="end-date"
                   id="end-date"
-                  defaultValue={`${defaultDate.getFullYear()}-${
-                    defaultDate.getMonth() + 1
-                  }-${defaultDate.getDate()}`}
+                  defaultValue={`${defaultDate.getFullYear()}-${defaultDate.getMonth() + 1}-${defaultDate.getDate()}`}
                 />
               </div>
             </div>
           </div>
           <div className="motif-form-borrow">
             <h3>Motif d'emprunt</h3>
-            <textarea
-              name="motif"
-              placeholder="Décrivez votre projet"
-              id="motif"
-            ></textarea>
+            <textarea name="motif" placeholder="Décrivez votre projet" id="motif"></textarea>
             <label htmlFor="motif" className="motif-invalid-label">
               *Ce champ doit être rempli
             </label>

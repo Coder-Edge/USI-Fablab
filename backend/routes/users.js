@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken")
 const userModel = require("../Models/users");
 const { authentification, unknownPermission } = require("../permission/permission")
 const { config } = require("dotenv");
+const { Role } = require("../permission/role");
 config()
 
 router.post("/login", unknownPermission, async (req, res) => {
@@ -51,6 +52,11 @@ router.post("/registre", unknownPermission, async (req, res) => {
         }
 
         usersToInsert.password = await bcrypt.hash(usersToInsert.password, parseInt(process.env.DECRIPT_SALT));
+
+        // set default role
+        usersToInsert.userType = Role.student
+        
+
         // Insère l'utilisateur s'il n'existe pas
         await userModel.create(usersToInsert);
 

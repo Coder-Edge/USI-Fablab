@@ -41,12 +41,32 @@ app.get("/users", async (req, res) => {
   }
 });
 
+// Route pour récupérer un utilisateur par son id
+app.get("/get/users/:id", async (req, res) => {
+  const { id } = req.params; // Récupérer l'ID depuis l'URL
+
+  try {
+    const user = await userModel.findById(id).select("name email");; // Recherche de l'utilisateur par ID
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" }); // Si l'utilisateur n'existe pas
+    }
+    
+    res.json(user); // Retourner l'utilisateur trouvé
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch user" }); // Gérer les erreurs
+  }
+});
+
+
 app.post("/registre/", async (req, res) => {
   const usersToInsert = req.body; // Les informations de l'utilisateur envoyées dans la requête POST
 
   try {
     // Vérifie si un utilisateur avec l'email existe déjà
-    const existingUser = await userModel.findOne({ email: usersToInsert.email });
+    const existingUser = await userModel.findOne({
+      email: usersToInsert.email,
+    });
 
     if (existingUser) {
       return res.status(400).json({
@@ -56,11 +76,16 @@ app.post("/registre/", async (req, res) => {
 
     // Si le rôle est "manager", vérifie s'il y a déjà un manager existant
     if (usersToInsert.userType.toLowerCase() === Role.manager.toLowerCase()) {
-      console.log("Nonnnnnnnnnnnnnnnnnnn bordelllllllllllllllllllllllll marcheeeeeeeeeeee")
-      const existingManager = await userModel.findOne({ userType: Role.manager });
+      console.log(
+        "Nonnnnnnnnnnnnnnnnnnn bordelllllllllllllllllllllllll marcheeeeeeeeeeee"
+      );
+      const existingManager = await userModel.findOne({
+        userType: Role.manager,
+      });
       if (existingManager) {
         return res.status(400).json({
-          message: "Un manager existe déjà. Vous ne pouvez pas en créer un autre.",
+          message:
+            "Un manager existe déjà. Vous ne pouvez pas en créer un autre.",
         });
       }
     }
@@ -163,7 +188,7 @@ app.post("/borrow", async (req, res) => {
 
   try {
     const { startDate, endDate, motif, borrowList } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
     // Validation des champs
     if (!startDate || !endDate || !motif || !borrowList) {
       return res.status(400).json({ message: "All fields are required" });
@@ -176,12 +201,11 @@ app.post("/borrow", async (req, res) => {
     for (let i = 0; i < borrowList.length; i++) {
       productList.push({
         product_id: borrowList[i].product._id,
+        product_name: borrowList[i].product.name,
+        product_image: borrowList[i].product.image,
         quantity: borrowList[i].quantity,
       });
-      console.log(borrowList[i].product._id);
     }
-
-    console.log(productList, data);
 
     // // Liste de produits : Vérification si chaque produit existe et la quantité
     for (let item of productList) {
@@ -192,11 +216,9 @@ app.post("/borrow", async (req, res) => {
           .json({ message: `Product with ID ${item.product.id} not found` });
       }
       if (product.quantity < item.quantity) {
-        return res
-          .status(400)
-          .json({
-            message: `Not enough stock for product ID ${item.product.id}`,
-          });
+        return res.status(400).json({
+          message: `Not enough stock for product ID ${item.product.id}`,
+        });
       }
     }
 
@@ -219,6 +241,54 @@ app.post("/borrow", async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 });
+
+// Get all borrows
+app.get("/get/borrows", async (req, res) => {
+  try {
+    const borrows = await BorrowModel.find();
+    res.json(borrows);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch borrows" });
+  }
+});
+
+// app.get("/get/products/:id", async (req, res) => {
+//   const { id } = req.params; // Récupérer l'ID depuis les paramètres de l'URL
+
+//   try {
+//     const product = await ProductModel.findById(id); // Recherche par ID
+//     if (!product) {
+//       return res.status(404).json({ error: "Product not found" });
+//     }
+//     res.json(product);
+//   } catch (error) {
+//     res.status(500).json({ error: "Failed to fetch the Product" });
+//   }
+// });
+
+app.get("/calendar", async (req, res) => {
+  try {
+    const borrows = await BorrowModel.find().populate("user"); 
+    
+    const formattedBorrows = borrows.map((borrow) => ({
+      id: borrow._id,
+      title: `Emprunt de : ${borrow.user.name}`,// Nom de l'emprunteur
+      start: borrow.startDate,   // Date formatée en YYYY-MM-DD
+      end: borrow.endDate,
+      motif: borrow.motif,
+      description: borrow.Listborrow
+        .map((item) => `${item.product_name} (x${item.quantity})`) // Liste des items avec leur quantité
+        .join(", "),
+    }));
+
+    res.json(formattedBorrows);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des emprunts :", error);
+    res.status(500).json({ error: "Failed to fetch borrows" });
+  }
+});
+
+
 
 app.use((req, res) => {
   res.status(404).json({ message: "The url doesn't exist" });
