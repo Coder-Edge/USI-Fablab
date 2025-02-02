@@ -2,7 +2,7 @@ import React, { Children, useState } from "react";
 import ReactDom from "react-dom/client";
 import Navbar from "./components/Navbar/navbar"; //importation du composant navbar
 import "./main.css"; //importation du fichier style main.css
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Header from "./components/Header/header";
 import InventoryMNG from "./pages/manager/Inventory/inventory";
 import InventorySTD from "./pages/student/inventory/inventory";
@@ -32,18 +32,18 @@ export default function Main() {
 
 
   // La siplification de l'expession 
-// <div className="main-content"><Header title={"Inventaire"} name={auth.name} role={auth.userType} /> <PAGE /></div>
+  // <div className="main-content"><Header title={"Inventaire"} name={auth.name} role={auth.userType} /> <PAGE /></div>
 
-const Simplifier = ({children, title}) => {
-  return (
-    <>
-      <div
-        className="main-content"><Header title={title} name={auth.name} role={auth.userType} />
-        {children}
-      </div>
-    </>
-  )
-}
+  const Simplifier = ({ children, title }) => {
+    return (
+      <>
+        <div
+          className="main-content"><Header title={title} name={auth.name} role={auth.userType} />
+          {children}
+        </div>
+      </>
+    )
+  }
 
 
   return (
@@ -51,16 +51,7 @@ const Simplifier = ({children, title}) => {
       <Router>
         <Routes>
 
-          <Route element={<UnknowRequire />}>
-            <Route index element={
-              <>
-                <NavbarOTH param={navActive} />
-                <div
-                  className="main-content"><Header title={"Inventaire"} name={"Unknown"} role={"Extern"} />
-                  <InventoryEXT setNavActive={setNavActive} />
-                </div>
-              </>} />
-          </Route>
+          <Route index element={<Navigate to="/login"/>}/>
 
           <Route element={<RequireAuth />}>
             {/* Route pour le manager */}
@@ -75,8 +66,8 @@ const Simplifier = ({children, title}) => {
                       element={<Simplifier title={"Inventaire"}><InventoryMNG setNavActive={setNavActive} /></Simplifier>}
                     />
 
-                    <Route path="/budget" element={<Simplifier title={"Budget"}><BudgetMNG setNavActive={setNavActive}/></Simplifier>}/>
-                   
+                    <Route path="/budget" element={<Simplifier title={"Budget"}><BudgetMNG setNavActive={setNavActive} /></Simplifier>} />
+
                   </Routes>
                 </>
               } />
