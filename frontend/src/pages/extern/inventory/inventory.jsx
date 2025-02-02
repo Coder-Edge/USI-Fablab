@@ -8,8 +8,9 @@ import "../../../components/stocks/stocks.css";
 import Bottom from "../../../components/stocks/bottom";
 import STFilter from "../../../components/popup/st-filter";
 import TableEXT from "../../../components/stocks/extern-table";
+import { NavOthParams } from "../../../components/Navbar/navParams";
 
-const InventoryEXT = () => {
+const InventoryEXT = ({setNavActive}) => {
     const Mycontext = React.createContext();
 
     // Display limited number of items
@@ -23,6 +24,10 @@ const InventoryEXT = () => {
 
     // Fetch products from API
     useEffect(() => {
+
+        // set active button in navbar
+        setNavActive(NavOthParams.inventaire)
+
         const fetchProducts = async () => {
             try {
                 const response = await fetch("http://localhost:3000/get/products");

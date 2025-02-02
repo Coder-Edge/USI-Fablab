@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import axios from "../../api/api"
 import ButtonAdd from "../../components/stocks/button-add";
-import Role from "../../api/roles";
+import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
+import Button from "../../components/button/Button";
 
 
 function UserForm() {
@@ -16,9 +17,9 @@ function UserForm() {
 
   const [email, setEmail] = useState("")
   const [name, setName] = useState("")
-  const [userType, setType] = useState(Role.student)
   const [password, setPassword] = useState("")
-  const [confPassword, setConfPassword] = useState("")
+  const [firstName, setFirstName] = useState("")
+  const [conditionsAccepted, setConditionsAccepted] = useState(false);
 
   const [loading, setLoading] = useState(false)
 
@@ -33,8 +34,6 @@ function UserForm() {
         if (err.code === "ERR_NETWORK") setErrorMsg("Le serveur ne repond pas")
         else setErrorMsg(err.response.data.message)
       })
-
-    setConfPassword("")
     setPassword("")
     setLoading(false)
   };
@@ -46,82 +45,92 @@ function UserForm() {
     else setEmailErr("")
     if (!password) setPasswordErr("*ce champ doit être remplis")
     else setPasswordErr("")
-    if (!name) setNameErr("*ce champ doit être remplis")
+    if (!name || !firstName) setNameErr("*ces champs doivent être remplis")
     else setNameErr("")
 
-    if (email && password && confPassword && name && (confPassword === password)) {
-      insertUsers({ email, name, userType, password });
+    if (email && password && firstName && name) {
+      insertUsers({ email, name, password });
     }
-  };
+  };  
 
   return (
     <div className="login">
       <form onSubmit={handleSubmit}>
-        <h3>S'ENREGISTRER</h3>
-        {errorMsg ? <p className="error">{errorMsg}</p> : null}
-        <div className="input-fields">
-          <label htmlFor="name">Nom d'utilisateur</label><br />
-          <input
-            id="name"
-            type="text"
-            name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          {emailErr ? <p>{nameErr}</p> : null}
+        <div className="sidediv"></div>
+        <div className="form-content">
+          <h3>INSCRIPTION</h3>
+          {errorMsg ? <p className="error">{errorMsg}</p> : null}
+          <div className="input-fields header">
+            <div>
+              <div>
+                <label htmlFor="first-name">Prénom</label><br />
+                <input
+                  id="first-name"
+                  type="text"
+                  name="first-name"
+                  placeholder="Votre prénom"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="name">Nom</label><br />
+                <input
+                  id="name"
+                  type="text"
+                  name="name"
+                  placeholder="Votre nom"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+            </div>
+            {nameErr ? <p>{nameErr}</p> : null}
+          </div>
+          <div className="input-fields">
+            <label htmlFor="email">Email</label><br />
+            <input
+              id="email"
+              type="email"
+              name="email"
+              autoComplete="email"
+              placeholder="Votre adresse email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            {emailErr ? <p>{emailErr}</p> : null}
+          </div>
+          <div className="input-fields">
+            <label htmlFor="password">Mot de passe</label><br />
+            <input
+              id="password"
+              type="password"
+              name="password"
+              autoComplete="current-password"
+              placeholder="Votre mot de passe"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {passwordErr ? <p>{passwordErr}</p> : null}
+          </div>
+          <div className="input-fields more">
+            <div className="remind">
+              <input
+                type="checkbox"
+                name="remind"
+                id="remind"
+                value={conditionsAccepted} 
+                onChange={() => setConditionsAccepted(!conditionsAccepted)}/>
+              <label htmlFor="remind">J'accepte <a>les conditions d'utilisation</a></label>
+            </div>
+            <div></div>
+          </div>
+          <ButtonAdd
+            child={!loading ? "S'enregistrer" : "En cour ..."}
+            className={(!loading && conditionsAccepted) ? "" : "disable"} />
+          <Button child={<><FcGoogle /> S'inscrire via Google</>} className={"google"} type={"button"} />
+          <p>Avez-vous un compte? / <a href="/login">Se connecter</a></p>
         </div>
-        <div className="input-fields">
-          <label htmlFor="email">Email</label><br />
-          <input
-            id="email"
-            type="email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          {emailErr ? <p>{emailErr}</p> : null}
-        </div>
-        <div className="input-fields">
-          <label htmlFor="password">Mot de passe</label><br />
-          <input
-            id="password"
-            type="password"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          {passwordErr ? <p>{passwordErr}</p> : null}
-        </div>
-        <div className="input-fields">
-          <label htmlFor="confpassword">Confirmation du mot de passe</label><br />
-          <input
-            id="confpassword"
-            type="password"
-            name="confpassword"
-            value={confPassword}
-            onChange={(e) => setConfPassword(e.target.value)}
-          />
-          {password === confPassword
-            ? null
-            : <p>*Cette value doit correspondre au mot de passe</p>}
-        </div>
-        <div className="input-fields">
-          <label htmlFor="type">Profession à l'ULC</label><br />
-          <select
-            id="type"
-            name="userType"
-            value={userType}
-            onChange={(e) => setType(e.target.value)}
-          >
-            <option value={Role.student}>Etudiant</option>
-            <option value={Role.extern}>Personne exterieure</option>
-            <option value={Role.manager}>Manager</option>
-          </select>
-        </div>
-        <p>Avez-vous un compte? <a href="/login">Se connecter</a></p>
-        <ButtonAdd
-          child={!loading ? "S'enregistrer" : "En cour ..."}
-          className={!loading ? "" : "disable"} />
       </form>
     </div>
   );

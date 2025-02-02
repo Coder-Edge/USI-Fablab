@@ -9,29 +9,33 @@ import "./inventory.css"
 import "../../../components/stocks/stocks.css"
 import CommandsMBR from "../../../components/commands/member-commands";
 import LocationMBR from "../../../components/Location/member-location";
+import ComponentForm from "../../../components/componentform/ComponentForm";
+import Modal from "./pop";
+
 
 const InventoryMBR = () => {
+
 
     //data acquisition
     const [allProducts, setAllProducts] = useState([]); // Store all products
     const [data, setData] = useState([])
     const [types, setTypes] = useState([])
     useEffect(() => {
-          // Appel à l'API pour récupérer les produits
-          const fetchProducts = async () => {
+        // Appel à l'API pour récupérer les produits
+        const fetchProducts = async () => {
             try {
-              const response = await fetch("http://localhost:3000/get/products");
-              const products = await response.json();
-              setAllProducts(products);  // Store all products
-              setData(products);  // Start with all products as filtered
-              setTypes([...new Set(products.map((product) => product.type.toLowerCase()))]);
+                const response = await fetch("http://localhost:3000/get/products");
+                const products = await response.json();
+                setAllProducts(products);  // Store all products
+                setData(products);  // Start with all products as filtered
+                setTypes([...new Set(products.map((product) => product.type.toLowerCase()))]);
             } catch (error) {
-              console.error("Erreur lors de la récupération des produits :", error);
+                console.error("Erreur lors de la récupération des produits :", error);
             }
-          };
-      
-          fetchProducts();
-        }, []);
+        };
+
+        fetchProducts();
+    }, []);
 
     //search
     const [searchTerm, setSearchTerm] = useState("")
@@ -45,11 +49,32 @@ const InventoryMBR = () => {
     const SetTypeFilter = (e) => {
         setType(e)
         setBtnActive(e)
-        setData(ListProducts.filter(p=>p.type.toLocaleLowerCase().match(e)))
+        setData(allProducts.filter(p => p.type.toLocaleLowerCase().match(e)))
     }
 
 
+    // addPoduct popup
+    const [modal, setModal] = useState(false);
+
+    const toggleModal = () => {
+        setModal(!modal);
+    };
+
+
+    // gol
+  const [quantity, setQuantity] = useState(0);
+  const [componentName, setComponentName] = useState('');
+  const [componentType, setComponentType] = useState('');
+  const [price, setPrice] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Logique de soumission ici
+    console.log({ componentName, componentType, price, quantity });
+  };
+
     return (
+
         <div className="manager-inventory">
             <div className="grid-content">
                 <CommandsMBR />
@@ -65,15 +90,23 @@ const InventoryMBR = () => {
                                 child={<><MdAddCircleOutline /> Ajouter</>} />}
                         types={types}
                         btnActive={btnActive}
-                        SetTypeFilter={SetTypeFilter}/>
+                        SetTypeFilter={SetTypeFilter} />
 
                     <Table data={data} type={type} searchTerm={searchTerm} />
 
-                    <ButtonAdd child={<><MdAddCircleOutline /> Ajouter</>} />
+                    <ButtonAdd child={<><MdAddCircleOutline /> Ajouter</>} onClick={toggleModal} />
                 </div>
             </div>
+
+            <Modal modal={modal} toggleModal={toggleModal}/>
+            
+
         </div>
+
+
+
     )
 }
 
 export default InventoryMBR;
+

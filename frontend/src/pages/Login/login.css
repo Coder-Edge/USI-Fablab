@@ -10,15 +10,27 @@
 }
 
 .login form {
+    display: flex;
+    width: min(600px, 90%);
+    border-radius: 60px;
+}
+
+.login .sidediv {
+    width:40%;
+    border-radius: 14px 0px 0px 14px;
+    background-color: #5899DD;
+}
+
+.login .form-content {
     background-color: white;
-    border-radius: 14px;
     padding: 25px 50px;
-    width: min(400px, 90%);
+    width: 60%;
+    border-radius: 0px 14px 14px 0px;
     overflow-y: auto;
 }
 
 .login form .input-fields {
-    padding: 6px 0;
+    padding: 10px 0;
 }
 
 .login form .input-fields input, .login form .input-fields select {
@@ -32,15 +44,35 @@
     font-size: 12px;
 }
 
+.login form .input-fields label{
+    font-size: 12px;
+}
+
 .login form .input-fields p {
     color: red;
     font-size: 10px;
     text-align: start;
+    margin: 0;
+    padding: 0;
 }
 
 .login form .button-add button.button {
     margin-top: 14px;
     width: 100%;
+}
+
+.login form button.google {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    padding: 6px;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+}
+
+.login form button.button >:first-child {
+    font-size: 24px;
 }
 
 .login form .button-add.disable {
@@ -51,10 +83,12 @@
 
 .login form p {
     font-size: 12px;
-    text-align: right;
+    margin-top: 20px;
+    text-align: center;
+    color: #A2A1A8;
 }
 
-.login form p a {
+.login form a {
     text-decoration: none;
     color: #5899DD;
 }
@@ -69,3 +103,52 @@
     text-align: start;
 }
 
+.login form .input-fields.more {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0px 20px 0px;
+}
+
+.login form .input-fields.more input {
+    width: 14px;
+    height: 14px;
+    color: #5899DD;
+    margin: 0px;
+    cursor: pointer;
+}
+
+.login form .input-fields.more input:checked {
+    background-color: aqua;
+}
+
+.login form .input-fields.more >* {
+    font-size: 12px;
+    color: #A2A1A8;
+}
+
+.login form .input-fields.more >:last-child {
+    color: #5899DD;
+}
+
+.login form .input-fields.more .remind label {
+    text-align: center;
+}
+
+.login form .input-fields.more .remind {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login form h3 {
+    text-align: center;
+    font-weight: 200;
+    color: #5899DD;
+    margin-bottom: 30px;
+}
+
+.login form .input-fields.header >:first-child{
+    display: flex;
+    gap: 10px;
+}

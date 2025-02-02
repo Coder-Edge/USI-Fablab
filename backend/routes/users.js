@@ -38,10 +38,7 @@ router.post("/logout", authentification, (req, res) => {
 })
 
 router.post("/registre", unknownPermission, async (req, res) => {
-    const usersToInsert = req.body; // Les utilisateurs envoyés dans la requête POST 
-    
-    console.log(usersToInsert);
-    
+    const usersToInsert = req.body; // Les utilisateurs envoyés dans la requête POST     
 
     try {
         // Vérifie si l'utilisateur existe déjà par son email

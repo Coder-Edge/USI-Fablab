@@ -9,14 +9,19 @@ import Table from "../../../components/stocks/manager-table";
 import ButtonAdd from "../../../components/stocks/button-add";
 import "./inventory.css";
 import "../../../components/stocks/stocks.css";
+import { NavParams } from "../../../components/Navbar/navParams";
 
-const InventoryMNG = () => {
+const InventoryMNG = ({setNavActive}) => {
   // data acquisition
   const [allProducts, setAllProducts] = useState([]); // Store all products
   const [data, setData] = useState([]); // Store filtered products
   const [types, setTypes] = useState([]);
 
   useEffect(() => {
+
+    // set active button in sidebar
+    setNavActive(NavParams.inventaire)
+
     // Fetch data from the API
     const fetchData = async () => {
       try {
@@ -45,7 +50,7 @@ const InventoryMNG = () => {
   const SetTypeFilter = (e) => {
     setType(e);
     setBtnActive(e);
-
+    
     // Use allProducts to filter and then filter by type
     const filteredData = allProducts.filter((p) => p.type.toLowerCase().includes(e.toLowerCase()));
 

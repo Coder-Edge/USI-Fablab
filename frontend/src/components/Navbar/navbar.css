@@ -6,10 +6,11 @@
 }
 /* Styles pour la navbar */
 .navbar {
+  background-color: white;
   margin-top: 20px;
   margin-left: 30px;
   width: 300px;
-  background-color: white;
+  position: relative;
   color: black;
   height: 93%;
   display: flex;
@@ -56,6 +57,12 @@
   transition: all .3s;
 }
 
+.nav-links li.active {
+  background-color: #f0f7ff;
+  border-left: solid 4px #54abc9;
+  color: #54abc9;
+}
+
 .nav-links li:hover {
   background-color: #f0f7ff;
   border-left: solid 3px #54abc9;
@@ -79,16 +86,23 @@
 }
 
 hr {
-  margin: 60px 30px 0px 30px;
   border: 1px solid rgb(87, 84, 84);
 }
 
 /* Styles pour le bouton de déconnexion */
+
+.navbar .bottom {
+  position: absolute;
+  width: 100%;
+  padding: 0 20px 20px 20px;
+  bottom: 0;
+}
+
 .logout {
   padding: 15px;
-  margin: 10px 0px 0px 15px;
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .logout-logo {

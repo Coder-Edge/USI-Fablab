@@ -10,19 +10,19 @@ import {
   FiSettings,
   FiLogOut,
 } from "react-icons/fi";
-
 import "./Navbar.css";
 import { useNavigate } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({param, role}) => {  
+
   const menuItems = [
-    { icon: FiGrid, text: "Tableau de bord", active: true },
-    { icon: FiBox, text: "Inventaire", active: false },
-    { icon: FiDollarSign, text: "Budget", active: false },
-    { icon: FiCalendar, text: "Calendrier", active: false },
-    { icon: FiUsers, text: "Membres", active: false },
-    { icon: FiShoppingBag, text: "Boutique", active: false },
-    { icon: FiSettings, text: "Paramètre", active: false },
+    { icon: FiGrid, text: "Tableau de bord", link: `/${role}/board`},
+    { icon: FiBox, text: "Inventaire", link: `/${role}`},
+    { icon: FiDollarSign, text: "Budget", link: `/${role}/budget`},
+    { icon: FiCalendar, text: "Calendrier", link: ""},
+    { icon: FiUsers, text: "Membres", link: ""},
+    { icon: FiShoppingBag, text: "Boutique", link: ""},
+    { icon: FiSettings, text: "Paramètre", link: ""},
   ];
 
   const navigate = useNavigate()
@@ -38,21 +38,23 @@ const Navbar = () => {
       </div>
       <ul className="nav-links">
         {menuItems.map((link, index) => (
-          <li key={index} >
+          <li key={index} className={param == link.text ? "active": ""}>
             <link.icon className="nav-logo" />
-            <a href={link.text}>{link.text}</a>
+            <a href={link.link}>{link.text}</a>
           </li>
         ))}
       </ul>
 
-      <hr />
-      <div className="logout" onClick={() => {
-        if (logout()) navigate("/login")
-      }}>
-        <FiLogOut className="logout-logo" />
-        <a className="logout-link">
-          Déconnexion
-        </a>
+      <div className="bottom">
+        <hr />
+        <div className="logout" onClick={() => {
+          if (logout()) navigate("/login")
+        }}>
+          <FiLogOut className="logout-logo" />
+          <a className="logout-link">
+            Déconnexion
+          </a>
+        </div>
       </div>
     </div>
   );

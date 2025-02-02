@@ -1,15 +1,6 @@
-const router = require("express").Router()
-const mongoose = require("mongoose")
 const userModel = require("../Models/users");
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
-
-const Role = {
-    student: "Student",
-    manager: "Manager",
-    extern: "Extern",
-    member: "Member",
-}
 
 function authentification(req, res, next) {
     const cookie = req.cookies.jwt
@@ -47,4 +38,4 @@ const unknownPermission = (req, res, next) => {
     next()
 }
 
-module.exports = { authentification, typePermission, Role, unknownPermission }
+module.exports = { authentification, typePermission, unknownPermission }

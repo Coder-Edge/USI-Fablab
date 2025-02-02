@@ -96,9 +96,18 @@ const InventorySTD = () => {
     const [borrowList, setBorrowList] = useState([]);
   
     const handleListItems = (product) => {
-      if (!borrowList.includes(product)) {
+
+      let isInclude = false
+
+      borrowList.forEach((p) => {
+        if (p.product._id == product._id) {
+          isInclude = true
+        }
+      })
+      if (!isInclude) {
         setBorrowList([...borrowList, { product: product, quantity: 1 }]);
       }
+
       showForm();
     };
   

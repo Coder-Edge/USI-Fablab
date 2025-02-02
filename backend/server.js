@@ -5,11 +5,6 @@ const multer = require("multer");
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
 const path = require("path");
-const {
-  authentification,
-  typePermission,
-  Role,
-} = require("./permission/permission");
 const userRoute = require("./routes/users");
 const ImageModel = require("./Models/image.js");
 const userModel = require("./Models/users.js");
