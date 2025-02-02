@@ -271,6 +271,29 @@ app.get("/get/borrows", async (req, res) => {
 //   }
 // });
 
+app.get("/calendar", async (req, res) => {
+  try {
+    const borrows = await BorrowModel.find().populate("user"); 
+    
+    const formattedBorrows = borrows.map((borrow) => ({
+      id: borrow._id,
+      title: borrow.user.name, // Nom de l'emprunteur
+      start: borrow.startDate,   // Date formatée en YYYY-MM-DD
+      end: borrow.endDate,
+      description: borrow.Listborrow
+        .map((item) => `${item.product_name} (x${item.quantity})`) // Liste des items avec leur quantité
+        .join(", "),
+    }));
+
+    res.json(formattedBorrows);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des emprunts :", error);
+    res.status(500).json({ error: "Failed to fetch borrows" });
+  }
+});
+
+
+
 app.use((req, res) => {
   res.status(404).json({ message: "The url doesn't exist" });
 });

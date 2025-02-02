@@ -1,33 +1,60 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction"; // Pour gérer les clics sur événements
-import Swal from "sweetalert2"; // Pour afficher la description
+import interactionPlugin from "@fullcalendar/interaction";
+import Swal from "sweetalert2";
 import "./calendrier.css";
 
 export default function Calendrier() {
-  const [events, setEvents] = useState([
-    {
-      id: "1",
-      title: "Réunion d'équipe",
-      date: "2025-02-05",
-      description: "Discussion sur l'avancement du projet X",
-    },
-    {
-      id: "2",
-      title: "Livraison projet",
-      date: "2025-02-10",
-      description: "Livraison de la V1 du projet au client",
-    },
-  ]);
+  const [events, setEvents] = useState([]);
 
-  // Fonction exécutée lorsqu'on clique sur un événement
+  // Chargement des événements depuis l'API
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/calendar");
+        if (!response.ok) {
+          throw new Error("Erreur lors de la récupération des événements");
+        }
+        const data = await response.json();
+        setEvents(data);
+      } catch (error) {
+        console.error("Erreur :", error);
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
+  // Gestion du clic sur un événement
   const handleEventClick = (clickInfo) => {
+    const user = clickInfo.event.title || "Unknown";
+    const description = clickInfo.event.extendedProps.description || "Aucune description disponible";
+    const startDate = clickInfo.event.start ? clickInfo.event.start.toLocaleDateString() : "Date inconnue";
+    const endDate = clickInfo.event.end ? clickInfo.event.end.toLocaleDateString() : "Date inconnue";
+
     Swal.fire({
-      title: clickInfo.event.title,
-      text: clickInfo.event.extendedProps.description || "Aucune description disponible",
+      title: "Détails de l'emprunt",
+      html: `
+        <p><strong>Nom de l'emprunteur :</strong> ${user.charAt(0).toUpperCase()+ user.slice(1)}</p>
+        <hr>
+        <p><strong>Description :</strong> ${description}</p>
+        <hr>
+        <p><strong>Date de début :</strong> ${startDate}</p>
+        <p><strong>Date de retour :</strong> ${endDate}</p>
+      `,
       icon: "info",
-      confirmButtonText: "OK",
+      confirmButtonText: "Fermer",
+      showCancelButton: true,
+      cancelButtonText: "Détails",
+    }).then((result) => {
+      if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire({
+          title: "Détails supplémentaires",
+          text: "Plus d'informations seront bientôt disponibles.",
+          icon: "info",
+        });
+      }
     });
   };
 
@@ -43,7 +70,7 @@ export default function Calendrier() {
         }}
         aspectRatio={2}
         events={events}
-        eventClick={handleEventClick} // Gérer le clic sur un événement
+        eventClick={handleEventClick}
       />
     </div>
   );
