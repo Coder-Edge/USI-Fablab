@@ -46,12 +46,12 @@ app.get("/get/users/:id", async (req, res) => {
   const { id } = req.params; // Récupérer l'ID depuis l'URL
 
   try {
-    const user = await userModel.findById(id).select("name email");; // Recherche de l'utilisateur par ID
+    const user = await userModel.findById(id).select("name email"); // Recherche de l'utilisateur par ID
 
     if (!user) {
       return res.status(404).json({ error: "User not found" }); // Si l'utilisateur n'existe pas
     }
-    
+
     res.json(user); // Retourner l'utilisateur trouvé
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch user" }); // Gérer les erreurs
@@ -194,16 +194,16 @@ app.post("/borrow", async (req, res) => {
 app.get("/get/borrows", async (req, res) => {
   try {
     const borrows = await BorrowModel.find().populate([
-      { path: "user", select: "name email" },  // Peuple l'utilisateur avec seulement le nom et l'email
+      { path: "user", select: "name email" }, // Peuple l'utilisateur avec seulement le nom et l'email
     ]);
     console.log(borrows);
     const formattedBorrows = borrows.map((borrow, index) => ({
       user: borrows[index].user.name,
-      startDate : borrow.startDate,
-      endDate : borrow.endDate,
-      motif : borrow.motif,
-      Listborrow : borrow.Listborrow,
-      status : borrow.status,
+      startDate: borrow.startDate,
+      endDate: borrow.endDate,
+      motif: borrow.motif,
+      Listborrow: borrow.Listborrow,
+      status: borrow.status,
     }));
     res.json(formattedBorrows);
   } catch (error) {
@@ -227,16 +227,17 @@ app.get("/get/borrows", async (req, res) => {
 
 app.get("/calendar", async (req, res) => {
   try {
-    const borrows = await BorrowModel.find().populate("user"); 
+    const borrows = await BorrowModel.find().populate("user");
     console.log(borrows);
     const formattedBorrows = borrows.map((borrow) => ({
       id: borrow._id,
-      title: `Emprunt de : ${borrow.user.name}`,// Nom de l'emprunteur
-      start: borrow.startDate,   // Date formatée en YYYY-MM-DD
+      title: `Emprunt de : ${borrow.user.name}`, // Nom de l'emprunteur
+      start: borrow.startDate, // Date formatée en YYYY-MM-DD
       end: borrow.endDate,
       motif: borrow.motif,
-      description: borrow.Listborrow
-        .map((item) => `${item.product_name} (x${item.quantity})`) // Liste des items avec leur quantité
+      description: borrow.Listborrow.map(
+        (item) => `${item.product_name} (x${item.quantity})`
+      ) // Liste des items avec leur quantité
         .join(", "),
     }));
 
@@ -246,8 +247,6 @@ app.get("/calendar", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch borrows" });
   }
 });
-
-
 
 app.use((req, res) => {
   res.status(404).json({ message: "The url doesn't exist" });

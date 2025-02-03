@@ -9,7 +9,6 @@ const PageNotFound = () => {
     navigate(-1); // Revenir à la page précédente
   };
 
-
   return (
     <div className="notfound-container">
       <div className="notfound-content">
