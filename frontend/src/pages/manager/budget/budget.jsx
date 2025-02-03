@@ -7,8 +7,8 @@ import "./budget.css"
 import SimpleCard from "../../../components/cards/simplecard"
 import Histogram from "../../../components/charts/hist"
 import getRandomColors from "../../../components/charts/colors"
-import { GoArrowUpRight } from "react-icons/go";
-import { GoArrowDownRight } from "react-icons/go";
+import { GoArrowUpRight } from "react-icons/go"
+import { GoArrowDownRight } from "react-icons/go"
 
 defaults.maintainAspectRatio = false
 defaults.responsive = true

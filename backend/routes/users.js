@@ -53,10 +53,15 @@ router.post("/registre", unknownPermission, async (req, res) => {
 
         usersToInsert.password = await bcrypt.hash(usersToInsert.password, parseInt(process.env.DECRIPT_SALT));
 
-        // set default role
-        usersToInsert.userType = Role.student
+        // set role
+        const emailRegex = /^(?:<)?([a-zA-Z.-]+)@(\d{4})\.(icam\.fr|ulc-icam\.com)(?:>)?$/;
         
-
+        if (emailRegex.test(usersToInsert.email)) {
+            usersToInsert.userType = Role.student; // L'e-mail est valide
+        } else {
+            usersToInsert.userType = Role.extern; // L'e-mail est invalide
+        }
+        
         // Insère l'utilisateur s'il n'existe pas
         await userModel.create(usersToInsert);
 

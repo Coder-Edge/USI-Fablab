@@ -58,58 +58,6 @@ app.get("/get/users/:id", async (req, res) => {
   }
 });
 
-
-app.post("/registre/", async (req, res) => {
-  const usersToInsert = req.body; // Les informations de l'utilisateur envoyées dans la requête POST
-
-  try {
-    // Vérifie si un utilisateur avec l'email existe déjà
-    const existingUser = await userModel.findOne({
-      email: usersToInsert.email,
-    });
-
-    if (existingUser) {
-      return res.status(400).json({
-        message: `L'utilisateur avec l'email ${usersToInsert.email} existe déjà.`,
-      });
-    }
-
-    // Si le rôle est "manager", vérifie s'il y a déjà un manager existant
-    if (usersToInsert.userType.toLowerCase() === Role.manager.toLowerCase()) {
-      console.log(
-        "Nonnnnnnnnnnnnnnnnnnn bordelllllllllllllllllllllllll marcheeeeeeeeeeee"
-      );
-      const existingManager = await userModel.findOne({
-        userType: Role.manager,
-      });
-      if (existingManager) {
-        return res.status(400).json({
-          message:
-            "Un manager existe déjà. Vous ne pouvez pas en créer un autre.",
-        });
-      }
-    }
-
-    // Hash du mot de passe avant de créer l'utilisateur
-    usersToInsert.password = await bcrypt.hash(usersToInsert.password, 10);
-
-    // Crée le nouvel utilisateur
-    const insertedUser = await userModel.create(usersToInsert);
-    console.log("Utilisateur inséré avec succès :", insertedUser);
-
-    res.status(201).json({
-      message: "Utilisateur créé avec succès",
-      user: insertedUser,
-    });
-  } catch (error) {
-    console.error("Erreur lors de l'insertion des utilisateurs :", error);
-    res.status(500).json({
-      message: "Erreur lors de l'insertion des utilisateurs",
-      error,
-    });
-  }
-});
-
 //Save the image in db
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {

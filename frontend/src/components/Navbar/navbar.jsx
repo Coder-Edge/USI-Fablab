@@ -19,7 +19,7 @@ const Navbar = ({param, role}) => {
     { icon: FiGrid, text: "Tableau de bord", link: `/${role}/board`},
     { icon: FiBox, text: "Inventaire", link: `/${role}`},
     { icon: FiDollarSign, text: "Budget", link: `/${role}/budget`},
-    { icon: FiCalendar, text: "Calendrier", link: ""},
+    { icon: FiCalendar, text: "Calendrier", link: `/${role}/calendar`},
     { icon: FiUsers, text: "Membres", link: ""},
     { icon: FiShoppingBag, text: "Boutique", link: ""},
     { icon: FiSettings, text: "Paramètre", link: ""},

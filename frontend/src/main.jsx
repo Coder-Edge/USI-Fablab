@@ -2,7 +2,12 @@ import React, { Children, useState } from "react";
 import ReactDom from "react-dom/client";
 import Navbar from "./components/Navbar/navbar"; //importation du composant navbar
 import "./main.css"; //importation du fichier style main.css
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import Header from "./components/Header/header";
 import InventoryMNG from "./pages/manager/Inventory/inventory";
 import InventorySTD from "./pages/student/inventory/inventory";
@@ -24,114 +29,174 @@ import UnknowRequire from "./auth/requiredUnknown";
 import { NavParams } from "./components/Navbar/navParams";
 import BudgetMNG from "./pages/manager/budget/budget";
 
-
 export default function Main() {
-
   const { auth } = useAuth();
-  const [navActive, setNavActive] = useState(NavParams.inventaire)
+  const [navActive, setNavActive] = useState(NavParams.inventaire);
 
-
-  // La siplification de l'expession 
+  // La siplification de l'expession
   // <div className="main-content"><Header title={"Inventaire"} name={auth.name} role={auth.userType} /> <PAGE /></div>
 
   const Simplifier = ({ children, title }) => {
     return (
       <>
-        <div
-          className="main-content"><Header title={title} name={auth.name} role={auth.userType} />
+        <div className="main-content">
+          <Header title={title} name={auth.name} role={auth.userType} />
           {children}
         </div>
       </>
-    )
-  }
-
+    );
+  };
 
   return (
     <main>
       <Router>
         <Routes>
-
-          <Route index element={<Navigate to="/login"/>}/>
+          <Route index element={<Navigate to="/login" />} />
 
           <Route element={<RequireAuth />}>
             {/* Route pour le manager */}
             <Route element={<Permission role={[Role.manager]} />}>
-              <Route path="/manager/*" element={
-                <>
-                  <Navbar param={navActive} role={Role.manager} />
-                  <Routes>
+              <Route
+                path="/manager/*"
+                element={
+                  <>
+                    <Navbar param={navActive} role={Role.manager} />
+                    <Routes>
+                      <Route
+                        index
+                        element={
+                          <Simplifier title={"Inventaire"}>
+                            <InventoryMNG setNavActive={setNavActive} />
+                          </Simplifier>
+                        }
+                      />
 
-                    <Route
-                      index
-                      element={<Simplifier title={"Inventaire"}><InventoryMNG setNavActive={setNavActive} /></Simplifier>}
-                    />
-
-                    <Route path="/budget" element={<Simplifier title={"Budget"}><BudgetMNG setNavActive={setNavActive} /></Simplifier>} />
-
-                  </Routes>
-                </>
-              } />
+                      <Route
+                        path="/budget"
+                        element={ 
+                          <Simplifier title={"Budget"}>
+                            <BudgetMNG setNavActive={setNavActive} />
+                          </Simplifier>
+                        }
+                      />
+                      {/* Route pour le calendrier */}
+                      <Route
+                        path="/calendar"
+                        element={
+                          <Simplifier title={"Calendrier"}>
+                            <Calendrier setNavActive={setNavActive} />
+                          </Simplifier>
+                        }
+                      />
+                    </Routes>
+                  </>
+                }
+              />
             </Route>
-
 
             {/* Route pour le student */}
             <Route element={<Permission role={[Role.student]} />}>
-              <Route path="/student/*" element={
-                <>
-                  <NavbarOTH param={navActive} />
-                  <Routes>
-                    <Route index element={<div className="main-content"><Header title={"Inventaire"} name={auth.name} role={auth.userType} /><InventorySTD /></div>} />
-                  </Routes>
-                </>
-              } />
+              <Route
+                path="/student/*"
+                element={
+                  <>
+                    <NavbarOTH param={navActive} />
+                    <Routes>
+                      <Route
+                        index
+                        element={
+                          <div className="main-content">
+                            <Header
+                              title={"Inventaire"}
+                              name={auth.name}
+                              role={auth.userType}
+                            />
+                            <InventorySTD />
+                          </div>
+                        }
+                      />
+                    </Routes>
+                  </>
+                }
+              />
             </Route>
 
             {/* Route pour le extern */}
             <Route element={<Permission role={[Role.extern]} />}>
-              <Route path="/extern/*" element={
-                <>
-                  <NavbarOTH param={navActive} />
-                  <Routes>
-                    <Route index
-                      element={<div className="main-content">
-                        <Header title={"Inventaire"} name={auth.name} role={auth.userType} />
-                        <InventoryEXT setNavActive={setNavActive} />
-                      </div>} />
-                  </Routes>
-                </>
-              } />
+              <Route
+                path="/extern/*"
+                element={
+                  <>
+                    <NavbarOTH param={navActive} />
+                    <Routes>
+                      <Route
+                        index
+                        element={
+                          <div className="main-content">
+                            <Header
+                              title={"Inventaire"}
+                              name={auth.name}
+                              role={auth.userType}
+                            />
+                            <InventoryEXT setNavActive={setNavActive} />
+                          </div>
+                        }
+                      />
+                    </Routes>
+                  </>
+                }
+              />
             </Route>
 
             {/* Route pour le member */}
             <Route element={<Permission role={[Role.member]} />}>
-              <Route path="/member/*" element={
-                <>
-                  <Navbar param={navActive} />
-                  <Routes>
-                    <Route index element={<div className="main-content"><Header title={"Inventaire"} name={auth.name} role={auth.userType} /><InventoryMBR /></div>} />
-                  </Routes>
-                </>
-              } />
+              <Route
+                path="/member/*"
+                element={
+                  <>
+                    <Navbar param={navActive} />
+                    <Routes>
+                      <Route
+                        index
+                        element={
+                          <div className="main-content">
+                            <Header
+                              title={"Inventaire"}
+                              name={auth.name}
+                              role={auth.userType}
+                            />
+                            <InventoryMBR />
+                          </div>
+                        }
+                      />
+                    </Routes>
+                  </>
+                }
+              />
             </Route>
-
-            {/* Route pour le calendrier */}
-            <Route path="/calendar" element={
-              <>
-                <Navbar param={navActive} />
-                <div className="main-content"><Header title={"Calendrier"} name={auth.name} role={auth.userType} /><Calendrier /></div>
-              </>
-            } />
           </Route>
 
           {/* Route pour les membres */}
-          <Route path="/membres/*" element={
-            <>
-              <Navbar param={navActive} />
-              <Routes>
-                <Route index element={<div className="main-content"><Header title={"Membres"} /> name={auth.name} role={auth.userType}<Membres /></div>} />
-              </Routes>
-            </>
-          } />
+          <Route
+            path="/membres/*"
+            element={
+              <>
+                <Navbar param={navActive} />
+                <Routes>
+                  <Route
+                    index
+                    element={
+                      <div className="main-content">
+                        <Header title={"Membres"} /> name={auth.name} role=
+                        {auth.userType}
+                        <Membres />
+                      </div>
+                    }
+                  />
+                </Routes>
+              </>
+            }
+          />
 
           {/* Route pour le test */}
           <Route path="/test" element={<App />} />
@@ -151,8 +216,6 @@ export default function Main() {
 
           {/* Chaemin introuvable */}
           <Route path="*" element={<PageNotFound />} />
-
-
         </Routes>
       </Router>
     </main>
@@ -161,7 +224,7 @@ export default function Main() {
 
 //Afficher le composant Main
 ReactDom.createRoot(document.querySelector("#root")).render(
-  <AuthProvider >
+  <AuthProvider>
     <Main />
   </AuthProvider>
 );
