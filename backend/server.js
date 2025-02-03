@@ -245,8 +245,19 @@ app.post("/borrow", async (req, res) => {
 // Get all borrows
 app.get("/get/borrows", async (req, res) => {
   try {
-    const borrows = await BorrowModel.find();
-    res.json(borrows);
+    const borrows = await BorrowModel.find().populate([
+      { path: "user", select: "name email" },  // Peuple l'utilisateur avec seulement le nom et l'email
+    ]);
+    console.log(borrows);
+    const formattedBorrows = borrows.map((borrow, index) => ({
+      user: borrows[index].user.name,
+      startDate : borrow.startDate,
+      endDate : borrow.endDate,
+      motif : borrow.motif,
+      Listborrow : borrow.Listborrow,
+      status : borrow.status,
+    }));
+    res.json(formattedBorrows);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch borrows" });
   }
@@ -269,7 +280,7 @@ app.get("/get/borrows", async (req, res) => {
 app.get("/calendar", async (req, res) => {
   try {
     const borrows = await BorrowModel.find().populate("user"); 
-    
+    console.log(borrows);
     const formattedBorrows = borrows.map((borrow) => ({
       id: borrow._id,
       title: `Emprunt de : ${borrow.user.name}`,// Nom de l'emprunteur

@@ -29,16 +29,27 @@ export default function Calendrier() {
   // Gestion du clic sur un événement
   const handleEventClick = (clickInfo) => {
     const user = clickInfo.event.title.split(":")[1] || "Unknown";
-    const description = clickInfo.event.extendedProps.description || "Aucune description disponible";
-    const startDate = clickInfo.event.start ? clickInfo.event.start.toLocaleDateString() : "Date inconnue";
-    const endDate = clickInfo.event.end ? clickInfo.event.end.toLocaleDateString() : "Date inconnue";
-    
+    const description =
+      clickInfo.event.extendedProps.description ||
+      "Aucune description disponible";
+    const startDate = clickInfo.event.start
+      ? clickInfo.event.start.toLocaleDateString()
+      : "Date inconnue";
+    const endDate = clickInfo.event.end
+      ? clickInfo.event.end.toLocaleDateString()
+      : "Date inconnue";
+
     Swal.fire({
       title: "Détails de l'emprunt",
       html: `
-        <p><strong>Nom de l'emprunteur :</strong> ${user.charAt(1).toUpperCase()+ user.slice(2)}</p>
+        <p><strong>Nom de l'emprunteur :</strong> ${
+          user.charAt(1).toUpperCase() + user.slice(2)
+        }</p>
+        <br>
         <hr>
+        <br>
         <p><strong>Description :</strong> ${description}</p>
+        <br>
         <hr>
         <p><strong>Date de début :</strong> ${startDate}</p>
         <p><strong>Date de retour :</strong> ${endDate}</p>
