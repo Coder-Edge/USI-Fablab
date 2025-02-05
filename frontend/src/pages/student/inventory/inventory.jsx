@@ -158,8 +158,7 @@ const InventorySTD = () => {
         </div>
   
         <Mycontext.Provider
-          value={{ btnActive, filterAll, quantityFilter, types }}
-        >
+          value={{ btnActive, filterAll, quantityFilter, types }}>
           <STFilter Mycontext={Mycontext} />
         </Mycontext.Provider>
       </div>

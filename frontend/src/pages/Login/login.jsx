@@ -54,7 +54,9 @@ const LoginForm = () => {
     return (
         <div className="login">
             <form onSubmit={handleSubmit}>
-                <div className="sidediv"></div>
+                <div className="sidediv">
+                    <img src="/src/assets/login.svg" alt="login"/>
+                </div>
                 <div className="form-content">
                     <h3>SE CONNECTER</h3>
                     {errorMsg ? <p className="error">{errorMsg}</p> : null}

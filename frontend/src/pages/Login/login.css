@@ -11,20 +11,25 @@
 
 .login form {
     display: flex;
-    width: min(600px, 90%);
     border-radius: 60px;
 }
 
 .login .sidediv {
-    width:40%;
     border-radius: 14px 0px 0px 14px;
     background-color: #5899DD;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login .sidediv img {
+    width: 350px;
 }
 
 .login .form-content {
     background-color: white;
     padding: 25px 50px;
-    width: 60%;
+    width: 400px;
     border-radius: 0px 14px 14px 0px;
     overflow-y: auto;
 }

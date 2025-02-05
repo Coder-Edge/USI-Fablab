@@ -16,7 +16,7 @@ const TableSTD = ({ data, searchTerm, numberItemDisplay, activeNumberGroup, onCl
             tbodyChild={
                 data
                     .filter((product) => {
-                        return product.type.toLowerCase().includes(searchTerm) || product.name.toLowerCase().includes(searchTerm)
+                        return product.type.toLowerCase().includes(searchTerm.toLowerCase()) || product.name.toLowerCase().includes(searchTerm.toLowerCase())
                     })
                     .slice(numberItemDisplay * (activeNumberGroup - 1), numberItemDisplay * activeNumberGroup)
                     .map((product, index) => (

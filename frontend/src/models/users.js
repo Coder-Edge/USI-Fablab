@@ -7,27 +7,37 @@ class User {
      * @param {string} userType 
      */
 
-    constructor(name, email, password, userType) {
+    constructor(firstname, name, email) {
         if (typeof name === "object" && name != null) {
-            const {name: username, email: useremail, password: userpassword, userType: user_type} = name
+            const {name: username, email: useremail, firstname: userfirstname} = name
             this.name = username
+            this.firstname = userfirstname
             this.email = useremail
-            this.password = userpassword
-            this.userType = user_type
         } else {
             this.name = name
             this.email = email
-            this.password = password
-            this.userType = userType
+            this.firstname = firstname
         }
     }
 }
 
 const users = [
-    new User("Gloire Mankununusakjdfj df", "gloire@mankunwekdnfklnun.com", "eiir,kenflkf@z12", "Manager"),
-    new User("Remile Biangasadnflknd", "remile@biafwkanflnga.com", "ttsfwenftèaé1", "Student"),
-    new User("Nathan Lukambaslkdnfnd", "natha@lukafweknmba.com", "stttefnlfs425", "Member"),
-    new User("Claudel Mubenzem Mfumu Africainsdknflken", "claudelfeknf@mubenzem.com", "rrzrr152", "Extern"),
+    new User("Gloire", "Mankununusa", "gloire@mankunwekdnfklnun.com"),
+    new User("Remile", "Bianga", "remile@biafwkanflnga.com"),
+    new User("Nathan", "Lukamba", "natha@lukafweknmba.com"),
+    new User("Claudel", "Mubenzem Mfumu ", "claudelfeknf@mubenzem.com"),
+    new User("Gloire", "Mankununusa", "gloire@mankunwekdnfklnun.com"),
+    new User("Remile", "Bianga", "remile@biafwkanflnga.com"),
+    new User("Nathan", "Lukamba", "natha@lukafweknmba.com"),
+    new User("Claudel", "Mubenzem Mfumu ", "claudelfeknf@mubenzem.com"),
+    new User("Gloire", "Mankununusa", "gloire@mankunwekdnfklnun.com"),
+    new User("Remile", "Bianga", "remile@biafwkanflnga.com"),
+    new User("Nathan", "Lukamba", "natha@lukafweknmba.com"),
+    new User("Claudel", "Mubenzem Mfumu ", "claudelfeknf@mubenzem.com"),
+    new User("Gloire", "Mankununusa", "gloire@mankunwekdnfklnun.com"),
+    new User("Remile", "Bianga", "remile@biafwkanflnga.com"),
+    new User("Nathan", "Lukamba", "natha@lukafweknmba.com"),
+    new User("Claudel", "Mubenzem Mfumu ", "claudelfeknf@mubenzem.com"),
 ]
 
 export {User, users}

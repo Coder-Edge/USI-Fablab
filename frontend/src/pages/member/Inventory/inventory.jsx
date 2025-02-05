@@ -9,11 +9,11 @@ import "./inventory.css"
 import "../../../components/stocks/stocks.css"
 import CommandsMBR from "../../../components/commands/member-commands";
 import LocationMBR from "../../../components/Location/member-location";
-import ComponentForm from "../../../components/componentform/ComponentForm";
-import Modal from "./pop";
+import AddProduct from "../../../components/add_product/add-product";
+import { NavParams } from "../../../components/Navbar/navParams";
 
 
-const InventoryMBR = () => {
+const InventoryMBR = ({setNavActive}) => {
 
 
     //data acquisition
@@ -21,6 +21,10 @@ const InventoryMBR = () => {
     const [data, setData] = useState([])
     const [types, setTypes] = useState([])
     useEffect(() => {
+
+        // Activer le bouton budget de la navbar
+        setNavActive(NavParams.inventaire)
+
         // Appel à l'API pour récupérer les produits
         const fetchProducts = async () => {
             try {
@@ -52,26 +56,11 @@ const InventoryMBR = () => {
         setData(allProducts.filter(p => p.type.toLocaleLowerCase().match(e)))
     }
 
-
-    // addPoduct popup
-    const [modal, setModal] = useState(false);
-
-    const toggleModal = () => {
-        setModal(!modal);
-    };
-
-
-    // gol
-  const [quantity, setQuantity] = useState(0);
-  const [componentName, setComponentName] = useState('');
-  const [componentType, setComponentType] = useState('');
-  const [price, setPrice] = useState('');
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Logique de soumission ici
-    console.log({ componentName, componentType, price, quantity });
-  };
+    // Ajouter un produit
+    const openAddProductForm = () => {
+       document.querySelector("#add-product").style.visibility = "visible"
+       
+    }
 
     return (
 
@@ -94,11 +83,11 @@ const InventoryMBR = () => {
 
                     <Table data={data} type={type} searchTerm={searchTerm} />
 
-                    <ButtonAdd child={<><MdAddCircleOutline /> Ajouter</>} onClick={toggleModal} />
+                    <ButtonAdd child={<><MdAddCircleOutline /> Ajouter</>} onClick={openAddProductForm}/>
                 </div>
             </div>
 
-            <Modal modal={modal} toggleModal={toggleModal}/>
+            <AddProduct />
             
 
         </div>

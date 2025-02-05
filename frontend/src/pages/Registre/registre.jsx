@@ -49,14 +49,16 @@ function UserForm() {
     else setNameErr("")
 
     if (email && password && firstName && name) {
-      insertUsers({ email, name, password });
+      insertUsers({ email, name, password, firstName });
     }
-  };  
+  };
 
   return (
     <div className="login">
       <form onSubmit={handleSubmit}>
-        <div className="sidediv"></div>
+        <div className="sidediv">
+          <img src="/src/assets/login.svg" alt="login" />
+        </div>
         <div className="form-content">
           <h3>INSCRIPTION</h3>
           {errorMsg ? <p className="error">{errorMsg}</p> : null}
@@ -119,8 +121,8 @@ function UserForm() {
                 type="checkbox"
                 name="remind"
                 id="remind"
-                value={conditionsAccepted} 
-                onChange={() => setConditionsAccepted(!conditionsAccepted)}/>
+                value={conditionsAccepted}
+                onChange={() => setConditionsAccepted(!conditionsAccepted)} />
               <label htmlFor="remind">J'accepte <a>les conditions d'utilisation</a></label>
             </div>
             <div></div>

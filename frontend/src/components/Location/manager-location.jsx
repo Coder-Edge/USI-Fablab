@@ -14,7 +14,6 @@ const LocationMNG = () => {
             try {
                 const response = await fetch("http://localhost:3000/get/borrows"); // Replace with the correct URL
                 const borrows = await response.json();
-                console.log(borrows);
                 setData(borrows);
 
                 // Fetch user details for each borrow

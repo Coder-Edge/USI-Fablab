@@ -12,28 +12,34 @@ const UnknowRequire = () => {
     useEffect(() => {
 
         const getUser = async () => {
-            await axios.get("/users/user")
+            await axios.get("/users/userauth")
                 .then((res) => {
-                    setUrl(`/${res.data.user.userType.toLowerCase()}`)
-                    setAuth(res.data.user)
-                    setLoading(false)
+
+                    if (res.data.success) {
+                        setUrl(`/${res.data.user.userType.toLowerCase()}`)
+                        setAuth(res.data.user)
+                        setLoading(false)
+                    } else {
+                        setUrl("")
+                        setLoading(false)
+                    }  
+                    
                 })
                 .catch((err) => {
-                    setUrl("")
-                    setLoading(false)
+                    console.log(err)
                 })
         }
 
         getUser()
 
-    }, [])  
+    }, [])
 
     return (
         loading && !url
-        ?<div>Loading ...</div>
-        : !url
-        ?<Outlet />
-        :<Navigate to={url}/>
+            ? <div>Loading ...</div>
+            : !url
+                ? <Outlet />
+                : <Navigate to={url} />
     )
 
 }

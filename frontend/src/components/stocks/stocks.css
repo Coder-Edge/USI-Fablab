@@ -35,7 +35,7 @@
 }
 
 /* Styles de base pour le conteneur */
-.stocks .toolbar {
+.toolbar {
     display: flex;
     width: 100%;
     align-items: center;
@@ -60,17 +60,17 @@
 }
 
 /* Schrollbar Toolbar */
-.stocks .toolbar::-webkit-scrollbar{
+.toolbar::-webkit-scrollbar{
   height: 8px;
   margin: 8px 0;
 }
 
-.stocks .toolbar::-webkit-scrollbar-thumb {
+.toolbar::-webkit-scrollbar-thumb {
   background-color: #b4b4b4;
   border-radius: 4px;
 }
 
-.stocks .toolbar::-webkit-scrollbar-thumb:hover {
+.toolbar::-webkit-scrollbar-thumb:hover {
   background-color: #5899DD;
 }
  

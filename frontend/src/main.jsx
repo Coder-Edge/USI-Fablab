@@ -23,6 +23,8 @@ import Role from "./api/roles";
 import UnknowRequire from "./auth/requiredUnknown";
 import { NavParams } from "./components/Navbar/navParams";
 import BudgetMNG from "./pages/manager/budget/budget";
+import MembersPage from "./pages/manager/members/members";
+import MembersPageMBR from "./pages/member/members/members";
 
 
 export default function Main() {
@@ -65,8 +67,8 @@ export default function Main() {
                       index
                       element={<Simplifier title={"Inventaire"}><InventoryMNG setNavActive={setNavActive} /></Simplifier>}
                     />
-
                     <Route path="/budget" element={<Simplifier title={"Budget"}><BudgetMNG setNavActive={setNavActive} /></Simplifier>} />
+                    <Route path="/members" element={<Simplifier title={"Membres"}><MembersPage setNavActive={setNavActive} /></Simplifier>} />
 
                   </Routes>
                 </>
@@ -106,9 +108,11 @@ export default function Main() {
             <Route element={<Permission role={[Role.member]} />}>
               <Route path="/member/*" element={
                 <>
-                  <Navbar param={navActive} />
+                  <Navbar param={navActive} role={Role.member} />
                   <Routes>
-                    <Route index element={<div className="main-content"><Header title={"Inventaire"} name={auth.name} role={auth.userType} /><InventoryMBR /></div>} />
+                    <Route index element={<Simplifier title={"Inventaire"}><InventoryMBR setNavActive={setNavActive}/></Simplifier>} />
+                    <Route path="/budget" element={<Simplifier title={"Budget"}><BudgetMNG setNavActive={setNavActive} /></Simplifier>} />
+                    <Route path="/members" element={<Simplifier title={"members"}><MembersPageMBR setNavActive={setNavActive} /></Simplifier>} />
                   </Routes>
                 </>
               } />
@@ -151,7 +155,6 @@ export default function Main() {
 
           {/* Chaemin introuvable */}
           <Route path="*" element={<PageNotFound />} />
-
 
         </Routes>
       </Router>
