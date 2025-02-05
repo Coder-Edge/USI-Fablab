@@ -55,7 +55,7 @@ router.post("/registre", unknownPermission, async (req, res) => {
 
         // set default role
         usersToInsert.userType = Role.student
-        
+
 
         // Insère l'utilisateur s'il n'existe pas
         await userModel.create(usersToInsert);
@@ -70,11 +70,32 @@ router.post("/registre", unknownPermission, async (req, res) => {
 
 router.get("/user", authentification, async (req, res) => {
     try {
+
         user = await userModel.findById(req.user)
         const { name, email, userType } = user
-        res.status(200).json({ message: "Success", user: { name, email, userType } })
+        res.status(200).json({ message: "Success", user: { name, email, userType }, success: true })
 
     } catch (err) { return res.status(404).json({ message: "No user with that id" }) }
+})
+
+router.get("/userauth", async (req, res) => {
+
+    const cookie = req.cookies.jwt
+    if (!cookie) return res.status(200).json({ message: "Unauthenticated", success: false })
+
+    try {
+        const data = jwt.verify(cookie, process.env.ACCESS_TOKEN_SECRET,)
+        user = await userModel.findById(data._id)
+        const { name, email, userType } = user
+        return res.status(200).json({ message: "Success", user: { name, email, userType }, success: true })
+
+    } catch (err) {
+        if (err.name === "TokenExpiredError") {
+            res.clearCookie("jwt", { httOnly: true })
+            return res.status(200).json({ message: "Token have expired, login again", success: false })
+        }
+        return res.status(200).json({ message: "Unauthenticated", success: false })
+    }
 })
 
 module.exports = router
