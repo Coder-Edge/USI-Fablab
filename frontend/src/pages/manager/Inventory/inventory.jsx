@@ -1,6 +1,6 @@
 import CommandsMNG from "../../../components/commands/manager-commands";
 import LocationMNG from "../../../components/Location/manager-location";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { MdAddCircleOutline } from "react-icons/md";
 import Button from "../../../components/button/Button";
 import HeadStocks from "../../../components/stocks/head-stock";
@@ -10,12 +10,15 @@ import ButtonAdd from "../../../components/stocks/button-add";
 import "./inventory.css";
 import "../../../components/stocks/stocks.css";
 import { NavParams } from "../../../components/Navbar/navParams";
+import AddProduct from "../../../components/add_product/add-product";
 
 const InventoryMNG = ({setNavActive}) => {
   // data acquisition
   const [allProducts, setAllProducts] = useState([]); // Store all products
   const [data, setData] = useState([]); // Store filtered products
   const [types, setTypes] = useState([]);
+
+  const addProductRef = useRef(null)
 
   useEffect(() => {
 
@@ -36,7 +39,7 @@ const InventoryMNG = ({setNavActive}) => {
     };
 
     fetchData();
-  }, []);
+  }, [fetch("http://localhost:3000/get/products")]);
 
   // Search
   const [searchTerm, setSearchTerm] = useState("");
@@ -74,9 +77,12 @@ const InventoryMNG = ({setNavActive}) => {
 
           <Table data={data} type={type} searchTerm={searchTerm} />
 
-          <ButtonAdd child={<><MdAddCircleOutline /> Ajouter</>} />
+          <ButtonAdd child={<><MdAddCircleOutline /> Ajouter</>} onClick={() => {document.querySelector("#add-product").style.visibility = "hidden"}}/>
         </div>
       </div>
+
+      <AddProduct />
+
     </div>
   );
 };

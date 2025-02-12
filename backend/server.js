@@ -46,67 +46,15 @@ app.get("/get/users/:id", async (req, res) => {
   const { id } = req.params; // Récupérer l'ID depuis l'URL
 
   try {
-    const user = await userModel.findById(id).select("name email");; // Recherche de l'utilisateur par ID
+    const user = await userModel.findById(id).select("name email"); // Recherche de l'utilisateur par ID
 
     if (!user) {
       return res.status(404).json({ error: "User not found" }); // Si l'utilisateur n'existe pas
     }
-    
+
     res.json(user); // Retourner l'utilisateur trouvé
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch user" }); // Gérer les erreurs
-  }
-});
-
-
-app.post("/registre/", async (req, res) => {
-  const usersToInsert = req.body; // Les informations de l'utilisateur envoyées dans la requête POST
-
-  try {
-    // Vérifie si un utilisateur avec l'email existe déjà
-    const existingUser = await userModel.findOne({
-      email: usersToInsert.email,
-    });
-
-    if (existingUser) {
-      return res.status(400).json({
-        message: `L'utilisateur avec l'email ${usersToInsert.email} existe déjà.`,
-      });
-    }
-
-    // Si le rôle est "manager", vérifie s'il y a déjà un manager existant
-    if (usersToInsert.userType.toLowerCase() === Role.manager.toLowerCase()) {
-      console.log(
-        "Nonnnnnnnnnnnnnnnnnnn bordelllllllllllllllllllllllll marcheeeeeeeeeeee"
-      );
-      const existingManager = await userModel.findOne({
-        userType: Role.manager,
-      });
-      if (existingManager) {
-        return res.status(400).json({
-          message:
-            "Un manager existe déjà. Vous ne pouvez pas en créer un autre.",
-        });
-      }
-    }
-
-    // Hash du mot de passe avant de créer l'utilisateur
-    usersToInsert.password = await bcrypt.hash(usersToInsert.password, 10);
-
-    // Crée le nouvel utilisateur
-    const insertedUser = await userModel.create(usersToInsert);
-    console.log("Utilisateur inséré avec succès :", insertedUser);
-
-    res.status(201).json({
-      message: "Utilisateur créé avec succès",
-      user: insertedUser,
-    });
-  } catch (error) {
-    console.error("Erreur lors de l'insertion des utilisateurs :", error);
-    res.status(500).json({
-      message: "Erreur lors de l'insertion des utilisateurs",
-      error,
-    });
   }
 });
 
@@ -123,7 +71,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Route pour enregistrer un produit avec une image
-app.post("/products", upload.single("image"), async (req, res) => {
+app.post("/products", upload.single("image"), async (req, res) => { 
+
   try {
     const { name, price, quantity, type, is_available } = req.body;
     const { path: imagePath, filename } = req.file;
@@ -245,8 +194,19 @@ app.post("/borrow", async (req, res) => {
 // Get all borrows
 app.get("/get/borrows", async (req, res) => {
   try {
-    const borrows = await BorrowModel.find();
-    res.json(borrows);
+    const borrows = await BorrowModel.find().populate([
+      { path: "user", select: "name email" }, // Peuple l'utilisateur avec seulement le nom et l'email
+    ]);
+
+    const formattedBorrows = borrows.map((borrow, index) => ({
+      user: borrows[index].user.name,
+      startDate: borrow.startDate,
+      endDate: borrow.endDate,
+      motif: borrow.motif,
+      Listborrow: borrow.Listborrow,
+      status: borrow.status,
+    }));
+    res.json(formattedBorrows);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch borrows" });
   }
@@ -268,16 +228,16 @@ app.get("/get/borrows", async (req, res) => {
 
 app.get("/calendar", async (req, res) => {
   try {
-    const borrows = await BorrowModel.find().populate("user"); 
-    
+    const borrows = await BorrowModel.find().populate("user");
     const formattedBorrows = borrows.map((borrow) => ({
       id: borrow._id,
-      title: `Emprunt de : ${borrow.user.name}`,// Nom de l'emprunteur
-      start: borrow.startDate,   // Date formatée en YYYY-MM-DD
+      title: `Emprunt de : ${borrow.user.name}`, // Nom de l'emprunteur
+      start: borrow.startDate, // Date formatée en YYYY-MM-DD
       end: borrow.endDate,
       motif: borrow.motif,
-      description: borrow.Listborrow
-        .map((item) => `${item.product_name} (x${item.quantity})`) // Liste des items avec leur quantité
+      description: borrow.Listborrow.map(
+        (item) => `${item.product_name} (x${item.quantity})`
+      ) // Liste des items avec leur quantité
         .join(", "),
     }));
 
@@ -287,8 +247,6 @@ app.get("/calendar", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch borrows" });
   }
 });
-
-
 
 app.use((req, res) => {
   res.status(404).json({ message: "The url doesn't exist" });

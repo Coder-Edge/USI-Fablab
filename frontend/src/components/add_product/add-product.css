@@ -44,8 +44,15 @@
     gap: 20px;
 }
 
+.add-product .content p {
+    font-size: 12px;
+    color: red;
+}
+
 .add-product .content .component img {
     width: 160px;
+    cursor: pointer;
+    border: 1px solid #5899DD;
 }
 
 .add-product .content .component div {
@@ -64,7 +71,8 @@
     gap: 10px;
 }
 
-.add-product .content .component input {
+.add-product .content .component input,
+.add-product .content .component select {
     width: 100%;
     padding: 8px;
     border-radius: 4px;

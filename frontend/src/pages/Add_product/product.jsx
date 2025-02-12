@@ -19,7 +19,8 @@ export default function ProductForm() {
   };
 
   const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
+    console.log(e.target.files[0]);
+    setImage(e.target.files[0])
   };
 
   const handleSubmit = async (e) => {

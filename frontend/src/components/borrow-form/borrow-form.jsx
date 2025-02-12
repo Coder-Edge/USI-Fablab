@@ -75,7 +75,7 @@ const BorrowForm = () => {
           const res = await axios.post("/borrow", b);
           setBorrowList([]);
           formRef.current.reset();
-          
+
           // Afficher un message de succès avec SweetAlert2
           Swal.fire({
             title: "Emprunt validé !",
@@ -83,10 +83,9 @@ const BorrowForm = () => {
             icon: "success",
             confirmButtonText: "OK",
           });
-
         } catch (err) {
           console.error("Erreur lors de la requête :", err);
-          
+
           // Afficher un message d'erreur en cas d'échec
           Swal.fire({
             title: "Erreur",
@@ -107,14 +106,22 @@ const BorrowForm = () => {
       <div className="borrow-form">
         <div className="form-content">
           <div className="head-form-borrow">
-            <Button child={<IoCloseSharp />} type={"button"} onClick={closeForm} />
+            <Button
+              child={<IoCloseSharp />}
+              type={"button"}
+              onClick={closeForm}
+            />
             <h3>Formulaire d'emprunt</h3>
           </div>
           <div className="list-items-form-borrow">
             <h3>Liste d'items</h3>
             <BorrowTable />
             <ButtonAdd
-              child={<><MdAddCircleOutline /> Ajouter</>}
+              child={
+                <>
+                  <MdAddCircleOutline /> Ajouter
+                </>
+              }
               type={"button"}
               onClick={closeForm}
             />
@@ -128,7 +135,9 @@ const BorrowForm = () => {
                   type="date"
                   name="start-date"
                   id="start-date"
-                  defaultValue={`${defaultDate.getFullYear()}-${defaultDate.getMonth() + 1}-${defaultDate.getDate()}`}
+                  defaultValue={`${defaultDate.getFullYear()}-${
+                    defaultDate.getMonth() + 1
+                  }-${defaultDate.getDate()}`}
                 />
               </div>
               <div className="borrow-end-date">
@@ -137,14 +146,20 @@ const BorrowForm = () => {
                   type="date"
                   name="end-date"
                   id="end-date"
-                  defaultValue={`${defaultDate.getFullYear()}-${defaultDate.getMonth() + 1}-${defaultDate.getDate()}`}
+                  defaultValue={`${defaultDate.getFullYear()}-${
+                    defaultDate.getMonth() + 1
+                  }-${defaultDate.getDate()}`}
                 />
               </div>
             </div>
           </div>
           <div className="motif-form-borrow">
             <h3>Motif d'emprunt</h3>
-            <textarea name="motif" placeholder="Décrivez votre projet" id="motif"></textarea>
+            <textarea
+              name="motif"
+              placeholder="Décrivez votre projet"
+              id="motif"
+            ></textarea>
             <label htmlFor="motif" className="motif-invalid-label">
               *Ce champ doit être rempli
             </label>
