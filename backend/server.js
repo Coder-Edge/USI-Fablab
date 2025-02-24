@@ -10,6 +10,7 @@ const ImageModel = require("./Models/image.js");
 const userModel = require("./Models/users.js");
 const ProductModel = require("./Models/product.js");
 const BorrowModel = require("./Models/borrow.js");
+const MemberModel = require("./Models/member.js");
 
 const app = express();
 app.use(express.static("uploads"));
@@ -71,8 +72,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Route pour enregistrer un produit avec une image
-app.post("/products", upload.single("image"), async (req, res) => { 
-
+app.post("/products", upload.single("image"), async (req, res) => {
   try {
     const { name, price, quantity, type, is_available } = req.body;
     const { path: imagePath, filename } = req.file;
@@ -225,6 +225,35 @@ app.get("/get/borrows", async (req, res) => {
 //     res.status(500).json({ error: "Failed to fetch the Product" });
 //   }
 // });
+
+app.post("/add_member", async (req, res) => {
+  try {
+    const { user, salary, role } = req.body;
+
+    const existingUser = await MemberModel.findOne({
+      member: user,
+    });
+
+    if (existingUser) {
+      return res
+        .status(401)
+        .json({ message: "Cet utlisateur existe déjà comme membre" });
+    } else {
+      const newMember = new MemberModel({
+        member: user,
+        role: role,
+        salary: salary,
+      });
+      await newMember.save();
+      res.status(201).json({ message: "Nouveau membre ajouté avec succès" });
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: "Erreur lors de l'insertion d'un nouveau nombre",
+      error,
+    });
+  }
+});
 
 app.get("/calendar", async (req, res) => {
   try {

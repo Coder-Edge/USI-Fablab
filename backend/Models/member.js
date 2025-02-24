@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 // Définition du schéma
 const memberSchema = new mongoose.Schema({
-  user: { type: String, required: true },
-  Role: { type: String, enum: [], default: "gestionnaire", required: true },
+  member: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  role: { type: String, enum: [], default: "gestionnaire", required: true },
   salary: { type: Number, default: 0, required: true},
 });
 
