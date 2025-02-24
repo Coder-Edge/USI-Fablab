@@ -43,7 +43,12 @@ export default function Main() {
     return (
       <>
         <div className="main-content">
-          <Header title={title} name={auth.name} role={auth.userType} />
+          <Header
+            title={title}
+            firstName={auth.firstName}
+            name={auth.name}
+            role={auth.userType}
+          />
           {children}
         </div>
       </>
@@ -76,10 +81,28 @@ export default function Main() {
 
                       <Route
                         index
-                        element={<Simplifier title={"Inventaire"}><InventoryMNG setNavActive={setNavActive} /></Simplifier>}
+                        element={
+                          <Simplifier title={"Inventaire"}>
+                            <InventoryMNG setNavActive={setNavActive} />
+                          </Simplifier>
+                        }
                       />
-                      <Route path="/budget" element={<Simplifier title={"Budget"}><BudgetMNG setNavActive={setNavActive} /></Simplifier>} />
-                      <Route path="/members" element={<Simplifier title={"Membres"}><MembersPage setNavActive={setNavActive} /></Simplifier>} />
+                      <Route
+                        path="/budget"
+                        element={
+                          <Simplifier title={"Budget"}>
+                            <BudgetMNG setNavActive={setNavActive} />
+                          </Simplifier>
+                        }
+                      />
+                      <Route
+                        path="/members"
+                        element={
+                          <Simplifier title={"Membres"}>
+                            <MembersPage setNavActive={setNavActive} />
+                          </Simplifier>
+                        }
+                      />
 
                       {/* Route pour le calendrier */}
                       <Route
@@ -90,7 +113,6 @@ export default function Main() {
                           </Simplifier>
                         }
                       />
-
                     </Routes>
                   </>
                 }
@@ -108,14 +130,9 @@ export default function Main() {
                       <Route
                         index
                         element={
-                          <div className="main-content">
-                            <Header
-                              title={"Inventaire"}
-                              name={auth.name}
-                              role={auth.userType}
-                            />
+                          <Simplifier title={"Inventaire"}>
                             <InventorySTD />
-                          </div>
+                          </Simplifier>
                         }
                       />
                     </Routes>
@@ -135,14 +152,9 @@ export default function Main() {
                       <Route
                         index
                         element={
-                          <div className="main-content">
-                            <Header
-                              title={"Inventaire"}
-                              name={auth.name}
-                              role={auth.userType}
-                            />
+                          <Simplifier title={"Inventaire"}>
                             <InventoryEXT setNavActive={setNavActive} />
-                          </div>
+                          </Simplifier>
                         }
                       />
                     </Routes>
@@ -153,18 +165,56 @@ export default function Main() {
 
             {/* Route pour le member */}
             <Route element={<Permission role={[Role.member]} />}>
-              <Route path="/member/*" element={
-                <>
-                  <Navbar param={navActive} role={Role.member} />
-                  <Routes>
-                    <Route index element={<Simplifier title={"Inventaire"}><InventoryMBR setNavActive={setNavActive} /></Simplifier>} />
-                    <Route path="/budget" element={<Simplifier title={"Budget"}><BudgetMNG setNavActive={setNavActive} /></Simplifier>} />
-                    <Route path="/members" element={<Simplifier title={"members"}><MembersPageMBR setNavActive={setNavActive} /></Simplifier>} />
-                    <Route path="/calendar" element={<Simplifier title={"Calendrier"}><Calendrier setNavActive={setNavActive} /></Simplifier>} />
-                    <Route path="/parametre" element={<Simplifier title={"Paramètre"}><ParamatreMNG setNavActive={setNavActive} /></Simplifier>} />
-                  </Routes>
-                </>
-              } />
+              <Route
+                path="/member/*"
+                element={
+                  <>
+                    <Navbar param={navActive} role={Role.member} />
+                    <Routes>
+                      <Route
+                        index
+                        element={
+                          <Simplifier title={"Inventaire"}>
+                            <InventoryMBR setNavActive={setNavActive} />
+                          </Simplifier>
+                        }
+                      />
+                      <Route
+                        path="/budget"
+                        element={
+                          <Simplifier title={"Budget"}>
+                            <BudgetMNG setNavActive={setNavActive} />
+                          </Simplifier>
+                        }
+                      />
+                      <Route
+                        path="/members"
+                        element={
+                          <Simplifier title={"members"}>
+                            <MembersPageMBR setNavActive={setNavActive} />
+                          </Simplifier>
+                        }
+                      />
+                      <Route
+                        path="/calendar"
+                        element={
+                          <Simplifier title={"Calendrier"}>
+                            <Calendrier setNavActive={setNavActive} />
+                          </Simplifier>
+                        }
+                      />
+                      <Route
+                        path="/parametre"
+                        element={
+                          <Simplifier title={"Paramètre"}>
+                            <ParamatreMNG setNavActive={setNavActive} />
+                          </Simplifier>
+                        }
+                      />
+                    </Routes>
+                  </>
+                }
+              />
             </Route>
           </Route>
 

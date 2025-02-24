@@ -86,10 +86,11 @@ router.post("/registre", unknownPermission, async (req, res) => {
 router.get("/user", authentification, async (req, res) => {
   try {
     user = await userModel.findById(req.user);
-    const { name, email, userType } = user;
+    const { name, firstName, email, userType } = user;
+
     res
       .status(200)
-      .json({ message: "Success", user: { name, email, userType } });
+      .json({ message: "Success", user: { name, firstName, email, userType } });
   } catch (err) {
     return res.status(404).json({ message: "No user with that id" });
   }

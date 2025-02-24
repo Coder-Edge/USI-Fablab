@@ -19,7 +19,7 @@ const MembersTableView = ({numberItemDisplay, activeNumberGroup, searchTerm}) =>
                 .filter((user) => ( user.name.toLowerCase().includes(searchTerm.toLowerCase().trim()) || user.firstname.toLowerCase().includes(searchTerm.toLowerCase().trim())))
                 .map((user, i) => (
                     <tr key={i}>
-                        <td className="component" style={{ width: "20%" }}>
+                        <td className="component" style={{ width: "37%" }}>
                             <div >
                                 <img src={`/src/assets/profile-icon.svg`} alt={user.name} />
                                 {user.name.length <= 20 ? user.name : `${user.name.slice(0, 18)} ...`}
