@@ -14,10 +14,13 @@
     align-items: center;
 }
 
-.add-product .content {
+#add-product .content {
+    width: 510px;
+}
+
+.add-popup .content {
     border-radius: 14px;
     background-color: white;
-    width: 500px;
     padding: 30px;
     display: flex;
     flex-direction: column;
@@ -25,54 +28,58 @@
 }
 
 
-.add-product .content .header {
+.add-popup .content .header {
     display: flex;
     gap: 8px;
 }
 
-.add-product .header button {
+.add-popup .content .header h3 {
+    font-size: 16px;
+}
+
+.add-popup .header button {
     background-color: transparent;
     border: 0;
     padding: 0 4px;
     cursor: pointer;
 }
 
-.add-product .content .component {
+.add-popup .content .component {
     display: flex;
     justify-content: start;
     align-items: center;
     gap: 20px;
 }
 
-.add-product .content p {
+.add-popup .content p {
     font-size: 12px;
     color: red;
 }
 
-.add-product .content .component img {
+.add-popup .content .component img {
     width: 160px;
     cursor: pointer;
     border: 1px solid #5899DD;
 }
 
-.add-product .content .component div {
+.add-popup .content .component div {
     width: 100%;
 }
 
-.add-product .content .component div.input {
+.add-popup .content .component div.input {
     display: flex;
     flex-direction: column;
     gap: 15Px;
 }
 
-.add-product .content .component .input .field-input {
+.add-popup .content .component .input .field-input {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.add-product .content .component input,
-.add-product .content .component select {
+.add-popup .content .component input,
+.add-popup .content .component select {
     width: 100%;
     padding: 8px;
     border-radius: 4px;
@@ -80,22 +87,22 @@
     border: 1px solid #A2A1A8;
 }
 
-.add-product .content .info {
+.add-popup .content .info {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 20px;
 }
 
-.add-product .content .info .field-input {
+.add-popup .content .info .field-input {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 5px;
 }
 
-.add-product .content .info .field-input input,
-.add-product .content .info .field-input select {
+.add-popup .content .info .field-input input,
+.add-popup .content .info .field-input select {
     width: 50px;
     padding: 8px;
     border-radius: 4px;
@@ -103,11 +110,11 @@
     border: 1px solid #A2A1A8;
 }
 
-.add-product .content .info .field-input select {
+.add-popup .content .info .field-input select {
     width: 100px;
 }
 
-.add-product .content .info .field-input button {
+.add-popup .content .info .field-input button {
     padding: 8px;
     border-radius: 4px;
     outline: 0;
@@ -116,11 +123,11 @@
     cursor: pointer;
 }
 
-.add-product .content .info .field-input input#price {
+.add-popup .content .info .field-input input#price {
     width: 100%;
 }
 
-.add-product .content .button-add {
+.add-popup .content .button-add {
     width: 100%;
     display: flex;
     justify-content: right;

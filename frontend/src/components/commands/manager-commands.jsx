@@ -6,22 +6,26 @@ import ButtonAdd from "../stocks/button-add";
 import HeadStocks from "../stocks/head-stock";
 import DynamicTable from "../table/table";
 
-
 const CommandsMNG = () => {
+    // State for search term
+    const [searchTerm, setSearchTerm] = useState("");
 
-    // research
-    const [searchTerm, setSearchTerm] = useState("")
-
-    //Total price
+    // State for total price
     const [sum, setSum] = useState(0);
 
-    // Calcul du total à chaque mise à jour de `commands`
+    // Calculate total price whenever `commands` changes
     useEffect(() => {
         const total = commands.reduce((accCommand, command) => {
-            return accCommand + command.product.price * command.quantity
+            return accCommand + command.product.price * command.quantity;
         }, 0);
         setSum(total);
     }, [commands]);
+
+    // Filtered commands based on search term
+    const filteredCommands = commands.filter((command) => (
+        command.product.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+        command.user.name.toLowerCase().includes(searchTerm.toLowerCase())
+    ));
 
     return (
         <div className="commands">
@@ -42,32 +46,32 @@ const CommandsMNG = () => {
                     </tr>
                 }
                 tbodyChild={
-                    commands
-                        .filter((command) => (
-                            command.product.name.toLowerCase().includes(searchTerm) || command.user.name.toLowerCase().includes(searchTerm)
-                        ))
-                        .map((command, ind0) => (
-                            <tr key={ind0}>
-                                <td className="component" style={{ width: "50%" }}>
-                                    <div>
-                                        <img src={command.product.image} alt={command.product.name} />
-                                        {command.product.name.length <= 15 ? command.product.name : `${command.product.name.slice(0, 12)}...`}
-                                    </div>
-                                </td>
-                                <td className="price" style={{ width: "20%" }}>
-                                    ${command.product.price * command.quantity}
-                                </td>
-                                <td className="quantity" style={{ width: "20%" }}>
-                                    <button className="btn">&lt;</button>
-                                    <span>{command.quantity}</span>
-                                    <button className="btn">&gt;</button>
-                                </td>
-                            </tr>
-                        ))
-                } />
-            <ButtonAdd child={"Ajouter au stock"} />
+                    filteredCommands.map((command, index) => (
+                        <tr key={index}>
+                            <td className="component" style={{ width: "50%" }}>
+                                <div>
+                                    <img src={command.product.image} alt={command.product.name} />
+                                    {command.product.name.length <= 15 ? command.product.name : `${command.product.name.slice(0, 12)}...`}
+                                </div>
+                            </td>
+                            <td className="price" style={{ width: "20%" }}>
+                                ${command.product.price * command.quantity}
+                            </td>
+                            <td className="quantity" style={{ width: "20%" }}>
+                                <button className="btn">&lt;</button>
+                                <span>{command.quantity}</span>
+                                <button className="btn">&gt;</button>
+                            </td>
+                        </tr>
+                    ))
+                }
+            />
+            <ButtonAdd child={"Ajouter au stock"} onClick={() => {
+                const component = document.querySelector("#add-command");
+                component.style.visibility = "visible";
+            }} />
         </div>
-    )
+    );
 }
 
 export default CommandsMNG;

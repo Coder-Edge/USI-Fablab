@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "../../../components/button/Button";
 import HeadStocks from "../../../components/stocks/head-stock";
 import ToolBox from "../../../components/stocks/toolbox";
@@ -9,7 +9,7 @@ import "../../../components/stocks/stocks.css";
 import Bottom from "../../../components/stocks/bottom";
 import STFilter from "../../../components/popup/st-filter";
 import BorrowForm from "../../../components/borrow-form/borrow-form";
-import axios from "../../../api/api"
+
 
 // Borrow context
 export const BorrowContext = React.createContext();

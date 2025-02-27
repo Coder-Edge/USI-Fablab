@@ -73,37 +73,6 @@
 .toolbar::-webkit-scrollbar-thumb:hover {
   background-color: #5899DD;
 }
- 
-
-/* Styles pour chaque type de statut */
-.stocks .available p {
-  background-color: #e8f7e8; /* Vert clair */
-  color: #2ca02c;          /* Vert foncé */
-} 
-
-.stocks .status > * {
-  padding: 8px 15px;
-  text-align: start;
-  width: fit-content;
-  border-radius: 6px;
-  font-size: 13px;
-}
- 
-.stocks .unavailable p {
-  background-color: #f7e8e8; /* Rouge clair */
-  color: #a02c2c;          /* Rouge foncé */
-}  
-
-.stocks .emprunt p {
-  background-color: #5899DD;
-  color: #FFF;  
-}
-
-.stocks .unemprunt p {
-  background-color: #dddddd;
-  
-}
-
 
 /* Bottom page number dispklay style */
 

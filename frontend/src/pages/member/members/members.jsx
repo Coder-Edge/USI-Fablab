@@ -13,7 +13,7 @@ const MembersPageMBR = ({ setNavActive }) => {
     const [data, setData] = useState([])
 
     const [searchTerm, setSearchTerm] = useState("");
-    const [types, setTypes] = useState([]);
+    const [types, setTypes] = useState(["Etudiant", "Manager"]);
     const [btnActive, setBtnActive] = useState("");
     // Display limited number of items
     const [numberItemDisplay, setNumberItemDisplay] = useState(10);
@@ -27,6 +27,10 @@ const MembersPageMBR = ({ setNavActive }) => {
 
     }, [])
 
+    const setFilter = (e) => {
+        setBtnActive(e)
+    }
+
     return (
         <div className="members">
             <HeadStocks title={"Equipes"} setSearchTerm={setSearchTerm} />
@@ -38,7 +42,8 @@ const MembersPageMBR = ({ setNavActive }) => {
                             child={<><MdFilterList /> Filtre</>}
                         />}
                     types={types}
-                    btnActive={btnActive} />
+                    btnActive={btnActive}
+                    SetTypeFilter={setFilter} />
                 <MembersTableView numberItemDisplay={numberItemDisplay} activeNumberGroup={activeNumberGroup} searchTerm={searchTerm}/>
             </div>
             <Bottom
