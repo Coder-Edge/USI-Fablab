@@ -300,7 +300,9 @@ app.post("/add_member", async (req, res) => {
 // Route pour récupérer les membres
 app.get("/get_members", async (req, res) => {
   try {
-    const members = await MemberModel.find().populate("member");
+    const members = await MemberModel.find().populate([
+      { path: "member", select: "name firstName email" }, // Récupérer le nom et l'email de l'utilisateur
+    ]);
     res.json(members);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch members" });
