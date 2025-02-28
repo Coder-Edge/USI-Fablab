@@ -1,5 +1,6 @@
 import { useRef, useState } from "react"
 import ButtonAdd from "../stocks/button-add"
+import { IoMdClose } from "react-icons/io";
 import "./add-product.css"
 import axios from "../../api/api"
 
@@ -85,10 +86,10 @@ const AddProduct = () => {
 
   return (
     <form id="add-product" onSubmit={handleSubmit}>
-      <div className="add-product">
+      <div className="add-popup">
         <div className="content">
           <div className="header">
-            <button type="button" onClick={closeForm}>X</button>
+            <button type="button" onClick={closeForm}><IoMdClose/></button>
             <h3>Formulaire d'ajout d'un nouveau composant</h3>
           </div>
           <div className="component">

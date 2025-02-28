@@ -4,12 +4,15 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import Swal from "sweetalert2";
 import "./calendrier.css";
+import { NavParams } from "../../components/Navbar/navParams";
 
-export default function Calendrier() {
+export default function Calendrier({setNavActive}) {
   const [events, setEvents] = useState([]);
 
   // Chargement des événements depuis l'API
   useEffect(() => {
+    setNavActive(NavParams.calendrier)
+
     const fetchEvents = async () => {
       try {
         const response = await fetch("http://localhost:3000/calendar");

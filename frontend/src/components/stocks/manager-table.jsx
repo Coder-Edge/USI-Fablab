@@ -1,6 +1,7 @@
 import DynamicTable from "../table/table"
 
-const Table = ({ data, type, searchTerm }) => {
+const Table = ({ data, type, searchTerm}) => {
+
     return (
         <DynamicTable
             theadChild={
@@ -22,7 +23,7 @@ const Table = ({ data, type, searchTerm }) => {
                     }).map((product, index) => (
                         <tr key={index}>
                             <td className="component" style={{ width: "40%" }}>
-                                <div >
+                                <div>
                                     <img src={`http://localhost:3000/img/${product.image}`} alt={product.name} />
                                     {product.name.length <= 27 ? product.name : `${product.name.slice(0, 25)} ...`}
                                 </div>

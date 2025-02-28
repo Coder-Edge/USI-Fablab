@@ -6,20 +6,22 @@ const ToolBox = ({firstbutton, types, btnActive, SetTypeFilter}) => {
     return(
         <div className="toolbar">
             {firstbutton}
-            <Button 
+            <Button
+                type="button"
                 className={btnActive == "" ? "active" : ""} 
                 child={"Tous"}
                 onClick={() => {
                     SetTypeFilter("")}}
             />
-            {types.map((productType, index) => (                    
+            {types.map((type, index) => (                    
                 <Button key={index}
-                    className={btnActive == productType.toLowerCase() ? "active" : ""}
-                    value={productType.toLowerCase()}
+                    type="button"
+                    className={btnActive == type.toLowerCase() ? "active" : ""}
+                    value={type.toLowerCase()}
                     onClick={() => {
-                        SetTypeFilter(productType.toLowerCase())
+                        SetTypeFilter(type.toLowerCase())
                     }}
-                    child={productType.toLowerCase()}>
+                    child={type.toLowerCase()}>
                 </Button>
             ))}
         </div>

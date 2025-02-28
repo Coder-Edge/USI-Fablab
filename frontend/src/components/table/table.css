@@ -6,7 +6,7 @@
     border-collapse: collapse;
 }
 
-.table table >* {
+.table table>* {
     font-size: 13px;
 }
 
@@ -31,8 +31,10 @@
 .table table tbody td.quantity {
     text-align: center;
 }
+
 .table table tr td.component div {
     display: flex;
+    gap: 10px;
     align-items: center;
 }
 
@@ -40,7 +42,6 @@
     width: 36px;
     height: 36px;
     border-radius: 100px;
-    margin-right: 4px;
 }
 
 /* quantity button */
@@ -66,7 +67,8 @@
 
 .table table tbody {
     display: block;
-    overflow-y: auto; /* Active le scroll vertical */
+    overflow-y: auto;
+    /* Active le scroll vertical */
     width: 100%;
 }
 
@@ -91,3 +93,4 @@
 .table table tbody::-webkit-scrollbar-thumb:hover {
     background-color: #5899DD;
 }
+

@@ -1,11 +1,11 @@
 import Button from "../button/Button"
 
-const SimpleFilter = ({ref}) => {
+const SimpleFilter = () => {
 
     const types = ["Gestionnaire des stocks", "Manager", "Gestionnaire de projet", "Gestionnaire de finance", "Chargé de maitenace"]
 
     return (
-        <div className="st-filter" id='filter-popup' ref={ref}>
+        <div className="st-filter" id='filter-popup'>
             <div className="popup-content">
                 <div className="st-filter-content">
                     <h3>Filtre</h3>

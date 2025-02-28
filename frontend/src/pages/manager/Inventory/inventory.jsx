@@ -11,14 +11,13 @@ import "./inventory.css";
 import "../../../components/stocks/stocks.css";
 import { NavParams } from "../../../components/Navbar/navParams";
 import AddProduct from "../../../components/add_product/add-product";
+import AddCommand from "../../../components/add-command/add-command";
 
 const InventoryMNG = ({setNavActive}) => {
   // data acquisition
   const [allProducts, setAllProducts] = useState([]); // Store all products
   const [data, setData] = useState([]); // Store filtered products
   const [types, setTypes] = useState([]);
-
-  const addProductRef = useRef(null)
 
   useEffect(() => {
 
@@ -39,7 +38,7 @@ const InventoryMNG = ({setNavActive}) => {
     };
 
     fetchData();
-  }, [fetch("http://localhost:3000/get/products")]);
+  }, []);
 
   // Search
   const [searchTerm, setSearchTerm] = useState("");
@@ -77,11 +76,12 @@ const InventoryMNG = ({setNavActive}) => {
 
           <Table data={data} type={type} searchTerm={searchTerm} />
 
-          <ButtonAdd child={<><MdAddCircleOutline /> Ajouter</>} onClick={() => {document.querySelector("#add-product").style.visibility = "hidden"}}/>
+          <ButtonAdd child={<><MdAddCircleOutline /> Ajouter</>} onClick={() => {document.querySelector("#add-product").style.visibility = "visible"}}/>
         </div>
       </div>
 
       <AddProduct />
+      <AddCommand data={data}/>
 
     </div>
   );

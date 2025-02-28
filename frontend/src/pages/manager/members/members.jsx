@@ -19,7 +19,7 @@ const MembersPage = ({ setNavActive }) => {
     const [data, setData] = useState([])
 
     const [searchTerm, setSearchTerm] = useState("");
-    const [types, setTypes] = useState([]);
+    const [types, setTypes] = useState(["Etudiant", "Manager"]);
     const [btnActive, setBtnActive] = useState("");
     // Display limited number of items
     const [numberItemDisplay, setNumberItemDisplay] = useState(10);
@@ -33,6 +33,17 @@ const MembersPage = ({ setNavActive }) => {
 
     }, [])
 
+
+    // filter des membres
+    const setFilter = (e) => {
+        setBtnActive(e)
+    }
+
+    // show pop up
+    const showAddMember = () => {
+        document.getElementById("filter-popup").style.visibility = "visible"
+    }
+
     return (
         <div className="members">
             <HeadStocks title={"Equipes"} setSearchTerm={setSearchTerm} />
@@ -40,7 +51,7 @@ const MembersPage = ({ setNavActive }) => {
                 <div className="card">
                     <p>Effectif</p>
                     <p className="content">{data.length} {data.length > 1 ? "membres" : "membre"}</p>
-                    <p className="icon"><img src="/src/assets/icon/group-icon.svg" alt="" srcset="" /></p>
+                    <p className="icon"><img src="/src/assets/icon/group-icon.svg" alt="Person" /></p>
                 </div>
                 <div className="card">
                     <p>Coût total du personnel</p>
@@ -53,8 +64,10 @@ const MembersPage = ({ setNavActive }) => {
                         <Button
                             // className={quantityFilter !== "" ? "active" : ""}
                             child={<><MdFilterList /> Filtre</>}
+                            onClick={showAddMember}
                         />}
                     types={types}
+                    SetTypeFilter={setFilter}
                     btnActive={btnActive} />
                 <MembersTableView numberItemDisplay={numberItemDisplay} activeNumberGroup={activeNumberGroup} searchTerm={searchTerm}/>
                 <ButtonAdd child={<><MdAddCircleOutline /> Inviter</>} />
@@ -67,7 +80,7 @@ const MembersPage = ({ setNavActive }) => {
                 data={data}
             />
 
-            <SimpleFilter ref={refPopup} />
+            <SimpleFilter />
         </div>
     )
 }
