@@ -11,10 +11,15 @@ import { MdAddCircleOutline } from "react-icons/md"
 import Bottom from "../../../components/stocks/bottom"
 import { users } from "../../../models/users"
 import SimpleFilter from "../../../components/popup/simple-filter"
+import Simplifier from "../../../components/simplifier/simplifier"
+import MemberDetailView from "../../../components/member-detail-view/member-detail-view"
+import AddMember from "../../../components/add-memeber/add-member"
 
 const MembersPage = ({ setNavActive }) => {
 
-    const refPopup = useRef(null)
+    const [userDetailViewInfo, setUserDetailViewInfo] = useState({})
+
+    const [title, setTitle] = useState("Member")
 
     const [data, setData] = useState([])
 
@@ -33,6 +38,27 @@ const MembersPage = ({ setNavActive }) => {
 
     }, [])
 
+    // show detail view
+    const showDetailView = (firstname, name, email, poste) => {
+        setTitle(
+            <div className="detailview-title">
+                <button type="button" onClick={
+                    () => {
+                        setTitle("Member")
+                        document.querySelector("#detail-member-view").style.visibility = "hidden"
+                    }
+                }>+</button> {firstname} {name}
+            </div>
+        );
+        setUserDetailViewInfo({
+            firstname: firstname,
+            name: name,
+            email: email,
+            poste: poste
+        })
+        
+    }
+
 
     // filter des membres
     const setFilter = (e) => {
@@ -45,43 +71,54 @@ const MembersPage = ({ setNavActive }) => {
     }
 
     return (
-        <div className="members">
-            <HeadStocks title={"Equipes"} setSearchTerm={setSearchTerm} />
-            <div className="summary">
-                <div className="card">
-                    <p>Effectif</p>
-                    <p className="content">{data.length} {data.length > 1 ? "membres" : "membre"}</p>
-                    <p className="icon"><img src="/src/assets/icon/group-icon.svg" alt="Person" /></p>
+        <Simplifier title={title}>
+            <div className="members">
+                <HeadStocks title={"Equipes"} setSearchTerm={setSearchTerm} />
+                <div className="summary">
+                    <div className="card">
+                        <p>Effectif</p>
+                        <p className="content">{data.length} {data.length > 1 ? "membres" : "membre"}</p>
+                        <p className="icon"><img src="/src/assets/icon/group-icon.svg" alt="Person" /></p>
+                    </div>
+                    <div className="card">
+                        <p>Coût total du personnel</p>
+                        <p className="content">$ {36000}</p>
+                    </div>
                 </div>
-                <div className="card">
-                    <p>Coût total du personnel</p>
-                    <p className="content">$ {36000}</p>
+                <div className="content">
+                    <ToolBox
+                        firstbutton={
+                            <Button
+                                // className={quantityFilter !== "" ? "active" : ""}
+                                child={<><MdFilterList /> Filtre</>}
+                                onClick={showAddMember}
+                            />}
+                        types={types}
+                        SetTypeFilter={setFilter}
+                        btnActive={btnActive} />
+                    <MembersTableView numberItemDisplay={numberItemDisplay} activeNumberGroup={activeNumberGroup} searchTerm={searchTerm} showDetailView={showDetailView} />
+                    <ButtonAdd child={<><MdAddCircleOutline /> Inviter</>} onClick={
+                        () => {
+                            document.querySelector("#add-member").style.visibility = "visible"
+                        }
+                    }/>
                 </div>
-            </div>
-            <div className="content">
-                <ToolBox
-                    firstbutton={
-                        <Button
-                            // className={quantityFilter !== "" ? "active" : ""}
-                            child={<><MdFilterList /> Filtre</>}
-                            onClick={showAddMember}
-                        />}
-                    types={types}
-                    SetTypeFilter={setFilter}
-                    btnActive={btnActive} />
-                <MembersTableView numberItemDisplay={numberItemDisplay} activeNumberGroup={activeNumberGroup} searchTerm={searchTerm}/>
-                <ButtonAdd child={<><MdAddCircleOutline /> Inviter</>} />
-            </div>
-            <Bottom
-                numberItemDisplay={numberItemDisplay}
-                setNumberItemDisplay={setNumberItemDisplay}
-                activeNumberGroup={activeNumberGroup}
-                setActiveNumberGroup={setActiveNumberGroup}
-                data={data}
-            />
+                <Bottom
+                    numberItemDisplay={numberItemDisplay}
+                    setNumberItemDisplay={setNumberItemDisplay}
+                    activeNumberGroup={activeNumberGroup}
+                    setActiveNumberGroup={setActiveNumberGroup}
+                    data={data}
+                />
 
-            <SimpleFilter />
-        </div>
+                <SimpleFilter />
+                <MemberDetailView memberInfo={userDetailViewInfo} />
+
+            </div>
+
+            <AddMember />
+
+        </Simplifier>
     )
 }
 

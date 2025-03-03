@@ -79,7 +79,7 @@ export default function Main() {
                         element={<Simplifier title={"Inventaire"}><InventoryMNG setNavActive={setNavActive} /></Simplifier>}
                       />
                       <Route path="/budget" element={<Simplifier title={"Budget"}><BudgetMNG setNavActive={setNavActive} /></Simplifier>} />
-                      <Route path="/members" element={<Simplifier title={"Membres"}><MembersPage setNavActive={setNavActive} /></Simplifier>} />
+                      <Route path="/members" element={<MembersPage setNavActive={setNavActive} />} />
 
                       {/* Route pour le calendrier */}
                       <Route

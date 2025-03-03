@@ -1,6 +1,6 @@
 
 
-.members {
+.members, #detail-member-view {
     padding: 20px 30px;
     background-color: white;
     display: flex;
@@ -9,6 +9,7 @@
     margin: 14px;
     border-radius: 14px;
     gap: 20px;
+    position: relative;
 }
 
 .members .summary {
@@ -82,3 +83,10 @@
     overflow-y: auto;
 }
 
+.detailview-title button {
+    background-color: transparent;
+    border-radius: 8px;
+    padding: 6px;
+    border: 0;
+    cursor: pointer;
+}

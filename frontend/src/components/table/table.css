@@ -6,6 +6,12 @@
     border-collapse: collapse;
 }
 
+.table a {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
 .table table>* {
     font-size: 13px;
 }
@@ -36,6 +42,10 @@
     display: flex;
     gap: 10px;
     align-items: center;
+}
+
+.table table tbody tr:hover{
+    background-color: #f0f7ff;
 }
 
 .table table tr td img {
@@ -78,6 +88,7 @@
     display: table;
     width: 100%;
     table-layout: fixed;
+    transition: all .4s ease;
 }
 
 /* Scrollbar */
