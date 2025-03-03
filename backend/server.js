@@ -11,6 +11,7 @@ const UserModel = require("./Models/users.js");
 const ProductModel = require("./Models/product.js");
 const BorrowModel = require("./Models/borrow.js");
 const MemberModel = require("./Models/member.js");
+const CommandModel = require("./Models/command.js");
 
 const app = express();
 app.use(express.static("uploads"));
@@ -264,13 +265,19 @@ app.post("/add_member", async (req, res) => {
     }
 
     if (existingUser.userType === "Extern") {
-      return res.status(400).json({ message: "Cet utilisateur est un extern et ne peut devenir un membre" });
+      return res
+        .status(400)
+        .json({
+          message: "Cet utilisateur est un extern et ne peut devenir un membre",
+        });
     }
 
     // Vérifier si l'utilisateur est déjà un membre
     const existingMember = await MemberModel.findOne({ member: user });
     if (existingMember) {
-      return res.status(400).json({ message: "Cet utilisateur est déjà membre" });
+      return res
+        .status(400)
+        .json({ message: "Cet utilisateur est déjà membre" });
     }
 
     // Mettre à jour userType en "membre"
@@ -286,8 +293,8 @@ app.post("/add_member", async (req, res) => {
 
     await newMember.save();
 
-    res.status(201).json({ 
-      message: "Utilisateur ajouté comme membre avec succès", 
+    res.status(201).json({
+      message: "Utilisateur ajouté comme membre avec succès",
     });
   } catch (error) {
     res.status(500).json({
@@ -307,8 +314,7 @@ app.get("/get_members", async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch members" });
   }
-}
-);
+});
 
 // Route pour mettre à jour un membre
 app.delete("/remove_member/:memberId", async (req, res) => {
@@ -316,8 +322,8 @@ app.delete("/remove_member/:memberId", async (req, res) => {
     const { memberId } = req.params;
 
     // Vérifier si le membre existe
-    const member = await MemberModel.findOne({member:memberId});
-    
+    const member = await MemberModel.findOne({ member: memberId });
+
     if (!member) {
       return res.status(404).json({ error: "Membre non trouvé" });
     }
@@ -326,14 +332,75 @@ app.delete("/remove_member/:memberId", async (req, res) => {
     await MemberModel.findByIdAndDelete(member._id);
 
     // Mise à jour du usertype dans UserModel
-    await UserModel.updateOne({_id: member.member}, { userType: "Student" });
+    await UserModel.updateOne({ _id: member.member }, { userType: "Student" });
 
-    res.json({ message: "Membre supprimé et utilisateur mis à jour avec succès" });
+    res.json({
+      message: "Membre supprimé et utilisateur mis à jour avec succès",
+    });
   } catch (error) {
     res.status(500).json({ error: "Erreur serveur" });
   }
 });
 
+app.post("/add_command", async (req, res) => {
+  // console.log(req.body);
+
+  const Listproduct = [];
+
+  try {
+    const { date, listproduct } = req.body;
+
+    console.log(listproduct, date);
+
+    for (let i = 0; i < listproduct.length; i++) {
+      Listproduct.push({
+        product_id: listproduct[i]._id,
+        quantity: listproduct[i].quantity,
+      });
+    }
+    console.log(Listproduct);
+
+
+    // Validation des champs
+    if (!date || !listproduct) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    // Récupération de l'utilisateur pour valider qu'il existe
+    const cookie = req.cookies.jwt;
+    const data = jwt.verify(cookie, process.env.ACCESS_TOKEN_SECRET);
+
+    // Liste de produits : Vérification si chaque produit existe et la quantité
+    for (let item of listproduct) {
+      const product = await ProductModel.findById(item._id);
+      if (!product) {
+        return res
+          .status(404)
+          .json({ message: `Product with ID ${item._id} not found` });
+      }
+    }
+
+    // Création de la commande
+    const command = new CommandModel({
+      user: data._id,
+      startDate: date,
+      ListCommand: Listproduct,
+      status: "en attente",
+    });
+
+    console.log(command);
+
+    // Sauvegarde dans la base de données
+    await command.save();
+
+    // Réponse de succès
+    res
+      .status(201)
+      .json({ message: "Command registered successfully", command });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+});
 
 app.get("/calendar", async (req, res) => {
   try {

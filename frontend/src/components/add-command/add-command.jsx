@@ -8,6 +8,8 @@ import { MdAddCircleOutline } from "react-icons/md";
 import DynamicTable from "../table/table";
 import AddCommandTable from "./add-command-table";
 import ButtonAdd from "../stocks/button-add";
+import axios from "../../api/api";
+import Swal from "sweetalert2";
 
 
 const AddCommand = ({ data }) => {
@@ -47,9 +49,45 @@ const AddCommand = ({ data }) => {
         setNewCommand([]);
     }
 
+    
+
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log(newCommand); 
+
+        let DateNow = new Date(Date.now());
+
+        // Créer un objet contenant les données de la commande
+        const newCommand_product = { listproduct : newCommand, date : DateNow };
+
+        console.log(newCommand_product);
+
+        const insertcommand = async (b) => {
+        try {
+            const res = await axios.post("/add_command", b);
+
+            // Afficher un message de succès avec SweetAlert2
+            Swal.fire({
+            title: "Commande validée !",
+            text: "Votre commande a été enregistrée avec succès.",
+            icon: "success",
+            confirmButtonText: "OK",
+            });
+        } catch (err) {
+            console.error("Erreur lors de la requête :", err);
+
+            // Afficher un message d'erreur en cas d'échec
+            Swal.fire({
+            title: "Erreur",
+            text: "Une erreur s'est produite lors de l'enregistrement de la commande.",
+            icon: "error",
+            confirmButtonText: "OK",
+            });
+        }
+        };
+
+        // Send POST request to /add_command
+        insertcommand(newCommand_product);
+
         closePop()
     }
 
@@ -110,7 +148,7 @@ const AddCommand = ({ data }) => {
                             />
                         </div>
                         <div className="command-list">
-                            <p>Liste des nouvelles commandes</p>
+                            <p>Liste des anciennes commandes</p>
                             <DynamicTable
                                 theadChild={
                                     <tr>
