@@ -2,7 +2,10 @@ import "./header.css"
 
 import { IoIosNotificationsOutline } from "react-icons/io";
 
-const Header = ({title, name, role}) => {
+const Header = ({title, name, firstName, role}) => {
+
+    console.log(title, name, firstName, role);
+
     return (
         <header>
             <h1>{title}</h1>
@@ -11,7 +14,7 @@ const Header = ({title, name, role}) => {
                     <IoIosNotificationsOutline className="notification-icon"/>
                 </div>
                 <div className="user-info-header">
-                    <p className="username">{name}</p>
+                    <p className="username">{name} {firstName}</p>
                     <p className="user-role">{role}</p>
                 </div>
                 <img src="/src/assets/profile.jpg" alt="User Profile" className="profile-header" />

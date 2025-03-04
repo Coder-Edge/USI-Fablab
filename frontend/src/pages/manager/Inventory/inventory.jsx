@@ -36,7 +36,7 @@ const InventoryMNG = ({setNavActive}) => {
         console.error("Erreur lors de la récupération des produits :", error);
       }
     };
-
+    
     fetchData();
   }, []);
 

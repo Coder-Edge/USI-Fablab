@@ -7,9 +7,11 @@ const jwt = require("jsonwebtoken");
 const path = require("path");
 const userRoute = require("./routes/users");
 const ImageModel = require("./Models/image.js");
-const userModel = require("./Models/users.js");
+const UserModel = require("./Models/users.js");
 const ProductModel = require("./Models/product.js");
 const BorrowModel = require("./Models/borrow.js");
+const MemberModel = require("./Models/member.js");
+const CommandModel = require("./Models/command.js");
 
 const app = express();
 app.use(express.static("uploads"));
@@ -31,7 +33,7 @@ app.use("/users", userRoute);
 // Route pour récupérer les utilisateurs
 app.get("/users", async (req, res) => {
   try {
-    const users = await userModel.find();
+    const users = await UserModel.find();
     return res.json({ user: users });
   } catch (error) {
     return res.status(500).json({
@@ -46,7 +48,7 @@ app.get("/get/users/:id", async (req, res) => {
   const { id } = req.params; // Récupérer l'ID depuis l'URL
 
   try {
-    const user = await userModel.findById(id).select("name email"); // Recherche de l'utilisateur par ID
+    const user = await UserModel.findById(id).select("name email"); // Recherche de l'utilisateur par ID
 
     if (!user) {
       return res.status(404).json({ error: "User not found" }); // Si l'utilisateur n'existe pas
@@ -71,8 +73,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Route pour enregistrer un produit avec une image
-app.post("/products", upload.single("image"), async (req, res) => { 
-
+app.post("/products", upload.single("image"), async (req, res) => {
   try {
     const { name, price, quantity, type, is_available } = req.body;
     const { path: imagePath, filename } = req.file;
@@ -114,6 +115,31 @@ app.get("/get/products", async (req, res) => {
     res.json(products);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch products" });
+  }
+});
+
+app.delete("/products/:id", async (req, res) => {
+  try {
+    const productId = req.params.id;
+
+    // Vérifier si le produit existe
+    const product = await ProductModel.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: "Produit non trouvé" });
+    }
+
+    // Supprimer l'image associée
+    await ImageModel.findByIdAndDelete(product.image);
+
+    // Supprimer le produit
+    await ProductModel.findByIdAndDelete(productId);
+
+    res.status(200).json({ message: "Produit supprimé avec succès" });
+  } catch (error) {
+    res.status(500).json({
+      error: "Erreur lors de la suppression du produit",
+      details: error.message,
+    });
   }
 });
 
@@ -195,7 +221,7 @@ app.post("/borrow", async (req, res) => {
 app.get("/get/borrows", async (req, res) => {
   try {
     const borrows = await BorrowModel.find().populate([
-      { path: "user", select: "name email" }, // Peuple l'utilisateur avec seulement le nom et l'email
+      { path: "user", select: "name email" }, // Récupérer le nom et l'email de l'utilisateur
     ]);
 
     const formattedBorrows = borrows.map((borrow, index) => ({
@@ -212,19 +238,169 @@ app.get("/get/borrows", async (req, res) => {
   }
 });
 
-// app.get("/get/products/:id", async (req, res) => {
-//   const { id } = req.params; // Récupérer l'ID depuis les paramètres de l'URL
+// Get a product by ID
+app.get("/get/products/:id", async (req, res) => {
+  const { id } = req.params; // Récupérer l'ID depuis les paramètres de l'URL
 
-//   try {
-//     const product = await ProductModel.findById(id); // Recherche par ID
-//     if (!product) {
-//       return res.status(404).json({ error: "Product not found" });
-//     }
-//     res.json(product);
-//   } catch (error) {
-//     res.status(500).json({ error: "Failed to fetch the Product" });
-//   }
-// });
+  try {
+    const product = await ProductModel.findById(id); // Recherche par ID
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+    res.json(product);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch the Product" });
+  }
+});
+
+// Route pour ajouter un membre
+app.post("/add_member", async (req, res) => {
+  try {
+    const { user, salary, role } = req.body;
+
+    // Vérifier si l'utilisateur existe dans UserModel
+    const existingUser = await UserModel.findById(user);
+    if (!existingUser) {
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
+    }
+
+    if (existingUser.userType === "Extern") {
+      return res
+        .status(400)
+        .json({
+          message: "Cet utilisateur est un extern et ne peut devenir un membre",
+        });
+    }
+
+    // Vérifier si l'utilisateur est déjà un membre
+    const existingMember = await MemberModel.findOne({ member: user });
+    if (existingMember) {
+      return res
+        .status(400)
+        .json({ message: "Cet utilisateur est déjà membre" });
+    }
+
+    // Mettre à jour userType en "membre"
+    existingUser.userType = "Member";
+    await existingUser.save();
+
+    // Ajouter le nouvel utilisateur dans MemberModel
+    const newMember = new MemberModel({
+      member: user,
+      role,
+      salary,
+    });
+
+    await newMember.save();
+
+    res.status(201).json({
+      message: "Utilisateur ajouté comme membre avec succès",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Erreur lors de l'ajout du membre",
+      error: error.message,
+    });
+  }
+});
+
+// Route pour récupérer les membres
+app.get("/get_members", async (req, res) => {
+  try {
+    const members = await MemberModel.find().populate([
+      { path: "member", select: "name firstName email" }, // Récupérer le nom et l'email de l'utilisateur
+    ]);
+    res.json(members);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch members" });
+  }
+});
+
+// Route pour mettre à jour un membre
+app.delete("/remove_member/:memberId", async (req, res) => {
+  try {
+    const { memberId } = req.params;
+
+    // Vérifier si le membre existe
+    const member = await MemberModel.findOne({ member: memberId });
+
+    if (!member) {
+      return res.status(404).json({ error: "Membre non trouvé" });
+    }
+
+    // Suppression du membre dans MemberModel
+    await MemberModel.findByIdAndDelete(member._id);
+
+    // Mise à jour du usertype dans UserModel
+    await UserModel.updateOne({ _id: member.member }, { userType: "Student" });
+
+    res.json({
+      message: "Membre supprimé et utilisateur mis à jour avec succès",
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+app.post("/add_command", async (req, res) => {
+  // console.log(req.body);
+
+  const Listproduct = [];
+
+  try {
+    const { date, listproduct } = req.body;
+
+    console.log(listproduct, date);
+
+    for (let i = 0; i < listproduct.length; i++) {
+      Listproduct.push({
+        product_id: listproduct[i]._id,
+        quantity: listproduct[i].quantity,
+      });
+    }
+    console.log(Listproduct);
+
+
+    // Validation des champs
+    if (!date || !listproduct) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    // Récupération de l'utilisateur pour valider qu'il existe
+    const cookie = req.cookies.jwt;
+    const data = jwt.verify(cookie, process.env.ACCESS_TOKEN_SECRET);
+
+    // Liste de produits : Vérification si chaque produit existe et la quantité
+    for (let item of listproduct) {
+      const product = await ProductModel.findById(item._id);
+      if (!product) {
+        return res
+          .status(404)
+          .json({ message: `Product with ID ${item._id} not found` });
+      }
+    }
+
+    // Création de la commande
+    const command = new CommandModel({
+      user: data._id,
+      startDate: date,
+      ListCommand: Listproduct,
+      status: "en attente",
+    });
+
+    console.log(command);
+
+    // Sauvegarde dans la base de données
+    await command.save();
+
+    // Réponse de succès
+    res
+      .status(201)
+      .json({ message: "Command registered successfully", command });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+});
 
 app.get("/calendar", async (req, res) => {
   try {

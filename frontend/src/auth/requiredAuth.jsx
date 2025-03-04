@@ -16,6 +16,8 @@ const RequireAuth = () => {
                 .then((res) => {
                     setStatus(200)
                     setAuth(res.data.user)
+                    console.log(res.data.user);
+                    
                     setLoading(false)
                 })
                 .catch((err) => {
