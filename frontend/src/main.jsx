@@ -95,14 +95,6 @@ export default function Main() {
                           </Simplifier>
                         }
                       />
-                      <Route
-                        path="/members"
-                        element={
-                          <Simplifier title={"Membres"}>
-                            <MembersPage setNavActive={setNavActive} />
-                          </Simplifier>
-                        }
-                      />
                       <Route path="/budget" element={<Simplifier title={"Budget"}><BudgetMNG setNavActive={setNavActive} /></Simplifier>} />
                       <Route path="/members" element={<MembersPage setNavActive={setNavActive} />} />
 

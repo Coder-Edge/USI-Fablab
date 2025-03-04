@@ -24,6 +24,16 @@
     height: 150px;
 }
 
+#detail-member-view .member-info .email {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#detail-member-view .member-info .email img {
+    height: 30px;
+}
+
 #detail-member-view .member-info .member-info-text {
     display: flex;
     flex-direction: column;

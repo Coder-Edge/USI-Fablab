@@ -1,6 +1,5 @@
-
-
-.members, #detail-member-view {
+.members,
+#detail-member-view {
     padding: 20px 30px;
     background-color: white;
     display: flex;
@@ -9,6 +8,9 @@
     margin: 14px;
     border-radius: 14px;
     gap: 20px;
+}
+
+.members {
     position: relative;
 }
 
@@ -27,7 +29,7 @@
     background-color: #F0F7FF;
 }
 
-.members .summary .card >:first-child {
+.members .summary .card>:first-child {
     color: #909090;
     font-size: 13px;
     margin-bottom: 3px;
@@ -53,7 +55,7 @@
     margin-bottom: 10px;
 }
 
-.members .content .table tbody{
+.members .content .table tbody {
     height: 270px;
 }
 
@@ -82,16 +84,18 @@
     height: 80%;
     overflow-y: auto;
 }
+
 .loading {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #54abc9; /* Violet élégant */
+    color: #54abc9;
+    /* Violet élégant */
     text-align: center;
     padding: 20px;
     position: relative;
     display: inline-block;
-  }
-  
+}
+
 .loading::after {
     content: "";
     display: block;
@@ -102,17 +106,25 @@
     border-radius: 50%;
     border-top: 4px solid transparent;
     animation: spin 1s linear infinite;
-  }
-  
+}
+
 @keyframes spin {
     0% {
-      transform: rotate(0deg);
+        transform: rotate(0deg);
     }
+
     100% {
-      transform: rotate(360deg);
+        transform: rotate(360deg);
     }
-  }
-  
+}
+
+
+.detailview-title {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    border-radius: 14px;
+}
 
 .detailview-title button {
     background-color: transparent;
@@ -120,4 +132,11 @@
     padding: 6px;
     border: 0;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.detailview-title button img {
+    height: 30px;
 }

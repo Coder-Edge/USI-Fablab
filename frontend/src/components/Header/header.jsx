@@ -4,8 +4,6 @@ import { IoIosNotificationsOutline } from "react-icons/io";
 
 const Header = ({title, name, firstName, role}) => {
 
-    console.log(title, name, firstName, role);
-
     return (
         <header>
             <h1>{title}</h1>

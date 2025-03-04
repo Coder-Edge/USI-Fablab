@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import DynamicTable from "./table";
 
 
-const MembersTableView = ({ numberItemDisplay, activeNumberGroup, searchTerm }) => {
+const MembersTableView = ({ numberItemDisplay, activeNumberGroup, searchTerm, showDetailView }) => {
+
     const [members, setMembers] = useState([]); // État pour stocker les membres récupérés
     const [loading, setLoading] = useState(true); // État pour gérer le chargement
 
@@ -31,16 +32,11 @@ const MembersTableView = ({ numberItemDisplay, activeNumberGroup, searchTerm }) 
         return <div className="loading">Chargement en cours...</div>;
     }
 
-<<<<<<< HEAD
-const MembersTableView = ({ numberItemDisplay, activeNumberGroup, searchTerm, showDetailView }) => {
-
     const detailView = (name, firstname, email, task) => {
         showDetailView(name, firstname, email, task)
         document.querySelector("#detail-member-view").style.visibility = "visible"
     }
 
-=======
->>>>>>> 9b576611a3aaf676c69f2daed90ef40acbbcd5f3
     return (
         <DynamicTable
             theadChild={
@@ -53,36 +49,6 @@ const MembersTableView = ({ numberItemDisplay, activeNumberGroup, searchTerm, sh
                 </tr>
             }
             tbodyChild={
-<<<<<<< HEAD
-                users
-                    .slice(numberItemDisplay * (activeNumberGroup - 1), numberItemDisplay * activeNumberGroup)
-                    .filter((user) => (user.name.toLowerCase().includes(searchTerm.toLowerCase().trim()) || user.firstname.toLowerCase().includes(searchTerm.toLowerCase().trim())))
-                    .map((user, i) => (
-                        <tr key={i}>
-                            <td className="component" style={{ width: "37%" }}>
-                                <div >
-                                    <img src={`/src/assets/profile-icon.svg`} alt={user.name} />
-                                    <a onClick={() => detailView(user.firstname, user.name, user.email, "Gestionaire des taches")}>
-                                        {user.name.length <= 20 ? user.name : `${user.name.slice(0, 18)} ...`}
-                                    </a>
-                                </div>
-                            </td>
-                            <td style={{ width: "17%" }}>
-                                <a onClick={() => detailView(user.firstname, user.name, user.email, "Gestionaire des taches")}>
-                                    {user.firstname.length <= 20 ? user.firstname : `${user.firstname.slice(0, 18)} ...`}
-                                </a>
-                            </td>
-                            <td style={{ width: "28%" }}>
-                                <a onClick={() => detailView(user.firstname, user.name, user.email, "Gestionaire des taches")}>
-                                    {user.email.length <= 25 ? user.email : `${user.email.slice(0, 18)} ...`}
-                                </a>
-                            </td>
-                            <td style={{ width: "10%" }}>
-                                O1
-                            </td>
-                            <td style={{ width: "25%" }}>
-                                Gestionaire des taches
-=======
                 members
                     .slice(numberItemDisplay * (activeNumberGroup - 1), numberItemDisplay * activeNumberGroup)
                     .filter((member) => (
@@ -91,21 +57,32 @@ const MembersTableView = ({ numberItemDisplay, activeNumberGroup, searchTerm, sh
                     ))
                     .map((member, i) => (
                         <tr key={i}>
-                            <td className="component" style={{ width: "20%" }}>
+                            <td className="component" style={{ width: "37%" }}>
                                 <div>
                                     <img src={`/src/assets/profile-icon.svg`} alt={member.member.name} />
-                                    {member.member.name.length <= 20 ? member.member.name : `${member.member.name.slice(0, 18)} ...`}
+                                    <a onClick={
+                                        () => detailView(member.member.firstName, member.member.name, member.member.email, member.role)}>
+                                        {member.member.name.length <= 20 ? member.member.name : `${member.member.name.slice(0, 18)} ...`}
+                                    </a>
                                 </div>
                             </td>
-                            <td style={{ width: "20%" }}>
-                                {member.member.firstName.length <= 20 ? member.member.firstName : `${member.member.firstName.slice(0, 18)} ...`}
+                            <td style={{ width: "17%" }}>
+                                <a onClick={
+                                    () => detailView(member.member.firstName, member.member.name, member.member.email, member.role)}>
+                                    {member.member.firstName.length <= 20 ? member.member.firstName : `${member.member.firstName.slice(0, 18)} ...`}
+                                </a>
                             </td>
                             <td style={{ width: "28%" }}>
-                                {member.member.email}
+                                <a onClick={
+                                    () => detailView(member.member.firstName, member.member.name, member.member.email, member.role)}>
+                                    {member.member.email.length <= 25 ? member.member.email : `${member.member.email.slice(0, 20)} ...`}
+                                </a>
+                            </td>
+                            <td style={{ width: "10%" }}>
+                                O0
                             </td>
                             <td style={{ width: "25%" }}>
                                 {member.role}
->>>>>>> 9b576611a3aaf676c69f2daed90ef40acbbcd5f3
                             </td>
                         </tr>
                     ))

@@ -1,25 +1,9 @@
-<<<<<<< HEAD
-import { useEffect, useRef, useState } from "react"
-import { NavParams } from "../../../components/Navbar/navParams"
-import MembersTableView from "../../../components/table/members-table"
-import "./members.css"
-import HeadStocks from "../../../components/stocks/head-stock"
-import ToolBox from "../../../components/stocks/toolbox"
-import { MdFilterList } from "react-icons/md"
-import Button from "../../../components/button/Button"
-import ButtonAdd from "../../../components/stocks/button-add"
-import { MdAddCircleOutline } from "react-icons/md"
-import Bottom from "../../../components/stocks/bottom"
-import { users } from "../../../models/users"
-import SimpleFilter from "../../../components/popup/simple-filter"
-import Simplifier from "../../../components/simplifier/simplifier"
+
 import MemberDetailView from "../../../components/member-detail-view/member-detail-view"
 import AddMember from "../../../components/add-memeber/add-member"
-=======
 import { useEffect, useRef, useState } from "react";
 import { NavParams } from "../../../components/Navbar/navParams";
 import MembersTableView from "../../../components/table/members-table";
-import "./members.css";
 import HeadStocks from "../../../components/stocks/head-stock";
 import ToolBox from "../../../components/stocks/toolbox";
 import { MdFilterList } from "react-icons/md";
@@ -28,54 +12,51 @@ import ButtonAdd from "../../../components/stocks/button-add";
 import { MdAddCircleOutline } from "react-icons/md";
 import Bottom from "../../../components/stocks/bottom";
 import SimpleFilter from "../../../components/popup/simple-filter";
->>>>>>> 9b576611a3aaf676c69f2daed90ef40acbbcd5f3
+import Simplifier from "../../../components/simplifier/simplifier";
+import "./members.css";
+
 
 const MembersPage = ({ setNavActive }) => {
-  const refPopup = useRef(null);
 
-<<<<<<< HEAD
     const [userDetailViewInfo, setUserDetailViewInfo] = useState({})
 
     const [title, setTitle] = useState("Member")
-=======
-  const [data, setData] = useState([]);
->>>>>>> 9b576611a3aaf676c69f2daed90ef40acbbcd5f3
+    const [data, setData] = useState([]);
 
-  useEffect(() => {
-    const fetchMembers = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/get_members");
-        if (!response.ok) {
-          throw new Error("Erreur lors de la récupération des membres");
-        }
-        const data = await response.json();
-        setData(data); // Mettre à jour l'état avec les données récupérées
-      } catch (error) {
-        console.error("Erreur :", error);
-      }
+    useEffect(() => {
+        const fetchMembers = async () => {
+            try {
+                const response = await fetch("http://localhost:3000/get_members");
+                if (!response.ok) {
+                    throw new Error("Erreur lors de la récupération des membres");
+                }
+                const data = await response.json();
+                setData(data); // Mettre à jour l'état avec les données récupérées
+            } catch (error) {
+                console.error("Erreur :", error);
+            }
+        };
+
+        fetchMembers(); // Appeler la fonction pour récupérer les membres
+    }, []); // Le tableau vide signifie que cette fonction ne s'exécute qu'au montage du composant
+
+    const [searchTerm, setSearchTerm] = useState("");
+    const [types, setTypes] = useState(["Etudiant", "Manager"]);
+    const [btnActive, setBtnActive] = useState("");
+    // Display limited number of items
+    const [numberItemDisplay, setNumberItemDisplay] = useState(10);
+    const [activeNumberGroup, setActiveNumberGroup] = useState(1);
+
+    useEffect(() => {
+        // Activer le bouton budget de la navbar
+        setNavActive(NavParams.membres);
+    }, []);
+
+    // filter des membres
+    const setFilter = (e) => {
+        setBtnActive(e);
     };
 
-    fetchMembers(); // Appeler la fonction pour récupérer les membres
-  }, []); // Le tableau vide signifie que cette fonction ne s'exécute qu'au montage du composant
-
-  const [searchTerm, setSearchTerm] = useState("");
-  const [types, setTypes] = useState(["Etudiant", "Manager"]);
-  const [btnActive, setBtnActive] = useState("");
-  // Display limited number of items
-  const [numberItemDisplay, setNumberItemDisplay] = useState(10);
-  const [activeNumberGroup, setActiveNumberGroup] = useState(1);
-
-  useEffect(() => {
-    // Activer le bouton budget de la navbar
-    setNavActive(NavParams.membres);
-  }, []);
-
-  // filter des membres
-  const setFilter = (e) => {
-    setBtnActive(e);
-  };
-
-<<<<<<< HEAD
     // show detail view
     const showDetailView = (firstname, name, email, poste) => {
         setTitle(
@@ -85,7 +66,7 @@ const MembersPage = ({ setNavActive }) => {
                         setTitle("Member")
                         document.querySelector("#detail-member-view").style.visibility = "hidden"
                     }
-                }>+</button> {firstname} {name}
+                }><img src="/src/assets/icon/arrow-back.svg" /></button> {firstname} {name}
             </div>
         );
         setUserDetailViewInfo({
@@ -94,26 +75,23 @@ const MembersPage = ({ setNavActive }) => {
             email: email,
             poste: poste
         })
-        
+
     }
 
-=======
-  const sum_salary = () => {
-    let salary = 0;
->>>>>>> 9b576611a3aaf676c69f2daed90ef40acbbcd5f3
+    const sum_salary = () => {
+        let salary = 0;
 
-    for (let i = 0; i < data.length; i++) {
-      salary += data[i].salary;
-    }
-    return salary;
-  };
+        for (let i = 0; i < data.length; i++) {
+            salary += data[i].salary;
+        }
+        return salary;
+    };
 
-  // show pop up
-  const showAddMember = () => {
-    document.getElementById("filter-popup").style.visibility = "visible";
-  };
+    // show pop up
+    const showAddMember = () => {
+        document.getElementById("filter-popup").style.visibility = "visible";
+    };
 
-<<<<<<< HEAD
     return (
         <Simplifier title={title}>
             <div className="members">
@@ -145,7 +123,7 @@ const MembersPage = ({ setNavActive }) => {
                         () => {
                             document.querySelector("#add-member").style.visibility = "visible"
                         }
-                    }/>
+                    } />
                 </div>
                 <Bottom
                     numberItemDisplay={numberItemDisplay}
@@ -165,67 +143,5 @@ const MembersPage = ({ setNavActive }) => {
         </Simplifier>
     )
 }
-=======
-  return (
-    <div className="members">
-      <HeadStocks title={"Equipes"} setSearchTerm={setSearchTerm} />
-      <div className="summary">
-        <div className="card">
-          <p>Effectif</p>
-          <p className="content">
-            {data.length} {data.length > 1 ? "membres" : "membre"}
-          </p>
-          <p className="icon">
-            <img src="/src/assets/icon/group-icon.svg" alt="Person" />
-          </p>
-        </div>
-        <div className="card">
-          <p>Coût total du personnel</p>
-          <p className="content">$ {sum_salary()}</p>
-        </div>
-      </div>
-      <div className="content">
-        <ToolBox
-          firstbutton={
-            <Button
-              // className={quantityFilter !== "" ? "active" : ""}
-              child={
-                <>
-                  <MdFilterList /> Filtre
-                </>
-              }
-              onClick={showAddMember}
-            />
-          }
-          types={types}
-          SetTypeFilter={setFilter}
-          btnActive={btnActive}
-        />
-        <MembersTableView
-          numberItemDisplay={numberItemDisplay}
-          activeNumberGroup={activeNumberGroup}
-          searchTerm={searchTerm}
-        />
-        <ButtonAdd
-          child={
-            <>
-              <MdAddCircleOutline /> Inviter
-            </>
-          }
-        />
-      </div>
-      <Bottom
-        numberItemDisplay={numberItemDisplay}
-        setNumberItemDisplay={setNumberItemDisplay}
-        activeNumberGroup={activeNumberGroup}
-        setActiveNumberGroup={setActiveNumberGroup}
-        data={data}
-      />
->>>>>>> 9b576611a3aaf676c69f2daed90ef40acbbcd5f3
-
-      <SimpleFilter />
-    </div>
-  );
-};
 
 export default MembersPage;

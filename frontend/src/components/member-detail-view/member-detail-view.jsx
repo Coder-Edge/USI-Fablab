@@ -15,14 +15,14 @@ const MemberDetailView = ({memberInfo}) => {
                 <img src="/src/assets/profile-image.svg" alt="User profil" />
                 <div className="member-info-text">
                     <h2>{memberInfo.firstname} {memberInfo.name}</h2>
-                    <p className="email">{memberInfo.email}</p>
+                    <p className="email"><img src="/src/assets/icon/email-outline.svg" alt="" />{memberInfo.email}</p>
                     <p className="poste">Poste <span>Gestion des stocks</span></p>
                     <p className="promotion">Promotion <span>O2</span></p>
                 </div>
             </div>
             <div className="member-tasks">
                 <div className="member-tasks-group">
-                    <HeadStocks title={"Tâches à realiser"} setSearchTerm={searchTermToDO} />
+                    <HeadStocks title={"Tâches à realiser"} setSearchTerm={setSearchTermToDO} />
                     <DynamicTable
                         theadChild={
                             <tr>
@@ -39,7 +39,7 @@ const MemberDetailView = ({memberInfo}) => {
                     />
                 </div>
                 <div className="member-tasks-group">
-                    <HeadStocks title={"Tâches réalisées"} setSearchTerm={searchTermDone} />
+                    <HeadStocks title={"Tâches réalisées"} setSearchTerm={setSearchTermDone} />
                     <DynamicTable
                         theadChild={
                             <tr>
