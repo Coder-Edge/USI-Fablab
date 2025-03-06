@@ -221,11 +221,11 @@ app.post("/borrow", async (req, res) => {
 app.get("/get/borrows", async (req, res) => {
   try {
     const borrows = await BorrowModel.find().populate([
-      { path: "user", select: "name email" }, // Récupérer le nom et l'email de l'utilisateur
+      { path: "user", select: "name firstName email" }, // Récupérer le nom et l'email de l'utilisateur
     ]);
 
     const formattedBorrows = borrows.map((borrow, index) => ({
-      user: borrows[index].user.name,
+      user: `${borrows[index].user.name + " " + borrows[index].user.firstName}`, // Nom de l'emprunteur
       startDate: borrow.startDate,
       endDate: borrow.endDate,
       motif: borrow.motif,
@@ -256,10 +256,10 @@ app.get("/get/products/:id", async (req, res) => {
 // Route pour ajouter un membre
 app.post("/add_member", async (req, res) => {
   try {
-    const { user, salary, role } = req.body;
+    const { email, salary, role, device } = req.body;
 
     // Vérifier si l'utilisateur existe dans UserModel
-    const existingUser = await UserModel.findById(user);
+    const existingUser = await UserModel.findOne({email});
     if (!existingUser) {
       return res.status(404).json({ message: "Utilisateur non trouvé" });
     }
@@ -272,8 +272,16 @@ app.post("/add_member", async (req, res) => {
         });
     }
 
+    if (existingUser.userType === "Manager") {
+      return res
+        .status(400)
+        .json({
+          message: "Cet utilisateur est un manager et ne peut devenir un membre",
+        });
+    }
+
     // Vérifier si l'utilisateur est déjà un membre
-    const existingMember = await MemberModel.findOne({ member: user });
+    const existingMember = await MemberModel.findOne({ member: existingUser._id });
     if (existingMember) {
       return res
         .status(400)
@@ -286,9 +294,10 @@ app.post("/add_member", async (req, res) => {
 
     // Ajouter le nouvel utilisateur dans MemberModel
     const newMember = new MemberModel({
-      member: user,
+      member: existingUser._id,
       role,
       salary,
+      device,
     });
 
     await newMember.save();
@@ -407,7 +416,7 @@ app.get("/calendar", async (req, res) => {
     const borrows = await BorrowModel.find().populate("user");
     const formattedBorrows = borrows.map((borrow) => ({
       id: borrow._id,
-      title: `Emprunt de : ${borrow.user.name}`, // Nom de l'emprunteur
+      title: `Emprunt de : ${borrow.user.name+" "+borrow.user.firstName}`, // Nom de l'emprunteur
       start: borrow.startDate, // Date formatée en YYYY-MM-DD
       end: borrow.endDate,
       motif: borrow.motif,
