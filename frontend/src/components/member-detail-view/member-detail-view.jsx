@@ -16,7 +16,7 @@ const MemberDetailView = ({memberInfo}) => {
                 <div className="member-info-text">
                     <h2>{memberInfo.firstname} {memberInfo.name}</h2>
                     <p className="email"><img src="/src/assets/icon/email-outline.svg" alt="" />{memberInfo.email}</p>
-                    <p className="poste">Poste <span>{memberInfo.poste}</span></p>
+                    <p className="poste">Poste : <span>{memberInfo.poste}</span></p>
                     <p className="promotion">Promotion <span>O2</span></p>
                 </div>
             </div>
