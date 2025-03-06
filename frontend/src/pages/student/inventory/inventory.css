@@ -1,0 +1,37 @@
+.student-inventory {
+    height: 100%;
+    margin: 20px;
+    border-radius: 10px;
+}
+
+/* Stock view */
+.student-inventory .stocks {
+    position: relative;
+    height: 100%;
+    background-color: white;
+    margin-bottom: 30px;
+}
+
+.student-inventory .stocks .table table tbody {
+    height: 340px;
+    margin-bottom: 16px;
+}
+
+/* Filter popup */
+.student-inventory .st-filter {
+    visibility: hidden;
+}
+
+/* Borrow formular */
+.student-inventory form {
+    visibility: hidden;
+}
+
+.student-inventory .borrow-form {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 14px;
+    height: 100%;
+    width: 100%; 
+}

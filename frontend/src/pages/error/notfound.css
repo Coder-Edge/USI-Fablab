@@ -1,0 +1,111 @@
+/* Conteneur principal */
+.notfound-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  background: #54abc9; /* Dégradé avec la couleur principale */
+  color: #fff;
+  font-family: "Arial", sans-serif;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Contenu de la page */
+.notfound-content {
+  padding: 60px;
+  background: rgba(255, 255, 255, 0.329);
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Titre 404 */
+.notfound-title {
+  font-size: 160px; /* Taille augmentée pour les grands écrans */
+  margin: 0;
+  font-weight: bold;
+  color: #ff6b6b;
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Sous-titre */
+.notfound-subtitle {
+  font-size: 48px; /* Taille augmentée pour les grands écrans */
+  margin: 20px 0;
+  color: #fff;
+}
+
+/* Message */
+.notfound-message {
+  font-size: 24px; /* Taille augmentée pour les grands écrans */
+  margin: 30px 0;
+  color: #e0e0e0;
+}
+
+/* Humour */
+.notfound-humor {
+  font-size: 20px; /* Taille augmentée pour les grands écrans */
+  font-style: italic;
+  color: #ffd700;
+  margin: 20px 0;
+}
+
+/* Bouton de retour */
+.notfound-button {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 15px 30px;
+  font-size: 20px; /* Taille augmentée pour les grands écrans */
+  color: #54abc9;
+  background: #fff; /* Utilisation de la couleur principale */
+  border: none;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.notfound-button:hover {
+  transform: scale(1.05);
+}
+
+/* Animation pour le titre 404 */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* Responsive Design */
+/* @media (max-width: 768px) {
+    .notfound-content {
+      padding: 40px;
+    }
+  
+    .notfound-title {
+      font-size: 100px;
+    }
+  
+    .notfound-subtitle {
+      font-size: 32px;
+    }
+  
+    .notfound-message {
+      font-size: 18px;
+    }
+  
+    .notfound-humor {
+      font-size: 16px;
+    }
+  
+    .notfound-button {
+      font-size: 16px;
+      padding: 12px 24px;
+    }
+  } */

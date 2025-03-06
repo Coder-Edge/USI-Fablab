@@ -1,0 +1,159 @@
+
+
+.login {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+}
+
+.login form {
+    display: flex;
+    border-radius: 60px;
+}
+
+.login .sidediv {
+    border-radius: 14px 0px 0px 14px;
+    background-color: #5899DD;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login .sidediv img {
+    width: 350px;
+}
+
+.login .form-content {
+    background-color: white;
+    padding: 25px 50px;
+    width: 400px;
+    border-radius: 0px 14px 14px 0px;
+    overflow-y: auto;
+}
+
+.login form .input-fields {
+    padding: 10px 0;
+}
+
+.login form .input-fields input, .login form .input-fields select {
+    margin-top: 8px;
+    width: 100%;
+    height: 35px;
+    border-radius: 4px;
+    outline: 0;
+    padding: 0 10px;
+    border: 1px solid #A2A1A8;
+    font-size: 12px;
+}
+
+.login form .input-fields label{
+    font-size: 12px;
+}
+
+.login form .input-fields p {
+    color: red;
+    font-size: 10px;
+    text-align: start;
+    margin: 0;
+    padding: 0;
+}
+
+.login form .button-add button.button {
+    margin-top: 14px;
+    width: 100%;
+}
+
+.login form button.google {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    padding: 6px;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+}
+
+.login form button.button >:first-child {
+    font-size: 24px;
+}
+
+.login form .button-add.disable {
+    pointer-events: none;
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.login form p {
+    font-size: 12px;
+    margin-top: 20px;
+    text-align: center;
+    color: #A2A1A8;
+}
+
+.login form a {
+    text-decoration: none;
+    color: #5899DD;
+}
+
+.login form p.error {
+    margin: 5px 0;
+    background-color: rgb(241, 191, 191);
+    font-size: 12px;
+    font-weight:300;
+    padding: 5px;
+    border-radius: 5px;
+    text-align: start;
+}
+
+.login form .input-fields.more {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0px 20px 0px;
+}
+
+.login form .input-fields.more input {
+    width: 14px;
+    height: 14px;
+    color: #5899DD;
+    margin: 0px;
+    cursor: pointer;
+}
+
+.login form .input-fields.more input:checked {
+    background-color: aqua;
+}
+
+.login form .input-fields.more >* {
+    font-size: 12px;
+    color: #A2A1A8;
+}
+
+.login form .input-fields.more >:last-child {
+    color: #5899DD;
+}
+
+.login form .input-fields.more .remind label {
+    text-align: center;
+}
+
+.login form .input-fields.more .remind {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login form h3 {
+    text-align: center;
+    font-weight: 200;
+    color: #5899DD;
+    margin-bottom: 30px;
+}
+
+.login form .input-fields.header >:first-child{
+    display: flex;
+    gap: 10px;
+}

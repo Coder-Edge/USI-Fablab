@@ -1,0 +1,26 @@
+
+
+.card {
+    background-color: white;
+    height: 300px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 14px;
+}
+
+.card >:nth-child(2) {
+    font-size: 50px;
+    font-weight:lighter;
+}
+
+.card div > *{
+    font-size: 20px;
+}
+
+.card div >:last-child {
+    font-size: 30px;
+    font-weight: bold;
+    text-align: right;
+}

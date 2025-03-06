@@ -1,0 +1,87 @@
+#detail-member-view {
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f0f7ff;
+    gap: 20px;
+    z-index: 1;
+    padding: 10px;
+    visibility: hidden;
+}
+
+#detail-member-view .member-info{
+    border-radius: 14px;
+    background-color: white;
+    display: flex;
+    gap: 30px;
+    padding: 30px;
+}
+
+#detail-member-view .member-info img {
+    height: 150px;
+}
+
+#detail-member-view .member-info .email {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#detail-member-view .member-info .email img {
+    height: 30px;
+}
+
+#detail-member-view .member-info .member-info-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#detail-member-view .member-info .member-info-text h2 {
+    color: #5899DD;
+}
+
+#detail-member-view .member-info .member-info-text .promotion {
+    text-align: right;
+}
+
+#detail-member-view .member-tasks {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    height: 100%;
+}
+
+#detail-member-view .member-tasks .member-tasks-group {
+    background-color: white;
+    flex: 1;
+    border-radius: 14px;
+    padding: 20px;
+}
+
+#detail-member-view .member-tasks .member-tasks-group .head h2{
+    font-size: 18px;
+}
+
+#detail-member-view .member-tasks .member-tasks-group .head .search{
+    width: 230px;
+    font-size: 12px;
+}
+
+#detail-member-view .member-tasks .member-tasks-group .head  input {
+    padding: 6px 10px;
+    font-size: 14px;
+}
+
+#detail-member-view .member-tasks .member-tasks-group .table table tbody {
+    height: 370px;
+}
+
+
+#detail-member-view .member-tasks .member-tasks-group .table table tbody td {
+    padding: 8px 0;
+}
