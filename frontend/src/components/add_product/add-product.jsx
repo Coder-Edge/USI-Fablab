@@ -97,7 +97,7 @@ const AddProduct = () => {
               {imagePreview
                 ? <img src={imagePreview} alt="Preview" onClick={handleImageClick} />
                 : <img src="src/assets/add-image.svg" alt="Add image" onClick={handleImageClick} />}
-              <input type="file" accept=".jpg, .jpeg, .png" ref={imageRef} onChange={handleFileChange} hidden />
+              <input type="file" accept=".jpg, .jpeg, .png, .gif" ref={imageRef} onChange={handleFileChange} hidden />
               <p>{errorImage ? errorImage : ""}</p>
             </div>
             <div className="input">
@@ -128,8 +128,8 @@ const AddProduct = () => {
               </div>
               <div className="field-input">
                 <label htmlFor="quantity">Quantité: </label>
-                <button type="button" id="quantity" onClick={() => setQuantity((e) => (e > 1 ? e - 1 : e))}>&lt;</button>
-                <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value >= 0 ? parseInt(e.target.value) : quantity)} />
+                <button type="button"  onClick={() => setQuantity((e) => (e > 1 ? e - 1 : e))}>&lt;</button>
+                <input type="number" id="quantity" value={quantity} onChange={(e) => setQuantity(e.target.value >= 0 ? parseInt(e.target.value) : quantity)} />
                 <button type="button" onClick={() => setQuantity((e) => (e + 1))}>&gt;</button>
               </div>
             </div>

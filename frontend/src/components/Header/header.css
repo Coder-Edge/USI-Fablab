@@ -27,7 +27,7 @@ header .header-content {
 }
 
 header .notification-box {
-    background-color: white;
+    background-color: var(--light-color);
     padding: 10px;
     border-radius: 15px;
 }
@@ -48,13 +48,13 @@ header .user-info-header {
 header .user-info-header .username {
     font-size: 18px;
     text-wrap: nowrap;
-    color: #16151C;
+    color: var(--dark-color);
     font-weight: bold;
 }
 
 header .user-info-header .user-role {
     text-align: right;
     font-size: 13;
-    color: #A2A1A8;
+    color: var(--light-dark);
     width: 100%;
 }

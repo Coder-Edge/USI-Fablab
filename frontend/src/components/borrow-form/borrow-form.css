@@ -1,7 +1,7 @@
 
 form .borrow-form  {
     height: 90%;
-    background-color: white;
+    background-color: var(--light-color);
 }
 
 .borrow-form .form-content {
@@ -39,7 +39,7 @@ form .borrow-form  {
 
 .borrow-form .form-content .list-items-form-borrow .table table tbody .close-btn button:hover {
     background-color: rgb(247, 151, 151);
-    color: white;
+    color: var(--light-color);
 }
 
 .borrow-form .form-content .list-items-form-borrow .table table tbody .close-btn button >:first-child {
@@ -66,7 +66,7 @@ form .borrow-form  {
 
 .borrow-form .form-content .borrow-start-date  label,
 .borrow-form .form-content .borrow-end-date label {
-    color: #A2A1A8;
+    color: var(--light-dark);
     margin-right: 10px;
 }
 
@@ -75,8 +75,8 @@ form .borrow-form  {
     height: 30px;
     padding: 0 20px;
     border-radius: 4px;
-    background-color: #5899DD;
-    color: white;
+    background-color: var(--blue-color);
+    color: var(--light-color);
     border: 0;
     outline: 0;
 }

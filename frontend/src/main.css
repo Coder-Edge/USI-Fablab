@@ -1,9 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&display=swap');
 
 :root {
-  --primary-color: white;
-  --secondary-color: #54abc9;
+  --light-color: white;
+  --blue-color: #5899DD;
   --background-color: #f0f7ff;
+  --light-dark : #909090;
+  --dark-color: black;
 }
 
 * {
@@ -24,7 +26,7 @@ main {
 }
 
 body {
-  background-color: #f0f7ff;
+  background-color: var(--background-color);
 }
 
 .main-content {

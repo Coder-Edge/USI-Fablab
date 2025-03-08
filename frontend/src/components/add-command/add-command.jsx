@@ -188,9 +188,9 @@ const AddCommand = ({ data }) => {
                                                 $200
                                             </td>
                                             <td className="quantity" style={{ width: "25%" }}>
-                                                <button className="btn">&lt;</button>
+                                                <button type="button" className="btn">&lt;</button>
                                                 <span>1</span>
-                                                <button className="btn">&gt;</button>
+                                                <button type="button" className="btn">&gt;</button>
                                             </td>
                                         </tr>
                                         <tr>

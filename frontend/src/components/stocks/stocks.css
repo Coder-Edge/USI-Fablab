@@ -71,7 +71,7 @@
 }
 
 .toolbar::-webkit-scrollbar-thumb:hover {
-  background-color: #5899DD;
+  background-color: var(--blue-color);
 }
 
 /* Bottom page number dispklay style */
@@ -105,8 +105,8 @@
 }
 
 .bottom-stock .row-number >.active {
-  color: #5899DD;
-  border: 1px solid #5899DD;
+  color: var(--blue-color);
+  border: 1px solid var(--blue-color);
   font-weight: 500;
 }
 
