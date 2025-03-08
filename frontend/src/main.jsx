@@ -31,7 +31,8 @@ import BudgetMNG from "./pages/manager/budget/budget";
 import MembersPage from "./pages/manager/members/members";
 import MembersPageMBR from "./pages/member/members/members";
 import ParamatreMNG from "./pages/manager/parametre/parametre";
-import Shop from "./pages/manager/shop/shop";
+import Shop from "./pages/member/shop/shop";
+import ShopMNG from "./pages/manager/shop/shop";
 
 export default function Main() {
 
@@ -99,7 +100,7 @@ export default function Main() {
                       />
                       <Route path="/budget" element={<Simplifier title={"Budget"}><BudgetMNG setNavActive={setNavActive} /></Simplifier>} />
                       <Route path="/members" element={<MembersPage setNavActive={setNavActive} />} />
-                      <Route path="/shop" element={<Shop setNavActive={setNavActive} />} />
+                      <Route path="/shop" element={<ShopMNG setNavActive={setNavActive} />} />
 
                       {/* Route pour le calendrier */}
                       <Route

@@ -73,7 +73,7 @@
 .nav-links li.dashboard:hover {
   background-color: var(--light-color);
   border-left: none;
-  color: var(--dark-color);
+  color: var(--dark-color); 
   cursor: initial;
 }
 
