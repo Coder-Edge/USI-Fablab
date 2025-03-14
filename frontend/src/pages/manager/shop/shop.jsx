@@ -10,11 +10,15 @@ import { MdAddCircleOutline, MdFilterList, MdOutlineEdit } from "react-icons/md"
 import DynamicTable from "../../../components/table/table"
 import { ListProducts } from "../../../models/product"
 import Bottom from "../../../components/stocks/bottom"
+import AddArticle from "../../../components/add-article/add-article"
 
 const ShopMNG = ({ setNavActive }) => {
 
+    const [state, setState] = useState(false);
+
     const [searchTerm, setSearchTerm] = useState("")
     const [data, setData] = useState([])
+    const [types, setTypes] = useState(["Jeux de société", "Jeux individuel"])
     const [listView, setListView] = useState([])
 
     // Display limited number of items
@@ -23,10 +27,10 @@ const ShopMNG = ({ setNavActive }) => {
 
     useEffect(() => {
         setNavActive(NavParams.boutique)
-        setData(ListProducts)
         setListView(ListProducts)
+        setData(ListProducts)
     }, [])
-    
+
     useEffect(() => {
         setListView(data.filter((product) => product.name.toLowerCase().includes(searchTerm.toLowerCase())))
     }, [searchTerm])
@@ -50,7 +54,8 @@ const ShopMNG = ({ setNavActive }) => {
                     </div>
                     <div className="shop-buttons">
                         <Button child={<><MdFilterList /> Filtre</>} type={"button"} />
-                        <ButtonAdd child={<><MdAddCircleOutline /> Inviter</>} />
+                        <ButtonAdd child={<><MdAddCircleOutline /> Inviter</>} type={"button"}
+                            onClick={() => document.querySelector("#add-article").style.visibility = "visible"} />
                     </div>
                     <DynamicTable
                         theadChild={
@@ -66,27 +71,27 @@ const ShopMNG = ({ setNavActive }) => {
                         }
                         tbodyChild={
                             listView
-                            .slice(numberItemDisplay * (activeNumberGroup - 1), numberItemDisplay * activeNumberGroup)
-                            .map(
-                                (product, index) => (
-                                    <tr key={index}>
-                                        <td className="component" style={{ width: "25%" }}>
-                                            <div>
-                                                <img src={product.image} alt="" />
-                                                <a>
-                                                    {product.name}
-                                                </a>
-                                            </div>
-                                        </td>
-                                        <td style={{ width: "15%" }}>{product.type}</td>
-                                        <td style={{ width: "10%" }}>{product.price}</td>
-                                        <td style={{ width: "10%" }}>{product.quantity}</td>
-                                        <td style={{ width: "10%" }}>jhcjd</td>
-                                        <td style={{ width: "15%" }}><Button child={<><MdOutlineEdit /> Disponible</>} className={"active"} /></td>
-                                        <td style={{ width: "15%" }}><Button child={<><RiDeleteBin6Line /> Supprimer</>} className={"delete"} /></td>
-                                    </tr>
+                                .slice(numberItemDisplay * (activeNumberGroup - 1), numberItemDisplay * activeNumberGroup)
+                                .map(
+                                    (product, index) => (
+                                        <tr key={index}>
+                                            <td className="component" style={{ width: "25%" }}>
+                                                <div>
+                                                    <img src={product.image} alt="" />
+                                                    <a>
+                                                        {product.name}
+                                                    </a>
+                                                </div>
+                                            </td>
+                                            <td style={{ width: "15%" }}>{product.type}</td>
+                                            <td style={{ width: "10%" }}>{product.price}</td>
+                                            <td style={{ width: "10%" }}>{product.quantity}</td>
+                                            <td style={{ width: "10%" }}>jhcjd</td>
+                                            <td style={{ width: "15%" }}><Button child={<><MdOutlineEdit /> Disponible</>} className={"active"} /></td>
+                                            <td style={{ width: "15%" }}><Button child={<><RiDeleteBin6Line /> Supprimer</>} className={"delete"} /></td>
+                                        </tr>
+                                    )
                                 )
-                            )
                         }
                     />
 
@@ -95,6 +100,9 @@ const ShopMNG = ({ setNavActive }) => {
                         activeNumberGroup={activeNumberGroup} setNumberItemDisplay={setNumberItemDisplay}
                         data={listView} />
                 </div>
+
+                <AddArticle articles={data} receivedTypes={types} state={state} />
+
             </div>
         </Simplifier>
     )

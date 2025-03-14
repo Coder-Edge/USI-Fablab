@@ -1,7 +1,7 @@
 import Button from "../button/Button"
 import ButtonAdd from "../stocks/button-add"
 import { MdAddCircleOutline } from "react-icons/md"
-import "./product-detail-view.css"
+import "./article-detail-view.css"
 import { IoMdClose } from "react-icons/io"
 import { useEffect, useRef, useState } from "react"
 
@@ -23,7 +23,6 @@ const ProductDetailView = ({ product, receivedTypes, state }) => {
     const [showImage, setShowImage] = useState("")
     const [listImages, setListImages] = useState([])
     const [images, setImages] = useState([])
-    const [deleteToggle, setDeleteToggle] = useState(false)
 
     useEffect(() => {
         setTypes(receivedTypes);

@@ -6,7 +6,7 @@ import { IoSearchOutline } from "react-icons/io5";
 import ToolBox from "../../../components/stocks/toolbox";
 import Button from "../../../components/button/Button";
 import ProductCard from "../../../components/cards/product-card";
-import ProductDetailView from "../../../components/product-detail-view/product-detail-view";
+import ProductDetailView from "../../../components/article-detail-view/article-detail-view";
 import { ShopProducts } from "../../../models/shop-product";
 
 const Shop = ({ setNavActive }) => {
