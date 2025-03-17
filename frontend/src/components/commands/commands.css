@@ -26,13 +26,13 @@
     padding: 8px 14px;
     align-items: center;
     justify-content: space-between;
-    background-color: #F0F7FF;
+    background-color: var(--background-color);
     border-radius: 10px;
     margin: 10px 0px;
 }
 
 .total-price .label {
-    color: #909090;
+    color: var(--light-dark);
     font-size: 13px;
     font-weight:400;
 }
@@ -44,5 +44,5 @@
 
 .total-price .icon-money {
     width: 60px;
-    color: #5899DD;
+    color: var(--blue-color);
 }

@@ -27,7 +27,7 @@
 }
 
 .manager-budget .header button.button.active:hover {
-    background-color: #5899DD;
+    background-color: var(--blue-color);
 }
 
 .manager-budget .header div {
@@ -52,11 +52,11 @@
 
 .manager-budget .dashboard >:nth-child(2) {
     flex: 1;
-    background-color: #5899DD;
+    background-color: var(--blue-color);
 }
 
 .manager-budget .dashboard >:nth-child(2) > * {
-    color: white;
+    color: var(--light-color);
 }
 
 .manager-budget .dashboard >:last-child {
@@ -70,7 +70,7 @@
 }
 
 .manager-budget .bilan {
-    background-color: white;
+    background-color: var(--light-color);
     border-radius: 14px;
     margin: 15px 0px;
     padding: 30px;

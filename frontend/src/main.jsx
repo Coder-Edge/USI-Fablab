@@ -1,4 +1,4 @@
-import React, { Children, useState } from "react";
+import React, { useState } from "react";
 import ReactDom from "react-dom/client";
 import Navbar from "./components/Navbar/navbar"; //importation du composant navbar
 import "./main.css"; //importation du fichier style main.css
@@ -31,8 +31,11 @@ import BudgetMNG from "./pages/manager/budget/budget";
 import MembersPage from "./pages/manager/members/members";
 import MembersPageMBR from "./pages/member/members/members";
 import ParamatreMNG from "./pages/manager/parametre/parametre";
+import Shop from "./pages/member/shop/shop";
+import ShopMNG from "./pages/manager/shop/shop";
 
 export default function Main() {
+
   const { auth } = useAuth();
   const [navActive, setNavActive] = useState(NavParams.inventaire);
 
@@ -97,6 +100,7 @@ export default function Main() {
                       />
                       <Route path="/budget" element={<Simplifier title={"Budget"}><BudgetMNG setNavActive={setNavActive} /></Simplifier>} />
                       <Route path="/members" element={<MembersPage setNavActive={setNavActive} />} />
+                      <Route path="/shop" element={<ShopMNG setNavActive={setNavActive} />} />
 
                       {/* Route pour le calendrier */}
                       <Route
@@ -189,6 +193,7 @@ export default function Main() {
                           </Simplifier>
                         }
                       />
+                      <Route path="/shop" element={<Shop setNavActive={setNavActive} />} />
                       <Route
                         path="/calendar"
                         element={

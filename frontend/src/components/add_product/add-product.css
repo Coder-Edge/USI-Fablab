@@ -25,7 +25,7 @@
 
 .add-popup .content {
     border-radius: 14px;
-    background-color: white;
+    background-color: var(--light-color);
     padding: 30px;
     display: flex;
     flex-direction: column;
@@ -64,7 +64,7 @@
 .add-popup .content .component img {
     width: 160px;
     cursor: pointer;
-    border: 1px solid #5899DD;
+    border: 1px solid var(--blue-color);
 }
 
 .add-popup .content .component div {
