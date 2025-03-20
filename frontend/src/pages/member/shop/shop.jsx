@@ -8,6 +8,8 @@ import Button from "../../../components/button/Button";
 import ProductCard from "../../../components/cards/product-card";
 import ProductDetailView from "../../../components/article-detail-view/article-detail-view";
 import { ShopProducts } from "../../../models/shop-product";
+import axios from "../../../api/api";
+import Swal from "sweetalert2";
 
 const Shop = ({ setNavActive }) => {
 
@@ -41,15 +43,22 @@ const Shop = ({ setNavActive }) => {
     //data
     const [data, setData] = useState([]);
 
-    useEffect(() => {
-        setData(ShopProducts)
-        console.log("Remile uaia");
-        
-    }, [])
+    const fetchData = async () => {
+            try {
+                const response = await axios.get("/get_articles"); // Requête GET
+                console.log(response.data); // Vérifie la réponse dans la console
+                setData(response.data); // Met à jour data avec les données reçues
+            } catch (error) {
+                console.error(error);
+                Swal.fire("Erreur", error.response?.data?.message || "Erreur inconnue", "error");
+            }
+        };
+
 
     useEffect(() => {
         // Activer le bouton budget de la navbar
         setNavActive(NavParams.boutique);
+        fetchData();
     }, []);
 
 
@@ -158,12 +167,14 @@ const Shop = ({ setNavActive }) => {
                                     return product.price < 5
                                 return product
                             })
-                            .filter(product => (product.material.toLowerCase().match(materialFilter.toLocaleLowerCase())))
+                            // .filter(product => (product.material.toLowerCase().match(materialFilter.toLocaleLowerCase())))
                             .filter(product => (product.type.toLocaleLowerCase().match(typeFilter.toLocaleLowerCase())))
                             .map(
-                                (product, index) => (
-                                    <ProductCard product={product} key={index} showDetail={() => showProductDetail(product)}/>
-                                )
+                                (product, index) => {
+                                    console.log(product);
+                                    
+                                    return <ProductCard product={product} key={index} showDetail={() => showProductDetail(product)}/>
+                                }
                             )}
                     </div>
                 </div>

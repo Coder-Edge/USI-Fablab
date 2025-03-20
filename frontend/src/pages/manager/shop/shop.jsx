@@ -8,9 +8,10 @@ import Button from "../../../components/button/Button"
 import ButtonAdd from "../../../components/stocks/button-add"
 import { MdAddCircleOutline, MdFilterList, MdOutlineEdit } from "react-icons/md"
 import DynamicTable from "../../../components/table/table"
-import { ListProducts } from "../../../models/product"
 import Bottom from "../../../components/stocks/bottom"
 import AddArticle from "../../../components/add-article/add-article"
+import axios from "../../../api/api";
+import Swal from "sweetalert2";
 
 const ShopMNG = ({ setNavActive }) => {
 
@@ -25,11 +26,23 @@ const ShopMNG = ({ setNavActive }) => {
     const [numberItemDisplay, setNumberItemDisplay] = useState(10);
     const [activeNumberGroup, setActiveNumberGroup] = useState(1);
 
+    const fetchData = async () => {
+        try {
+            const response = await axios.get("/get_articles"); // Requête GET
+            console.log(response.data); // Vérifie la réponse dans la console
+            setListView(response.data); // Met à jour listView avec les données reçues
+            setData(response.data); // Met à jour data avec les données reçues
+        } catch (error) {
+            console.error(error);
+            Swal.fire("Erreur", error.response?.data?.message || "Erreur inconnue", "error");
+        }
+    };
+    
+    // Appeler fetchData au montage du composant
     useEffect(() => {
-        setNavActive(NavParams.boutique)
-        setListView(ListProducts)
-        setData(ListProducts)
-    }, [])
+        fetchData();
+        setNavActive(NavParams.boutique);
+    }, []);
 
     useEffect(() => {
         setListView(data.filter((product) => product.name.toLowerCase().includes(searchTerm.toLowerCase())))
@@ -77,7 +90,7 @@ const ShopMNG = ({ setNavActive }) => {
                                         <tr key={index}>
                                             <td className="component" style={{ width: "25%" }}>
                                                 <div>
-                                                    <img src={product.image} alt="" />
+                                                    <img src={`http://localhost:3000/img/${product.image[0]}`} alt="" />
                                                     <a>
                                                         {product.name}
                                                     </a>

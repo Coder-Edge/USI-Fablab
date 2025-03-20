@@ -12,6 +12,8 @@ const ProductModel = require("./Models/product.js");
 const BorrowModel = require("./Models/borrow.js");
 const MemberModel = require("./Models/member.js");
 const CommandModel = require("./Models/command.js");
+const TaskModel = require("./Models/task.js");
+const ArticleModel = require("./Models/article.js");
 
 const app = express();
 app.use(express.static("uploads"));
@@ -143,7 +145,7 @@ app.delete("/products/:id", async (req, res) => {
   }
 });
 
-// Get images
+// Get images 
 app.get("/img/:id", async (req, res) => {
   const { id } = req.params;
   try {
@@ -259,29 +261,27 @@ app.post("/add_member", async (req, res) => {
     const { email, salary, role, device } = req.body;
 
     // Vérifier si l'utilisateur existe dans UserModel
-    const existingUser = await UserModel.findOne({email});
+    const existingUser = await UserModel.findOne({ email });
     if (!existingUser) {
       return res.status(404).json({ message: "Utilisateur non trouvé" });
     }
 
     if (existingUser.userType === "Extern") {
-      return res
-        .status(400)
-        .json({
-          message: "Cet utilisateur est un extern et ne peut devenir un membre",
-        });
+      return res.status(400).json({
+        message: "Cet utilisateur est un extern et ne peut devenir un membre",
+      });
     }
 
     if (existingUser.userType === "Manager") {
-      return res
-        .status(400)
-        .json({
-          message: "Cet utilisateur est un manager et ne peut devenir un membre",
-        });
+      return res.status(400).json({
+        message: "Cet utilisateur est un manager et ne peut devenir un membre",
+      });
     }
 
     // Vérifier si l'utilisateur est déjà un membre
-    const existingMember = await MemberModel.findOne({ member: existingUser._id });
+    const existingMember = await MemberModel.findOne({
+      member: existingUser._id,
+    });
     if (existingMember) {
       return res
         .status(400)
@@ -351,6 +351,7 @@ app.delete("/remove_member/:memberId", async (req, res) => {
   }
 });
 
+// Route pour ajouter une commande
 app.post("/add_command", async (req, res) => {
   // console.log(req.body);
 
@@ -368,7 +369,6 @@ app.post("/add_command", async (req, res) => {
       });
     }
     console.log(Listproduct);
-
 
     // Validation des champs
     if (!date || !listproduct) {
@@ -411,12 +411,293 @@ app.post("/add_command", async (req, res) => {
   }
 });
 
+// Route pour récupérer les commandes
+app.delete("/delete_command/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Vérifier si la commande existe
+    const command = await CommandModel.findById(id);
+    if (!command) {
+      return res.status(404).json({ message: "Commande non trouvée" });
+    }
+
+    // Supprimer la commande
+    await CommandModel.findByIdAndDelete(id);
+
+    res.status(200).json({ message: "Commande supprimée avec succès" });
+  } catch (error) {
+    console.error("Erreur lors de la suppression de la commande :", error);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
+});
+
+// Route pour accepter les commandes
+app.put("/command/accept/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Vérifier si la commande existe
+    const command = await CommandModel.findById(id);
+    if (!command) {
+      return res.status(404).json({ message: "Commande non trouvée" });
+    }
+
+    // Vérifier si la commande est déjà acceptée
+    if (command.status === "accepté") {
+      return res
+        .status(400)
+        .json({ message: "Cette commande est déjà acceptée" });
+    }
+
+    // Mettre à jour la quantité de chaque produit en stock
+    for (let item of command.listproduct) {
+      const product = await ProductModel.findById(item.product_id);
+      if (!product) {
+        return res
+          .status(404)
+          .json({ message: `Produit avec ID ${item.product_id} introuvable` });
+      }
+
+      product.quantity += item.quantity; // Augmenter la quantité en stock
+      await product.save();
+    }
+
+    // Mettre à jour le statut de la commande en "accepté"
+    command.status = "accepté";
+    await command.save();
+
+    res
+      .status(200)
+      .json({
+        message: "Commande acceptée avec succès et stock mis à jour",
+        command,
+      });
+  } catch (error) {
+    console.error("Erreur lors de l'acceptation de la commande :", error);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
+});
+
+// Route pour rejeter les commandes
+app.put("/command/reject/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Vérifier si la commande existe
+    const command = await CommandModel.findById(id);
+    if (!command) {
+      return res.status(404).json({ message: "Commande non trouvée" });
+    }
+
+    // Mettre à jour le statut en "rejeté"
+    command.status = "rejeté";
+    await command.save();
+
+    res.status(200).json({ message: "Commande rejetée avec succès", command });
+  } catch (error) {
+    console.error("Erreur lors du rejet de la commande :", error);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
+});
+
+app.post("/tasks", async (req, res) => {
+  try {
+    const { email, title, description, startDate, endDate } = req.body;
+
+    // Vérifier que tous les champs requis sont présents
+    if (!email || !title || !description || !startDate || !endDate) {
+      return res
+        .status(400)
+        .json({ message: "Tous les champs sont obligatoires" });
+    }
+
+    // Vérifier si l'utilisateur existe via son email
+    const user = await UserModel.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
+    }
+
+    // Créer une nouvelle tâche avec l'ID de l'utilisateur trouvé
+    const newTask = new TaskModel({
+      user: user._id, // Récupération de l'ID du User
+      title,
+      description,
+      startDate,
+      endDate,
+    });
+
+    // Sauvegarder la tâche en base de données
+    await newTask.save();
+
+    res
+      .status(201)
+      .json({ message: "Tâche ajoutée avec succès", task: newTask });
+  } catch (error) {
+    console.error("Erreur lors de l'ajout de la tâche :", error);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
+});
+
+// Modifier le statut à "fait"
+app.put("/tasks/:id/done", async (req, res) => {
+  try {
+    const taskId = req.params.id;
+
+    // Chercher la tâche par son ID
+    const task = await TaskModel.findById(taskId);
+
+    if (!task) {
+      return res.status(404).json({ message: "Tâche non trouvée" });
+    }
+
+    // Mettre à jour le statut à "fait"
+    task.status = "terminé";
+    await task.save();
+
+    res.status(200).json({ message: "Tâche marquée comme faite", task });
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour de la tâche :", error);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
+});
+
+// Modifier le statut à "non fait"
+app.put("/tasks/:id/not-done", async (req, res) => {
+  try {
+    const taskId = req.params.id;
+
+    // Chercher la tâche par son ID
+    const task = await TaskModel.findById(taskId);
+
+    if (!task) {
+      return res.status(404).json({ message: "Tâche non trouvée" });
+    }
+
+    // Mettre à jour le statut à "non fait"
+    task.status = "non fait";
+    await task.save();
+
+    res.status(200).json({ message: "Tâche marquée comme non faite", task });
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour de la tâche :", error);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
+});
+
+// Ajouter un article
+app.post("/add_article", upload.array("images", 4), async (req, res) => {
+  const { name, type, quantity, description, price, device } = req.body;
+  const images = req.files;
+  let ListImage = [];
+
+  // console.log(images);
+
+  if (!name || !type || !quantity || !description || !price || !device) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  if (images.length < 1) {
+    return res.status(400).json({ message: "At least one image is required" });
+  }
+
+  try {
+    for (let i = 0; i < images.length; i++) {
+      const savedImage = await new ImageModel({
+        path: images[i].path,
+        filename: images[i].filename,
+      }).save();
+      ListImage.push(savedImage._id);
+    }
+
+    console.log(ListImage);
+
+    const article = new ArticleModel({
+      name,
+      type,
+      quantity,
+      description,
+      price,
+      device,
+      image: ListImage,
+    });
+
+    const savedArticle = await article.save();
+
+    res
+      .status(201)
+      .json({ message: "Article ajouté avec succès", savedArticle });
+  } catch (error) {
+    console.error("Erreur lors de l'ajout de l'article :", error);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
+});
+
+// Route pour recupérer les articles
+app.get("/get_articles", async (req, res) => {
+  try {
+    const articles = await ArticleModel.find();
+    // console.log(articles);
+    res.json(articles);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des articles :", error);
+    res.status(500).json({ error: "Failed to fetch articles" });
+  }
+});
+
+app.put("/update_article/:id", upload.array("images", 4), async (req, res) => {
+  const { id } = req.params; // Récupérer l'ID de l'article depuis l'URL
+  const { name, type, quantity, description, price, device } = req.body;
+  const images = req.files;
+  let ListImage = [];
+
+  try {
+    // Vérifier si l'article existe
+    const existingArticle = await ArticleModel.findById(id);
+    if (!existingArticle) {
+      return res.status(404).json({ message: "Article non trouvé" });
+    }
+
+    // Gérer les nouvelles images si fournies
+    if (images.length > 0) {
+      for (let i = 0; i < images.length; i++) {
+        const savedImage = await new ImageModel({
+          path: images[i].path,
+          filename: images[i].filename,
+        }).save();
+        ListImage.push(savedImage._id);
+      }
+    } else {
+      ListImage = existingArticle.image; // Garder les anciennes images
+    }
+
+    // Mettre à jour l'article
+    existingArticle.name = name || existingArticle.name;
+    existingArticle.type = type || existingArticle.type;
+    existingArticle.quantity = quantity || existingArticle.quantity;
+    existingArticle.description = description || existingArticle.description;
+    existingArticle.price = price || existingArticle.price;
+    existingArticle.device = device || existingArticle.device;
+    existingArticle.image = ListImage;
+
+    const updatedArticle = await existingArticle.save();
+
+    res.status(200).json({ message: "Article modifié avec succès", updatedArticle });
+  } catch (error) {
+    console.error("Erreur lors de la modification de l'article :", error);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
+});
+
+
+// Route pour recupérer les emprunts et les afficher sur le calandrier
 app.get("/calendar", async (req, res) => {
   try {
     const borrows = await BorrowModel.find().populate("user");
     const formattedBorrows = borrows.map((borrow) => ({
       id: borrow._id,
-      title: `Emprunt de : ${borrow.user.name+" "+borrow.user.firstName}`, // Nom de l'emprunteur
+      title: `Emprunt de : ${borrow.user.name + " " + borrow.user.firstName}`, // Nom de l'emprunteur
       start: borrow.startDate, // Date formatée en YYYY-MM-DD
       end: borrow.endDate,
       motif: borrow.motif,

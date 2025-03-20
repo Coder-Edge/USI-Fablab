@@ -6,11 +6,12 @@ const ProductCard = ({product, showDetail}) => {
         <div className="product-card" onClick={showDetail}>
             <div className="image"
                 style={{
-                    backgroundImage: `url(${product.images[0]})`,
+                    backgroundImage: `url(http://localhost:3000/img/${product.image[0]})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                     backgroundRepeat: "no-repeat"
-                }}></div>
+                }}>
+                </div>
             <div className="product-desc">
                 <p>{product.name}</p>
                 <div className="product-info">

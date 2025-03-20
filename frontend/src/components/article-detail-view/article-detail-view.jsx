@@ -14,6 +14,7 @@ const ProductDetailView = ({ product, receivedTypes, state }) => {
 
     const [types, setTypes] = useState([])
 
+    const [id, setId] = useState("")
     const [name, setName] = useState("")
     const [type, setType] = useState("")
     const [price, setPrice] = useState(0)
@@ -25,6 +26,7 @@ const ProductDetailView = ({ product, receivedTypes, state }) => {
     const [images, setImages] = useState([])
 
     useEffect(() => {
+        setId(product._id ? product._id : "");
         setTypes(receivedTypes);
         setType(product.type ? product.type : "");
         setName(product.name ? product.name : "");
@@ -32,8 +34,9 @@ const ProductDetailView = ({ product, receivedTypes, state }) => {
         setQuantity(product.quantity ? product.quantity : 0);
         setDescription(product.description ? product.description : "");
         setDevice(product.device ? product.device : "");
-        setListImages(product.images ? product.images : [])
-        setShowImage(product.images ? product.images[0] : "");
+        setListImages(product.image ? product.image : [])
+        setShowImage(product.image ? product.image[0] : "");
+
 
     }, [state])
 
@@ -77,6 +80,7 @@ const ProductDetailView = ({ product, receivedTypes, state }) => {
         formData.append("newImages", images);
         
         closeForm()
+        
     }
 
     return (
@@ -89,7 +93,7 @@ const ProductDetailView = ({ product, receivedTypes, state }) => {
                 <div className="product-detail-body">
                     <div className="images">
                         <div className="image-view" style={{
-                            backgroundImage: `url(${showImage})`,
+                            backgroundImage: `url(http://localhost:3000/img/${showImage})`,
                             backgroundSize: "cover",
                             backgroundPosition: "center",
                             backgroundRepeat: "no-repeat"
@@ -109,7 +113,7 @@ const ProductDetailView = ({ product, receivedTypes, state }) => {
                                     <div key={index} className={`img ${showImage === img ? "active" : ""}`} 
                                     onClick={() => {deleteImage(img)}}
                                     style={{
-                                        backgroundImage: `url(${img})`,
+                                        backgroundImage: `url(http://localhost:3000/img/${img})`,
                                         backgroundPosition: "center",
                                         backgroundSize: "cover",
                                         backgroundRepeat: "no-repeat"
