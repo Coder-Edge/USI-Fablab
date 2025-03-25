@@ -44,8 +44,8 @@
     align-items: center;
 }
 
-.table table tbody tr:hover{
-    background-color: #f0f7ff;
+.table table tbody tr:hover {
+    background-color: var(--background-color);
 }
 
 .table table tr td img {
@@ -97,11 +97,42 @@
 }
 
 .table table tbody::-webkit-scrollbar-thumb {
-    background-color: #909090;
+    background-color: var(--light-dark);
     border-radius: 4px;
 }
 
 .table table tbody::-webkit-scrollbar-thumb:hover {
-    background-color: #5899DD;
+    background-color: var(--blue-color);
 }
 
+.table .status>* {
+    padding: 8px 15px;
+    text-align: start;
+    width: fit-content;
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+.table .available p {
+    background-color: #e8f7e8;
+    /* Vert clair */
+    color: #2ca02c;
+    /* Vert foncé */
+}
+
+.table .unavailable p {
+    background-color: #f7e8e8;
+    /* Rouge clair */
+    color: #a02c2c;
+    /* Rouge foncé */
+}
+
+.table .emprunt p {
+    background-color: var(--blue-color);
+    color: var(--light-color);
+}
+
+.table .unemprunt p {
+    background-color: #dddddd;
+
+}

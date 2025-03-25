@@ -15,8 +15,9 @@
 }
 
 .login .sidediv {
+    
     border-radius: 14px 0px 0px 14px;
-    background-color: #5899DD;
+    background-color: var(--blue-color); /* Color problem */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,7 +28,7 @@
 }
 
 .login .form-content {
-    background-color: white;
+    background-color: var(--light-color);
     padding: 25px 50px;
     width: 400px;
     border-radius: 0px 14px 14px 0px;
@@ -95,7 +96,7 @@
 
 .login form a {
     text-decoration: none;
-    color: #5899DD;
+    color: var(--blue-color);
 }
 
 .login form p.error {
@@ -118,7 +119,7 @@
 .login form .input-fields.more input {
     width: 14px;
     height: 14px;
-    color: #5899DD;
+    color: var(--blue-color);
     margin: 0px;
     cursor: pointer;
 }
@@ -133,7 +134,7 @@
 }
 
 .login form .input-fields.more >:last-child {
-    color: #5899DD;
+    color: var(--blue-color);
 }
 
 .login form .input-fields.more .remind label {
@@ -149,7 +150,7 @@
 .login form h3 {
     text-align: center;
     font-weight: 200;
-    color: #5899DD;
+    color: var(--blue-color);
     margin-bottom: 30px;
 }
 

@@ -5,7 +5,7 @@
     margin: 0;
     width: 100%;
     height: 100%;
-    background-color: #f0f7ff;
+    background-color: var(--background-color);
     gap: 20px;
     z-index: 1;
     padding: 10px;
@@ -14,7 +14,7 @@
 
 #detail-member-view .member-info{
     border-radius: 14px;
-    background-color: white;
+    background-color: var(--light-color);
     display: flex;
     gap: 30px;
     padding: 30px;
@@ -42,7 +42,7 @@
 }
 
 #detail-member-view .member-info .member-info-text h2 {
-    color: #5899DD;
+    color: var(--blue-color);
 }
 
 #detail-member-view .member-info .member-info-text .promotion {
@@ -57,7 +57,7 @@
 }
 
 #detail-member-view .member-tasks .member-tasks-group {
-    background-color: white;
+    background-color: var(--light-color);
     flex: 1;
     border-radius: 14px;
     padding: 20px;

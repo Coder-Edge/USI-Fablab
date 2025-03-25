@@ -33,6 +33,6 @@
 }
 
 .manager-inventory .grid-content > div {
-    background-color: white;
+    background-color: var(--light-color);
     border-radius: 14px;
 }
