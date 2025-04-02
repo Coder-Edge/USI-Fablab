@@ -101,6 +101,7 @@ export default function Main() {
                       <Route path="/budget" element={<Simplifier title={"Budget"}><BudgetMNG setNavActive={setNavActive} /></Simplifier>} />
                       <Route path="/members" element={<MembersPage setNavActive={setNavActive} />} />
                       <Route path="/shop" element={<ShopMNG setNavActive={setNavActive} />} />
+                      <Route path="/parametre" element={<Simplifier title={"Parametre"}><ParamatreMNG setNavActive={setNavActive} /></Simplifier>} />
 
                       {/* Route pour le calendrier */}
                       <Route
@@ -133,6 +134,7 @@ export default function Main() {
                           </Simplifier>
                         }
                       />
+                      <Route path="/parametre" element={<Simplifier title={"Paramètre"}><ParamatreMNG setNavActive={setNavActive} /></Simplifier>} />
                     </Routes>
                   </>
                 }
@@ -155,7 +157,15 @@ export default function Main() {
                           </Simplifier>
                         }
                       />
-                    </Routes>
+                    <Route
+                        path="/parametre" 
+                        element={
+                          <Simplifier title={"Paramètre"}>
+                            <ParamatreMNG setNavActive={setNavActive} />
+                          </Simplifier>
+                        }
+                      />
+                      </Routes>
                   </>
                 }
               />
