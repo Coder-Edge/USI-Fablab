@@ -650,6 +650,7 @@ app.put("/update_article/:id", upload.array("images", 4), async (req, res) => {
   const { id } = req.params; // Récupérer l'ID de l'article depuis l'URL
   const { name, type, quantity, description, price, device } = req.body;
   const images = req.files;
+  console.log(images);
   let ListImage = [];
 
   try {
@@ -659,19 +660,25 @@ app.put("/update_article/:id", upload.array("images", 4), async (req, res) => {
       return res.status(404).json({ message: "Article non trouvé" });
     }
 
-    // Gérer les nouvelles images si fournies
-    if (images.length > 0) {
-      for (let i = 0; i < images.length; i++) {
-        const savedImage = await new ImageModel({
-          path: images[i].path,
-          filename: images[i].filename,
-        }).save();
-        ListImage.push(savedImage._id);
-      }
-    } else {
-      ListImage = existingArticle.image; // Garder les anciennes images
+    for (let i = 0; i < images.length; i++) {
+      if (i in existingArticle.image) {
+        console.log(i + "in existingArticle.image");
     }
+  }
+    // Gérer les nouvelles images si fournies
+    // if (images.length > 0) {
+    //   for (let i = 0; i < images.length; i++) {
 
+    //     const savedImage = await new ImageModel({
+    //       path: images[i].path,
+    //       filename: images[i].filename,
+    //     }).save();
+    //     ListImage.push(savedImage._id);
+    //   }
+    // } else {
+    //   ListImage = existingArticle.image; // Garder les anciennes images
+    // }
+  
     // Mettre à jour l'article
     existingArticle.name = name || existingArticle.name;
     existingArticle.type = type || existingArticle.type;
@@ -681,9 +688,11 @@ app.put("/update_article/:id", upload.array("images", 4), async (req, res) => {
     existingArticle.device = device || existingArticle.device;
     existingArticle.image = ListImage;
 
-    const updatedArticle = await existingArticle.save();
+    console.log(existingArticle);
 
-    res.status(200).json({ message: "Article modifié avec succès", updatedArticle });
+    // const updatedArticle = await existingArticle.save();
+
+    res.status(200).json({ message: "Article modifié avec succès" });
   } catch (error) {
     console.error("Erreur lors de la modification de l'article :", error);
     res.status(500).json({ message: "Erreur serveur" });
