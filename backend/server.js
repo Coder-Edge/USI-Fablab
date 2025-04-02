@@ -325,7 +325,7 @@ app.get("/get_members", async (req, res) => {
   }
 });
 
-// Route pour mettre à jour un membre
+// Route pour supprimer un membre
 app.delete("/remove_member/:memberId", async (req, res) => {
   try {
     const { memberId } = req.params;
