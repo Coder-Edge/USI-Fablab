@@ -1,69 +1,157 @@
-
 import { NavParams } from "../../../components/Navbar/navParams"
 import "./parametre.css"
 import ButtonAdd from "../../../components/stocks/button-add"
 import Button from "../../../components/button/Button"
 import { useState } from "react"
 
-
 const ParamatreMNG = ({ setNavActive }) => {
-
-    
-
-        // Activer le bouton budget de la navbar
     setNavActive(NavParams.parametre)
-    const [quantity, setQuantity] = useState(1)
-    const [isOn, setIsOn] = useState(false)
-    const toggleSwitch = () => setIsOn(!isOn)
+    const [stockLimit, setStockLimit] = useState(2)
+    const [darkMode, setDarkMode] = useState(false)
+    const [notifications, setNotifications] = useState(true)
+
+    const [posts] = useState([
+        "Manager",
+        "Gestionnaire de stock",
+        "Gestionnaire de projet",
+        "Gestionnaire de finance",
+        "Chargé de communication",
+        "Chargé de maintenance"
+    ])
+
+    const [components] = useState([
+        "Capteur",
+        "Microcontrolleur",
+        "Moteur",
+        "Outil"
+    ])
+
+    const [products] = useState([
+        "Portrait",
+        "Support pour PC",
+        "Accessoire",
+        "Outil"
+    ])
 
     return (
         <div className="parametre">
             <div className="content">
-                <div className="info">
+                <div className="header">
                     <div className="field-input">
-                        <label htmlFor="price">Devise : </label>
-                        <select name="device">
+                        <label>Devise : </label>
+                        <select defaultValue="$">
                             <option value="$">$</option>
                             <option value="CDF">CDF</option>
                         </select>
                     </div>
                     <div className="field-input">
-                        <label htmlFor="quantity">Langue : </label>
-                        <select name="device">
-                            <option value="$">Français</option>
-                            <option value="CDF">Anglais</option>
+                        <label>Langue : </label>
+                        <select defaultValue="Français">
+                            <option value="Français">Français</option>
+                            <option value="Anglais">Anglais</option>
                         </select>
                     </div>
                 </div>
-                <div className="info">
-                    <div className="field-input">
-                        <label htmlFor="quantity">Quantité: </label>
-                        <button type="button" id="quantity" onClick={() => setQuantity((e) => (e > 1 ? e - 1 : e))}>&lt;</button>
-                        <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value >= 0 ? parseInt(e.target.value) : quantity)} />
-                        <button type="button" onClick={() => setQuantity((e) => (e + 1))}>&gt;</button>
+
+                <div className="section">
+                    <span className="section-title">Postes :</span>
+                    <div className="button-group">
+                        {posts.map((post, index) => (
+                            <button key={index} className="tag-button">
+                                {post}
+                            </button>
+                        ))}
+                        <button className="add-button">
+                            <span>+</span> Ajouter
+                        </button>
                     </div>
-                    <div>
-                        <label htmlFor="quantity">Mode Sombre : Désactivé </label>
-                    </div>                        
                 </div>
-                <div className="notifications">
-                    <label htmlFor="notifications">Notifications : Activé </label>
+
+                <div className="section">
+                    <span className="section-title">Type de composant :</span>
+                    <div className="button-group">
+                        {components.map((component, index) => (
+                            <button key={index} className="tag-button">
+                                {component}
+                            </button>
+                        ))}
+                        <button className="add-button">
+                            <span>+</span> Ajouter
+                        </button>
+                    </div>
                 </div>
-                <div className="toggle">
-                        <input type="checkbox"></input>
+
+                <div className="section">
+                    <span className="section-title">Type de produit :</span>
+                    <div className="button-group">
+                        {products.map((product, index) => (
+                            <button key={index} className="tag-button">
+                                {product}
+                            </button>
+                        ))}
+                        <button className="add-button">
+                            <span>+</span> Ajouter
+                        </button>
+                    </div>
                 </div>
-              
-                
-                <div className="BN" >
-                    <Button child="Annuler" type="submit" />
-                    <ButtonAdd child="Appliquer" type="submit" />
+
+                <div className="settings-group">
+                    <div className="stock-limit">
+                        <label>Limite de rupture de stock : </label>
+                        <div className="number-input">
+                            <button onClick={() => setStockLimit(prev => prev > 0 ? prev - 1 : prev)}>&lt;</button>
+                            <input
+                                type="text"
+                                value={stockLimit.toString().padStart(2, '0')}
+                                onChange={(e) => {
+                                    const value = parseInt(e.target.value);
+                                    if (!isNaN(value) && value >= 0) {
+                                        setStockLimit(value);
+                                    }
+                                }}
+                            />
+                            <button onClick={() => setStockLimit(prev => prev + 1)}>&gt;</button>
+                        </div>
+                    </div>
+                    <div className="toggle-container">
+                        <label>Mode sombre : </label>
+                        <label className="toggle-switch">
+                            <input
+                                type="checkbox"
+                                checked={darkMode}
+                                onChange={() => setDarkMode(!darkMode)}
+                            />
+                            <span className="toggle-slider"></span>
+                        </label>
+                        <span className="status-text">{darkMode ? 'Activé' : 'Désactivé'}</span>
+                    </div>
                 </div>
-                <div className="default">
-                    <Button child="Par Defaut" type="submit" />
+
+                <div className="toggle-container">
+                    <label>Notification : </label>
+                    <label className="toggle-switch">
+                        <input
+                            type="checkbox"
+                            checked={notifications}
+                            onChange={() => setNotifications(!notifications)}
+                        />
+                        <span className="toggle-slider"></span>
+                    </label>
+                    <span className="status-text">{notifications ? 'Activé' : 'Désactivé'}</span>
+                </div>
+
+                <div className="buttons">
+                    <div className="action-buttons">
+                        <Button child="Annuler" type="button" />
+                        <ButtonAdd child="Appliquer" type="button" />
+                    </div>
+                    <div className="default-button">
+                        <Button child="Par défaut" type="button" />
+                    </div>
                 </div>
             </div>
         </div>
     )
 }
 
-export default ParamatreMNG
+export default ParamatreMNG;

@@ -45,7 +45,7 @@ const Shop = ({ setNavActive }) => {
     const fetchData = async () => {
             try {
                 const response = await axios.get("/get_articles"); // Requête GET
-                console.log(response.data); // Vérifie la réponse dans la console
+                // console.log(response.data); // Vérifie la réponse dans la console
                 setData(response.data); // Met à jour data avec les données reçues
             } catch (error) {
                 console.error(error);
@@ -170,8 +170,6 @@ const Shop = ({ setNavActive }) => {
                             .filter(product => (product.type.toLocaleLowerCase().match(typeFilter.toLocaleLowerCase())))
                             .map(
                                 (product, index) => {
-                                    console.log(product);
-                                    
                                     return <ProductCard product={product} key={index} showDetail={() => showProductDetail(product)}/>
                                 }
                             )}
