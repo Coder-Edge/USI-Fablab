@@ -7,7 +7,6 @@ import ToolBox from "../../../components/stocks/toolbox";
 import Button from "../../../components/button/Button";
 import ProductCard from "../../../components/cards/product-card";
 import ProductDetailView from "../../../components/article-detail-view/article-detail-view";
-import { ShopProducts } from "../../../models/shop-product";
 import axios from "../../../api/api";
 import Swal from "sweetalert2";
 

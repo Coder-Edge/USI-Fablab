@@ -33,6 +33,8 @@ import MembersPageMBR from "./pages/member/members/members";
 import ParamatreMNG from "./pages/manager/parametre/parametre";
 import Shop from "./pages/member/shop/shop";
 import ShopMNG from "./pages/manager/shop/shop";
+import ShopEST from "./pages/student/shop/shop";
+import DetailArticle from "./pages/student/detail-article/detail-article";
 
 export default function Main() {
 
@@ -123,16 +125,11 @@ export default function Main() {
                 path="/student/*"
                 element={
                   <>
-                    <NavbarOTH param={navActive} />
+                    <NavbarOTH param={navActive} role={Role.student} />
                     <Routes>
-                      <Route
-                        index
-                        element={
-                          <Simplifier title={"Inventaire"}>
-                            <InventorySTD />
-                          </Simplifier>
-                        }
-                      />
+                      <Route index element={<InventorySTD setNavActive={setNavActive}/>}/>
+                      <Route path="/shop" element={<ShopEST setNavActive={setNavActive}/>}/>
+                      <Route path="/shop/acticle/:id" element={<DetailArticle />}/>
                     </Routes>
                   </>
                 }
