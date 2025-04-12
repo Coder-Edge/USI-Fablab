@@ -34,3 +34,7 @@ body {
   height: 100%;
   overflow-y: auto;
 }
+
+.row {
+  display: flex;
+}

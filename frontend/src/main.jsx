@@ -33,8 +33,6 @@ import MembersPageMBR from "./pages/member/members/members";
 import ParamatreMNG from "./pages/manager/parametre/parametre";
 import Shop from "./pages/member/shop/shop";
 import ShopMNG from "./pages/manager/shop/shop";
-import ShopEST from "./pages/student/shop/shop";
-import DetailArticle from "./pages/student/detail-article/detail-article";
 
 export default function Main() {
 

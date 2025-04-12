@@ -10,7 +10,7 @@ const ParamatreMNG = ({ setNavActive }) => {
     const [darkMode, setDarkMode] = useState(false)
     const [notifications, setNotifications] = useState(true)
 
-    const [posts] = useState([
+    const [posts, setPosts] = useState([
         "Manager",
         "Gestionnaire de stock",
         "Gestionnaire de projet",
@@ -19,19 +19,29 @@ const ParamatreMNG = ({ setNavActive }) => {
         "Chargé de maintenance"
     ])
 
-    const [components] = useState([
+    const [components, setComponents] = useState([
         "Capteur",
         "Microcontrolleur",
         "Moteur",
         "Outil"
     ])
 
-    const [products] = useState([
+    const [products, setProducts] = useState([
         "Portrait",
         "Support pour PC",
         "Accessoire",
         "Outil"
     ])
+
+
+    const handleAddPoste = (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.target);
+        console.log(formData.get("poste"));
+        
+        e.target.style.visibility = "hidden"
+    }
 
     return (
         <div className="parametre">
@@ -61,7 +71,7 @@ const ParamatreMNG = ({ setNavActive }) => {
                                 {post}
                             </button>
                         ))}
-                        <button className="add-button">
+                        <button className="add-button"  onClick={() => {document.getElementById("add-poste").style.visibility = "visible"}}>
                             <span>+</span> Ajouter
                         </button>
                     </div>
@@ -150,6 +160,16 @@ const ParamatreMNG = ({ setNavActive }) => {
                     </div>
                 </div>
             </div>
+            <form id="add-poste" onSubmit={handleAddPoste}>
+                <div className="add-poste-content">
+                    <h3>Ajouter un poste</h3>
+                    <input type="text" placeholder="Ex: maintenance des équipements" name="poste"/>
+                    <div className="row">
+                        <Button type={"button"} child={"Annuler"} onClick={() => {document.getElementById("add-poste").style.visibility = "hidden"}}/>
+                        <ButtonAdd type={"submit"} child={"Ajouter"} />
+                    </div>
+                </div>
+            </form>
         </div>
     )
 }
