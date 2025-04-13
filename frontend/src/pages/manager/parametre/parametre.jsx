@@ -38,8 +38,29 @@ const ParamatreMNG = ({ setNavActive }) => {
         e.preventDefault();
 
         const formData = new FormData(e.target);
-        console.log(formData.get("poste"));
-        
+        const value = formData.get("poste")
+        console.log(value);
+        e.target.reset()
+        e.target.style.visibility = "hidden"
+    }
+
+    const handleAddTypeComponent = (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.target);
+        const value = formData.get("type")
+        console.log(value);
+        e.target.reset()
+        e.target.style.visibility = "hidden"
+    }
+
+    const handleAddTypePoduct = (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.target);
+        const value = formData.get("type")
+        console.log(value);
+        e.target.reset()
         e.target.style.visibility = "hidden"
     }
 
@@ -71,7 +92,7 @@ const ParamatreMNG = ({ setNavActive }) => {
                                 {post}
                             </button>
                         ))}
-                        <button className="add-button"  onClick={() => {document.getElementById("add-poste").style.visibility = "visible"}}>
+                        <button className="add-button" onClick={() => { document.getElementById("add-poste").style.visibility = "visible" }}>
                             <span>+</span> Ajouter
                         </button>
                     </div>
@@ -85,7 +106,7 @@ const ParamatreMNG = ({ setNavActive }) => {
                                 {component}
                             </button>
                         ))}
-                        <button className="add-button">
+                        <button className="add-button" onClick={() => { document.getElementById("add-component-type").style.visibility = "visible" }}>
                             <span>+</span> Ajouter
                         </button>
                     </div>
@@ -99,7 +120,7 @@ const ParamatreMNG = ({ setNavActive }) => {
                                 {product}
                             </button>
                         ))}
-                        <button className="add-button">
+                        <button className="add-button" onClick={() => { document.getElementById("add-product-type").style.visibility = "visible" }}>
                             <span>+</span> Ajouter
                         </button>
                     </div>
@@ -161,11 +182,43 @@ const ParamatreMNG = ({ setNavActive }) => {
                 </div>
             </div>
             <form id="add-poste" onSubmit={handleAddPoste}>
-                <div className="add-poste-content">
-                    <h3>Ajouter un poste</h3>
-                    <input type="text" placeholder="Ex: maintenance des équipements" name="poste"/>
+                <div className="add-form-parameter-content">
+                    <h3>Ajouter un nouveau poste</h3>
+                    <input type="text" placeholder="Ex: maintenance des équipements" name="poste" />
                     <div className="row">
-                        <Button type={"button"} child={"Annuler"} onClick={() => {document.getElementById("add-poste").style.visibility = "hidden"}}/>
+                        <Button type={"button"} child={"Annuler"} onClick={() => {
+                            const form = document.getElementById("add-poste")
+                            form.reset();
+                            form.style.visibility = "hidden"
+                        }} />
+                        <ButtonAdd type={"submit"} child={"Ajouter"} />
+                    </div>
+                </div>
+            </form>
+            <form id="add-component-type" onSubmit={handleAddTypeComponent}>
+                <div className="add-form-parameter-content">
+                    <h3>Ajouter un nouveau type de composant</h3>
+                    <input type="text" placeholder="Ex: maintenance des équipements" name="type" />
+                    <div className="row">
+                        <Button type={"button"} child={"Annuler"} onClick={() => {
+                            const form = document.getElementById("add-component-type")
+                            form.reset();
+                            form.style.visibility = "hidden"
+                        }} />
+                        <ButtonAdd type={"submit"} child={"Ajouter"} />
+                    </div>
+                </div>
+            </form>
+            <form id="add-product-type" onSubmit={handleAddTypePoduct}>
+                <div className="add-form-parameter-content">
+                    <h3>Ajouter un nouveau type de produit</h3>
+                    <input type="text" placeholder="Ex: maintenance des équipements" name="type" />
+                    <div className="row">
+                        <Button type={"button"} child={"Annuler"} onClick={() => {
+                            const form = document.getElementById("add-product-type")
+                            form.reset();
+                            form.style.visibility = "hidden"
+                        }} />
                         <ButtonAdd type={"submit"} child={"Ajouter"} />
                     </div>
                 </div>
