@@ -118,7 +118,7 @@ const MembersPage = ({ setNavActive }) => {
                         types={types}
                         SetTypeFilter={setFilter}
                         btnActive={btnActive} />
-                    <MembersTableView numberItemDisplay={numberItemDisplay} activeNumberGroup={activeNumberGroup} searchTerm={searchTerm} showDetailView={showDetailView} />
+                    <MembersTableView numberItemDisplay={numberItemDisplay} activeNumberGroup={activeNumberGroup} searchTerm={searchTerm} showDetailView={showDetailView} data={data}/>
                     <ButtonAdd child={<><MdAddCircleOutline /> Inviter</>} onClick={
                         () => {
                             document.querySelector("#add-member").style.visibility = "visible"
