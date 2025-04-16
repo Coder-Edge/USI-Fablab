@@ -65,7 +65,10 @@ const CommandsMBR = () => {
                             </tr>
                         ))
                 } />
-            <ButtonAdd child={"Ajouter au stock"} />
+            <ButtonAdd child={"Ajouter au stock"} onClick={() => {
+                const component = document.querySelector("#add-command");
+                component.style.visibility = "visible";
+            }}/>
         </div>
     )
 }

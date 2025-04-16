@@ -2,13 +2,21 @@ import { NavParams } from "../../../components/Navbar/navParams"
 import "./parametre.css"
 import ButtonAdd from "../../../components/stocks/button-add"
 import Button from "../../../components/button/Button"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 const ParamatreMNG = ({ setNavActive }) => {
-    setNavActive(NavParams.parametre)
+    
     const [stockLimit, setStockLimit] = useState(2)
     const [darkMode, setDarkMode] = useState(false)
     const [notifications, setNotifications] = useState(true)
+
+    useEffect(() => {
+        setNavActive(NavParams.parametre);
+        if (localStorage.getItem("darkMode") === "true") {
+            setDarkMode(true)
+            
+        }
+    }, [])
 
     const [posts, setPosts] = useState([
         "Manager",
@@ -150,7 +158,13 @@ const ParamatreMNG = ({ setNavActive }) => {
                             <input
                                 type="checkbox"
                                 checked={darkMode}
-                                onChange={() => setDarkMode(!darkMode)}
+                                onChange={() => {
+                                    const body = document.body;
+                                    body.classList.toggle("dark-mode");
+                                    localStorage.setItem("darkMode", !darkMode);
+                                    console.log(localStorage.getItem("darkMode"));
+                                    setDarkMode(!darkMode);
+                                }}
                             />
                             <span className="toggle-slider"></span>
                         </label>
@@ -177,7 +191,10 @@ const ParamatreMNG = ({ setNavActive }) => {
                         <ButtonAdd child="Appliquer" type="button" />
                     </div>
                     <div className="default-button">
-                        <Button child="Par défaut" type="button" />
+                        <Button child="Par défaut" type="button" onClick={() => {
+                            localStorage.setItem("darkMode", false);
+                            
+                        }}/>
                     </div>
                 </div>
             </div>

@@ -1,36 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import DynamicTable from "./table";
 
 
-const MembersTableView = ({ numberItemDisplay, activeNumberGroup, searchTerm, showDetailView }) => {
-
-    const [members, setMembers] = useState([]); // État pour stocker les membres récupérés
-    const [loading, setLoading] = useState(true); // État pour gérer le chargement
+const MembersTableView = ({ numberItemDisplay, activeNumberGroup, searchTerm, showDetailView, data }) => {
 
     // Fonction pour récupérer les membres depuis l'API
-    useEffect(() => {
-        const fetchMembers = async () => {
-            try {
-                const response = await fetch("http://localhost:3000/get_members");
-                if (!response.ok) {
-                    throw new Error("Erreur lors de la récupération des membres");
-                }
-                const data = await response.json();
-                setMembers(data); // Mettre à jour l'état avec les données récupérées
-            } catch (error) {
-                console.error("Erreur :", error);
-            } finally {
-                setLoading(false); // Arrêter le chargement une fois les données récupérées
-            }
-        };
-
-        fetchMembers(); // Appeler la fonction pour récupérer les membres
+    useEffect(() => {        
+        // Appeler la fonction pour récupérer les membres
     }, []); // Le tableau vide signifie que cette fonction ne s'exécute qu'au montage du composant
 
-    // Si les données sont en cours de chargement, afficher un message
-    if (loading) {
-        return <div className="loading">Chargement en cours...</div>;
-    }
 
     const detailView = (name, firstname, email, task) => {
         showDetailView(name, firstname, email, task)
@@ -49,7 +27,7 @@ const MembersTableView = ({ numberItemDisplay, activeNumberGroup, searchTerm, sh
                 </tr>
             }
             tbodyChild={
-                members
+                data
                     .slice(numberItemDisplay * (activeNumberGroup - 1), numberItemDisplay * activeNumberGroup)
                     .filter((member) => (
                         member.member.name.toLowerCase().includes(searchTerm.toLowerCase().trim()) ||
