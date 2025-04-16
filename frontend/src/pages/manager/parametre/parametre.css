@@ -213,7 +213,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    background-color: rgba(0, 0, 0, 0.288);
+    background-color: var(--blur-color);
     backdrop-filter: blur(1px);
     display: flex;
     justify-content: center;
