@@ -11,6 +11,7 @@ import CommandsMBR from "../../../components/commands/member-commands";
 import LocationMBR from "../../../components/Location/member-location";
 import AddProduct from "../../../components/add_product/add-product";
 import { NavParams } from "../../../components/Navbar/navParams";
+import AddCommand from "../../../components/add-command/add-command";
 
 
 const InventoryMBR = ({setNavActive}) => {
@@ -59,7 +60,6 @@ const InventoryMBR = ({setNavActive}) => {
     // Ajouter un produit
     const openAddProductForm = () => {
        document.querySelector("#add-product").style.visibility = "visible"
-       
     }
 
     return (
@@ -88,7 +88,7 @@ const InventoryMBR = ({setNavActive}) => {
             </div>
 
             <AddProduct />
-            
+            <AddCommand data={data}/>
 
         </div>
 

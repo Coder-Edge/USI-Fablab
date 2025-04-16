@@ -4,7 +4,7 @@ import ButtonAdd from "../../../components/stocks/button-add"
 import Button from "../../../components/button/Button"
 import { useState } from "react"
 
-const ParamatreMNG = ({ setNavActive }) => {
+const ParamatreMBR = ({ setNavActive }) => {
     setNavActive(NavParams.parametre)
     const [quantity, setQuantity] = useState(1)
     const [darkMode, setDarkMode] = useState(false)
@@ -70,4 +70,4 @@ const ParamatreMNG = ({ setNavActive }) => {
     )
 }
 
-export default ParamatreMNG;
+export default ParamatreMBR;

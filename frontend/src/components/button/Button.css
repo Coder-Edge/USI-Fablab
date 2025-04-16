@@ -10,15 +10,15 @@ button.button {
     transition: background-color 0.3s;
 }
 
-button.button:hover {
-  background-color: #e6e4e4;
-}
-
 /* Bouton actif */
 button.button.active {
     background-color: var(--blue-color);
-    color: var(--light-color);
+    color: #fff;
     border: 0;
+}
+
+button.button.active * {
+  color: #fff;
 }
 
 /* Bouton Ajouter */

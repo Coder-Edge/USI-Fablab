@@ -37,6 +37,7 @@
 .shop .shop-products .shop-head .search,
 .shop .shop-products .shop-head .bag {
     background-color: var(--light-color);
+    color: var(--dark-color);
     padding: 14px;
     border-radius: 8px;
     display: flex;
@@ -46,6 +47,7 @@
 
 .shop .shop-products .shop-head .search input {
     font-size: 14px;
+    background-color: var(--light-color);
     outline: 0;
     border: 0;
 }
@@ -59,12 +61,10 @@
 
 .shop .shop-products .toolbar .button {
     background-color: var(--light-color);
-    border: 0;
 }
 
 .shop .shop-products .toolbar .button.active {
     background-color: var(--blue-color);
-    ;
 }
 
 /* Product list decoration */

@@ -1,7 +1,7 @@
 
 import MemberDetailView from "../../../components/member-detail-view/member-detail-view"
 import AddMember from "../../../components/add-memeber/add-member"
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { NavParams } from "../../../components/Navbar/navParams";
 import MembersTableView from "../../../components/table/members-table";
 import HeadStocks from "../../../components/stocks/head-stock";

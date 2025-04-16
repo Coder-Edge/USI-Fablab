@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDom from "react-dom/client";
 import Navbar from "./components/Navbar/navbar"; //importation du composant navbar
 import "./main.css"; //importation du fichier style main.css
@@ -38,6 +38,14 @@ export default function Main() {
 
   const { auth } = useAuth();
   const [navActive, setNavActive] = useState(NavParams.inventaire);
+
+  useEffect(() => {
+    
+    if (localStorage.getItem("darkMode") === "true") {
+        document.body.classList.add("dark-mode");        
+    }
+
+  }, [])
 
   // La siplification de l'expession
   // <div className="main-content"><Header title={"Inventaire"} name={auth.name} role={auth.userType} /> <PAGE /></div>
@@ -124,7 +132,7 @@ export default function Main() {
                 path="/student/*"
                 element={
                   <>
-                    <NavbarOTH param={navActive} />
+                    <NavbarOTH param={navActive} role={Role.student} />
                     <Routes>
                       <Route
                         index
@@ -157,15 +165,15 @@ export default function Main() {
                           </Simplifier>
                         }
                       />
-                    <Route
-                        path="/parametre" 
+                      <Route
+                        path="/parametre"
                         element={
                           <Simplifier title={"Paramètre"}>
                             <ParamatreMNG setNavActive={setNavActive} />
                           </Simplifier>
                         }
                       />
-                      </Routes>
+                    </Routes>
                   </>
                 }
               />
