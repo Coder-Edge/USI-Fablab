@@ -134,14 +134,7 @@ export default function Main() {
                   <>
                     <NavbarOTH param={navActive} role={Role.student} />
                     <Routes>
-                      <Route
-                        index
-                        element={
-                          <Simplifier title={"Inventaire"}>
-                            <InventorySTD />
-                          </Simplifier>
-                        }
-                      />
+                      <Route index element={<InventorySTD setNavActive={setNavActive}/>}/>
                       <Route path="/parametre" element={<Simplifier title={"Paramètre"}><ParamatreMNG setNavActive={setNavActive} /></Simplifier>} />
                     </Routes>
                   </>

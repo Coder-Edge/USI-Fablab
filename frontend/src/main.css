@@ -48,3 +48,8 @@ body {
 .row {
   display: flex;
 }
+
+.table-load {
+    position: relative;
+    min-height: 150px;
+}
