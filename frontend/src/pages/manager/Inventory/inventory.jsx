@@ -1,5 +1,5 @@
-import CommandsMNG from "../../../components/commands/manager-commands";
-import LocationMNG from "../../../components/Location/manager-location";
+import CommandsMNG from "../../../components/commands/commands";
+import Location from "../../../components/Location/location";
 import { useState, useEffect, useRef } from "react";
 import { MdAddCircleOutline } from "react-icons/md";
 import Button from "../../../components/button/Button";
@@ -12,12 +12,14 @@ import "../../../components/stocks/stocks.css";
 import { NavParams } from "../../../components/Navbar/navParams";
 import AddProduct from "../../../components/add_product/add-product";
 import AddCommand from "../../../components/add-command/add-command";
+import Spinner from "../../../components/spinner/spinner";
 
-const InventoryMNG = ({setNavActive}) => {
+const InventoryMNG = ({ setNavActive }) => {
   // data acquisition
   const [allProducts, setAllProducts] = useState([]); // Store all products
   const [data, setData] = useState([]); // Store filtered products
   const [types, setTypes] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
 
@@ -26,6 +28,7 @@ const InventoryMNG = ({setNavActive}) => {
 
     // Fetch data from the API
     const fetchData = async () => {
+      setIsLoading(true);
       try {
         const response = await fetch("http://localhost:3000/get/products"); // Replace with the correct URL
         const products = await response.json();
@@ -35,8 +38,11 @@ const InventoryMNG = ({setNavActive}) => {
       } catch (error) {
         console.error("Erreur lors de la récupération des produits :", error);
       }
+      finally {
+        setIsLoading(false)
+      }
     };
-    
+
     fetchData();
   }, []);
 
@@ -52,7 +58,7 @@ const InventoryMNG = ({setNavActive}) => {
   const SetTypeFilter = (e) => {
     setType(e);
     setBtnActive(e);
-    
+
     // Use allProducts to filter and then filter by type
     const filteredData = allProducts.filter((p) => p.type.toLowerCase().includes(e.toLowerCase()));
 
@@ -63,25 +69,30 @@ const InventoryMNG = ({setNavActive}) => {
     <div className="manager-inventory">
       <div className="grid-content">
         <CommandsMNG />
-        <LocationMNG />
+        <Location />
         <div className="stocks">
-          <HeadStocks title={"Stocks"} setSearchTerm={setSearchTerm} />
+          {isLoading
+            ? <Spinner />
+            : <>
+              <HeadStocks title={"Stocks"} setSearchTerm={setSearchTerm} />
 
-          <ToolBox
-            firstbutton={<Button child={<><MdAddCircleOutline /> Ajouter</>} />}
-            types={types}
-            btnActive={btnActive}
-            SetTypeFilter={SetTypeFilter}
-          />
+              <ToolBox
+                firstbutton={<Button child={<><MdAddCircleOutline /> Ajouter</>} />}
+                types={types}
+                btnActive={btnActive}
+                SetTypeFilter={SetTypeFilter}
+              />
 
-          <Table data={data} type={type} searchTerm={searchTerm} />
+              <Table data={data} type={type} searchTerm={searchTerm} />
 
-          <ButtonAdd child={<><MdAddCircleOutline /> Ajouter</>} onClick={() => {document.querySelector("#add-product").style.visibility = "visible"}}/>
+              <ButtonAdd child={<><MdAddCircleOutline /> Ajouter</>} onClick={() => { document.querySelector("#add-product").style.visibility = "visible" }} />
+            </>
+          }
         </div>
       </div>
 
       <AddProduct />
-      <AddCommand data={data}/>
+      <AddCommand data={data} />
 
     </div>
   );

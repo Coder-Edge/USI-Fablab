@@ -1,101 +1,101 @@
-import { useState, useEffect } from "react";
+import CommandsMNG from "../../../components/commands/commands";
+import Location from "../../../components/Location/location";
+import { useState, useEffect, useRef } from "react";
 import { MdAddCircleOutline } from "react-icons/md";
 import Button from "../../../components/button/Button";
 import HeadStocks from "../../../components/stocks/head-stock";
 import ToolBox from "../../../components/stocks/toolbox";
 import Table from "../../../components/stocks/manager-table";
 import ButtonAdd from "../../../components/stocks/button-add";
-import "./inventory.css"
-import "../../../components/stocks/stocks.css"
-import CommandsMBR from "../../../components/commands/member-commands";
-import LocationMBR from "../../../components/Location/member-location";
-import AddProduct from "../../../components/add_product/add-product";
+import "./inventory.css";
+import "../../../components/stocks/stocks.css";
 import { NavParams } from "../../../components/Navbar/navParams";
+import AddProduct from "../../../components/add_product/add-product";
 import AddCommand from "../../../components/add-command/add-command";
+import Spinner from "../../../components/spinner/spinner";
 
+const InventoryMBR = ({ setNavActive }) => {
+  // data acquisition
+  const [allProducts, setAllProducts] = useState([]); // Store all products
+  const [data, setData] = useState([]); // Store filtered products
+  const [types, setTypes] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-const InventoryMBR = ({setNavActive}) => {
+  useEffect(() => {
 
+    // set active button in sidebar
+    setNavActive(NavParams.inventaire)
 
-    //data acquisition
-    const [allProducts, setAllProducts] = useState([]); // Store all products
-    const [data, setData] = useState([])
-    const [types, setTypes] = useState([])
-    useEffect(() => {
+    // Fetch data from the API
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch("http://localhost:3000/get/products"); // Replace with the correct URL
+        const products = await response.json();
+        setAllProducts(products);  // Store all products
+        setData(products);  // Start with all products as filtered
+        setTypes([...new Set(products.map((product) => product.type))]);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des produits :", error);
+      }
+      finally {
+        setIsLoading(false)
+      }
+    };
 
-        // Activer le bouton budget de la navbar
-        setNavActive(NavParams.inventaire)
+    fetchData();
+  }, []);
 
-        // Appel à l'API pour récupérer les produits
-        const fetchProducts = async () => {
-            try {
-                const response = await fetch("http://localhost:3000/get/products");
-                const products = await response.json();
-                setAllProducts(products);  // Store all products
-                setData(products);  // Start with all products as filtered
-                setTypes([...new Set(products.map((product) => product.type.toLowerCase()))]);
-            } catch (error) {
-                console.error("Erreur lors de la récupération des produits :", error);
-            }
-        };
+  // Search
+  const [searchTerm, setSearchTerm] = useState("");
 
-        fetchProducts();
-    }, []);
+  // Active button
+  const [btnActive, setBtnActive] = useState("");
 
-    //search
-    const [searchTerm, setSearchTerm] = useState("")
+  // Filter type data
+  const [type, setType] = useState("");
 
-    //active button
-    const [btnActive, setBtnActive] = useState("")
+  const SetTypeFilter = (e) => {
+    setType(e);
+    setBtnActive(e);
 
-    // Filter type data
-    const [type, setType] = useState('')
+    // Use allProducts to filter and then filter by type
+    const filteredData = allProducts.filter((p) => p.type.toLowerCase().includes(e.toLowerCase()));
 
-    const SetTypeFilter = (e) => {
-        setType(e)
-        setBtnActive(e)
-        setData(allProducts.filter(p => p.type.toLocaleLowerCase().match(e)))
-    }
+    setData(filteredData);
+  };
 
-    // Ajouter un produit
-    const openAddProductForm = () => {
-       document.querySelector("#add-product").style.visibility = "visible"
-    }
+  return (
+    <div className="manager-inventory">
+      <div className="grid-content">
+        <CommandsMNG />
+        <Location />
+        <div className="stocks">
+          {isLoading
+            ? <Spinner />
+            : <>
+              <HeadStocks title={"Stocks"} setSearchTerm={setSearchTerm} />
 
-    return (
+              <ToolBox
+                firstbutton={<Button child={<><MdAddCircleOutline /> Ajouter</>} />}
+                types={types}
+                btnActive={btnActive}
+                SetTypeFilter={SetTypeFilter}
+              />
 
-        <div className="manager-inventory">
-            <div className="grid-content">
-                <CommandsMBR />
-                <LocationMBR />
-                <div className="stocks">
-                    <HeadStocks
-                        title={"Stocks"}
-                        setSearchTerm={setSearchTerm} />
+              <Table data={data} type={type} searchTerm={searchTerm} />
 
-                    <ToolBox
-                        firstbutton={
-                            <Button
-                                child={<><MdAddCircleOutline /> Ajouter</>} />}
-                        types={types}
-                        btnActive={btnActive}
-                        SetTypeFilter={SetTypeFilter} />
-
-                    <Table data={data} type={type} searchTerm={searchTerm} />
-
-                    <ButtonAdd child={<><MdAddCircleOutline /> Ajouter</>} onClick={openAddProductForm}/>
-                </div>
-            </div>
-
-            <AddProduct />
-            <AddCommand data={data}/>
-
+              <ButtonAdd child={<><MdAddCircleOutline /> Ajouter</>} onClick={() => { document.querySelector("#add-product").style.visibility = "visible" }} />
+            </>
+          }
         </div>
+      </div>
 
+      <AddProduct />
+      <AddCommand data={data} />
 
-
-    )
-}
+    </div>
+  );
+};
 
 export default InventoryMBR;
-
