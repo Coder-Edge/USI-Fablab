@@ -6,12 +6,13 @@ import ToolBox from "../../../components/stocks/toolbox"
 import { MdFilterList } from "react-icons/md"
 import Button from "../../../components/button/Button"
 import Bottom from "../../../components/stocks/bottom"
+import Spinner from "../../../components/spinner/spinner"
 
 
 const MembersPageMBR = ({ setNavActive }) => {
 
     const [data, setData] = useState([])
-    const [loading, setLoading] = useState(true); // État pour gérer le chargement
+    const [isLoading, setIsLoading] = useState(false);
 
     const [searchTerm, setSearchTerm] = useState("");
     const [types, setTypes] = useState(["Etudiant", "Manager"]);
@@ -25,6 +26,7 @@ const MembersPageMBR = ({ setNavActive }) => {
         setNavActive(NavParams.membres)
 
         const fetchMembers = async () => {
+            setIsLoading(true);
             try {
                 const response = await fetch("http://localhost:3000/get_members");
                 if (!response.ok) {
@@ -35,7 +37,7 @@ const MembersPageMBR = ({ setNavActive }) => {
             } catch (error) {
                 console.error("Erreur :", error);
             } finally {
-                setLoading(false); // Arrêter le chargement une fois les données récupérées
+                setIsLoading(false); // Arrêter le chargement une fois les données récupérées
             }
         };
 
@@ -60,7 +62,12 @@ const MembersPageMBR = ({ setNavActive }) => {
                     types={types}
                     btnActive={btnActive}
                     SetTypeFilter={setFilter} />
-                <MembersTableView numberItemDisplay={numberItemDisplay} activeNumberGroup={activeNumberGroup} searchTerm={searchTerm} data={data}/>
+                <div className="table-load">
+                    {isLoading
+                        ? <Spinner />
+                        : <MembersTableView numberItemDisplay={numberItemDisplay} activeNumberGroup={activeNumberGroup} searchTerm={searchTerm} data={data}/>
+                    }
+                </div>
             </div>
             <Bottom
                 numberItemDisplay={numberItemDisplay}
