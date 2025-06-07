@@ -351,6 +351,21 @@ app.delete("/remove_member/:memberId", async (req, res) => {
   }
 });
 
+// Récupérer toutes les commandes du user connecté
+app.get("/get_commands", async (req, res) => {
+  try {
+
+    // Récupérer toutes les commandes 
+    const commands = await CommandModel.find()
+      .populate("user", "name email") // si tu veux inclure les infos utilisateur
+      .populate("ListCommand.product_id"); // pour avoir les infos produits
+
+    res.status(200).json(commands);
+  } catch (error) {
+    res.status(500).json({ message: "Erreur serveur", error });
+  }
+});
+
 // Route pour ajouter une commande
 app.post("/add_command", async (req, res) => {
   // console.log(req.body);

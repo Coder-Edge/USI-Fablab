@@ -137,9 +137,7 @@ export default function Main() {
                       <Route
                         index
                         element={
-                          <Simplifier title={"Inventaire"}>
-                            <InventorySTD />
-                          </Simplifier>
+                            <InventorySTD setNavActive={setNavActive} />
                         }
                       />
                       <Route path="/parametre" element={<Simplifier title={"Paramètre"}><ParamatreMNG setNavActive={setNavActive} /></Simplifier>} />
@@ -155,7 +153,7 @@ export default function Main() {
                 path="/extern/*"
                 element={
                   <>
-                    <NavbarOTH param={navActive} />
+                    <NavbarOTH param={navActive} role={Role.extern} />
                     <Routes>
                       <Route
                         index
