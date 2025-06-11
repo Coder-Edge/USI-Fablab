@@ -120,6 +120,7 @@ app.get("/get/products", async (req, res) => {
   }
 });
 
+// Delete products
 app.delete("/products/:id", async (req, res) => {
   try {
     const productId = req.params.id;
@@ -227,6 +228,7 @@ app.get("/get/borrows", async (req, res) => {
     ]);
 
     const formattedBorrows = borrows.map((borrow, index) => ({
+      borrow_id:borrow._id,
       user: `${borrows[index].user.name + " " + borrows[index].user.firstName}`, // Nom de l'emprunteur
       startDate: borrow.startDate,
       endDate: borrow.endDate,
@@ -237,6 +239,62 @@ app.get("/get/borrows", async (req, res) => {
     res.json(formattedBorrows);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch borrows" });
+  }
+});
+
+// Récupérer un emprunt spécifique par ID
+app.get("/get/borrows/:id", async (req, res) => {
+  try {
+    const borrow = await BorrowModel.findById(req.params.id).populate([
+      { path: "user", select: "name firstName email" }
+    ]);
+
+    if (!borrow) {
+      return res.status(404).json({ error: "Emprunt non trouvé" });
+    }
+
+    const formattedBorrow = {
+      user: `${borrow.user.name} ${borrow.user.firstName}`,
+      startDate: borrow.startDate,
+      endDate: borrow.endDate,
+      motif: borrow.motif,
+      Listborrow: borrow.Listborrow,
+      status: borrow.status,
+      // Ajoutez d'autres champs si nécessaire
+    };
+
+    res.json(formattedBorrow);
+  } catch (error) {
+    res.status(500).json({ 
+      error: "Échec de la récupération de l'emprunt",
+      details: error.message 
+    });
+  }
+});
+
+// Route pour accepter ou refuser un emprunt
+// PATCH /borrows/:id/status → Met à jour le statut de l'emprunt
+app.patch("/borrows/:id/status", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { action } = req.body; // "validate" ou "reject"
+
+    if (!action || !["validate", "reject"].includes(action)) {
+      return res.status(400).json({ error: "Action invalide (doit être 'validate' ou 'reject')" });
+    }
+
+    const borrow = await BorrowModel.findById(id);
+    if (!borrow) {
+      return res.status(404).json({ error: "Emprunt non trouvé" });
+    }
+
+    // Mise à jour du statut
+    borrow.status = action === "validate" ? "accepté" : "rejeté";
+    await borrow.save();
+
+    res.json({ message: `Emprunt ${action === "validate" ? "validé" : "rejeté"} avec succès` });
+  } catch (error) {
+    res.status(500).json({ error: "Échec de la mise à jour", details: error.message });
   }
 });
 
