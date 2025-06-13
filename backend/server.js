@@ -272,29 +272,52 @@ app.get("/get/borrows/:id", async (req, res) => {
   }
 });
 
-// Route pour accepter ou refuser un emprunt
-// PATCH /borrows/:id/status → Met à jour le statut de l'emprunt
-app.patch("/borrows/:id/status", async (req, res) => {
+// Accepter un emprunt
+app.patch("/borrows/:id/accept", async (req, res) => {
   try {
-    const { id } = req.params;
-    const { action } = req.body; // "validate" ou "reject"
+    const borrow = await BorrowModel.findById(req.params.id);
+    if (!borrow) return res.status(404).json({ error: "Emprunt non trouvé" });
 
-    if (!action || !["validate", "reject"].includes(action)) {
-      return res.status(400).json({ error: "Action invalide (doit être 'validate' ou 'reject')" });
+    // Dans la route /accept
+    if (borrow.status !== "en_attente") {
+      return res.status(400).json({ error: "Seuls les emprunts en attente peuvent être acceptés" });
     }
 
-    const borrow = await BorrowModel.findById(id);
-    if (!borrow) {
-      return res.status(404).json({ error: "Emprunt non trouvé" });
-    }
-
-    // Mise à jour du statut
-    borrow.status = action === "validate" ? "accepté" : "rejeté";
+    borrow.status = "accepté";
     await borrow.save();
 
-    res.json({ message: `Emprunt ${action === "validate" ? "validé" : "rejeté"} avec succès` });
+    res.json({ 
+      success: true,
+      message: "Emprunt accepté avec succès",
+      newStatus: borrow.status
+    });
   } catch (error) {
-    res.status(500).json({ error: "Échec de la mise à jour", details: error.message });
+    res.status(500).json({
+      error: "Échec de l'acceptation",
+      details: error.message
+    });
+  }
+});
+
+// Refuser un emprunt
+app.patch("/borrows/:id/reject", async (req, res) => {
+  try {
+    const borrow = await BorrowModel.findById(req.params.id);
+    if (!borrow) return res.status(404).json({ error: "Emprunt non trouvé" });
+
+    borrow.status = "rejeté";
+    await borrow.save();
+
+    res.json({ 
+      success: true,
+      message: "Emprunt rejeté avec succès",
+      newStatus: borrow.status
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "Échec du rejet",
+      details: error.message
+    });
   }
 });
 
@@ -415,7 +438,7 @@ app.get("/get_commands", async (req, res) => {
 
     // Récupérer toutes les commandes 
     const commands = await CommandModel.find()
-      .populate("user", "name email") // si tu veux inclure les infos utilisateur
+      .populate("user", "name email") // infos utilisateur
       .populate("ListCommand.product_id"); // pour avoir les infos produits
 
     res.status(200).json(commands);
@@ -484,7 +507,7 @@ app.post("/add_command", async (req, res) => {
   }
 });
 
-// Route pour récupérer les commandes
+// Route pour supprimer les commandes
 app.delete("/delete_command/:id", async (req, res) => {
   try {
     const { id } = req.params;

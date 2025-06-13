@@ -45,29 +45,39 @@ export default function Calendrier({setNavActive}) {
     Swal.fire({
       title: "Détails de l'emprunt",
       html: `
-        <p><strong>Nom de l'emprunteur :</strong> ${
-          user.charAt(1).toUpperCase() + user.slice(2)
-        }</p>
-        <br>
-        <hr>
-        <br>
+        <p><strong>Nom de l'emprunteur :</strong> ${user.charAt(0).toUpperCase() + user.slice(1)}</p>
+        <br><hr><br>
         <p><strong>Description :</strong> ${description}</p>
-        <br>
-        <hr>
+        <br><hr>
         <p><strong>Date de début :</strong> ${startDate}</p>
         <p><strong>Date de retour :</strong> ${endDate}</p>
       `,
       icon: "info",
+      showCancelButton: true, // Active le bouton "Rendu"
+      showDenyButton: true,   // Active le bouton "Accepter"
       confirmButtonText: "Fermer",
-      showCancelButton: true,
-      cancelButtonText: "Détails",
+      cancelButtonText: "Refuser",
+      denyButtonText: "Accepter",
+      customClass: {
+        denyButton: 'custom-deny-btn', // Pour styliser
+        cancelButton: 'custom-cancel-btn'
+      },
     }).then((result) => {
-      if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire({
-          title: "Détails supplémentaires",
-          text: "Plus d'informations seront bientôt disponibles.",
-          icon: "info",
-        });
+      if (result.isDenied) {
+        // Action pour "Accepter"
+        Swal.fire("Accepté !", "L'emprunt a été approuvé.", "success");
+        // Ajoutez ici votre logique d'acceptation (ex: appel API)
+        fetch(`http://localhost:3000/borrows/${borrowId}/accept`, { method: "PATCH" });
+
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // Action pour "Refuser"
+        Swal.fire("Rejeté !", "Le matériel est marqué comme rejeté.", "success");
+        // Logique pour mettre à jour le statut
+        fetch(`http://localhost:3000/borrows/${borrowId}/reject`, { method: "PATCH" });
+
+      } else if (result.isConfirmed) {
+        // Action pour "Fermer" (par défaut, la popup se ferme)
+        console.log("Fermeture de la boîte de dialogue");
       }
     });
   };

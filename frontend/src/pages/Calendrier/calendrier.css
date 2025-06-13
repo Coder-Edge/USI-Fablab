@@ -16,3 +16,9 @@
   align-items: center;
   justify-content: center;
 }
+.custom-deny-btn {
+  background-color: #28a745 !important; /* Vert pour "Accepter" */
+}
+.custom-cancel-btn {
+  background-color: #e62121 !important; /* Jaune pour "Rendu" */
+}
