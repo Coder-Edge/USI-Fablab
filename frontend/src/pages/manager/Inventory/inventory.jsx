@@ -71,17 +71,16 @@ const InventoryMNG = ({ setNavActive }) => {
         <CommandsView />
         <Location />
         <div className="stocks">
+          <HeadStocks title={"Stocks"} setSearchTerm={setSearchTerm} />
+          <ToolBox
+            firstbutton={<Button child={<><MdAddCircleOutline /> Ajouter</>} />}
+            types={types}
+            btnActive={btnActive}
+            SetTypeFilter={SetTypeFilter}
+          />
           {isLoading
             ? <Spinner />
             : <>
-              <HeadStocks title={"Stocks"} setSearchTerm={setSearchTerm} />
-
-              <ToolBox
-                firstbutton={<Button child={<><MdAddCircleOutline /> Ajouter</>} />}
-                types={types}
-                btnActive={btnActive}
-                SetTypeFilter={SetTypeFilter}
-              />
 
               <Table data={data} type={type} searchTerm={searchTerm} />
 

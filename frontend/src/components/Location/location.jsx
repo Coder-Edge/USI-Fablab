@@ -36,46 +36,35 @@ const Location = () => {
 
   }, []);
 
-  const calculate_total_quantity = (products) => {
-    let total = 0;
-
-    products.forEach(prod => {
-      total += prod.quantity
-    });
-
-    return total;
-  }
-
   // Search
   const [searchTerm, setSearchTerm] = useState("");
 
   return (
     <div className="location">
-      {isLoading
-        ? <Spinner />
-        : <>
-          <HeadStocks title={"Location"} setSearchTerm={setSearchTerm} />
-          <DynamicTable
-            theadChild={
-              <tr>
-                <th className="component" style={{ width: "27%" }}>
-                  Commande ID
-                </th>
-                <th className="emprunter" style={{ width: "23%" }}>
-                  Emprunter
-                </th>
-                <th className="quantity" style={{ width: "15%" }}>
-                  Quantité
-                </th>
-                <th style={{ width: "35%" }}>Status</th>
-              </tr>
-            }
-            tbodyChild={data
-              .filter((borrow) => {
-                return (
-                  borrow.user.toLowerCase().includes(searchTerm.toLowerCase())
-                );
-              })
+      <HeadStocks title={"Location"} setSearchTerm={setSearchTerm} />
+      <DynamicTable
+        theadChild={
+          <tr>
+            <th className="component" style={{ width: "27%" }}>
+              Commande ID
+            </th>
+            <th className="emprunter" style={{ width: "23%" }}>
+              Emprunter
+            </th>
+            <th className="quantity" style={{ width: "15%" }}>
+              Quantité
+            </th>
+            <th style={{ width: "35%" }}>Status</th>
+          </tr>
+        }
+        tbodyChild={
+          isLoading
+            ? <Spinner />
+            : data.filter((borrow) => {
+              return (
+                borrow.user.toLowerCase().includes(searchTerm.toLowerCase())
+              );
+            })
               .map((borrow, index) =>
               (
                 <tr key={index}>
@@ -94,19 +83,17 @@ const Location = () => {
                       : `${borrow.user.slice(0, 14)} ...`}
                   </td>
                   <td className="quantity" style={{ width: "15%" }}>
-                    {calculate_total_quantity(borrow.Listborrow)}
+                    {borrow.Listborrow.reduce((acc, prod) => (acc + prod.quantity), 0)}
                   </td>
                   <td className="status" style={{ width: "35%" }}>
                     Du {getStringDate(borrow.startDate)} au{" "}
                     {getStringDate(borrow.endDate)}
                   </td>
                 </tr>
-                )
+              )
               )}
-          />
-          <ButtonAdd child={"Voir commandes"} onClick={() => navigate(location.pathname + "/list-commands")} />
-        </>
-      }
+      />
+      <ButtonAdd child={"Voir commandes"} onClick={() => navigate(location.pathname + "/list-commands")} />
     </div>
   );
 };
