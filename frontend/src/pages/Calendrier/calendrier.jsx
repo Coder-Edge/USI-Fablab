@@ -5,15 +5,19 @@ import interactionPlugin from "@fullcalendar/interaction";
 import Swal from "sweetalert2";
 import "./calendrier.css";
 import { NavParams } from "../../components/Navbar/navParams";
+import Spinner from "../../components/spinner/spinner";
 
-export default function Calendrier({setNavActive}) {
+export default function Calendrier({ setNavActive }) {
   const [events, setEvents] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   // Chargement des événements depuis l'API
   useEffect(() => {
     setNavActive(NavParams.calendrier)
 
     const fetchEvents = async () => {
+      setIsLoading(true);
       try {
         const response = await fetch("http://localhost:3000/calendar");
         if (!response.ok) {
@@ -23,6 +27,9 @@ export default function Calendrier({setNavActive}) {
         setEvents(data);
       } catch (error) {
         console.error("Erreur :", error);
+      }
+      finally {
+        setIsLoading(false);
       }
     };
 
@@ -45,8 +52,16 @@ export default function Calendrier({setNavActive}) {
     Swal.fire({
       title: "Détails de l'emprunt",
       html: `
+<<<<<<< HEAD
+        <p><strong>Nom de l'emprunteur :</strong> ${user.charAt(1).toUpperCase() + user.slice(2)
+        }</p>
+        <br>
+        <hr>
+        <br>
+=======
         <p><strong>Nom de l'emprunteur :</strong> ${user.charAt(0).toUpperCase() + user.slice(1)}</p>
         <br><hr><br>
+>>>>>>> origin/master
         <p><strong>Description :</strong> ${description}</p>
         <br><hr>
         <p><strong>Date de début :</strong> ${startDate}</p>
@@ -84,18 +99,22 @@ export default function Calendrier({setNavActive}) {
 
   return (
     <div className="cal">
-      <FullCalendar
-        plugins={[dayGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        headerToolbar={{
-          start: "today",
-          center: "title",
-          end: "prev next",
-        }}
-        aspectRatio={2}
-        events={events}
-        eventClick={handleEventClick}
-      />
+      {
+        isLoading
+          ? <Spinner />
+          : <FullCalendar
+            plugins={[dayGridPlugin, interactionPlugin]}
+            initialView="dayGridMonth"
+            headerToolbar={{
+              start: "today",
+              center: "title",
+              end: "prev next",
+            }}
+            aspectRatio={2}
+            events={events}
+            eventClick={handleEventClick}
+          />
+      }
     </div>
   );
 }

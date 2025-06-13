@@ -1,4 +1,4 @@
-import CommandsMNG from "../../../components/commands/commands";
+import CommandsView from "../../../components/commands/commands";
 import Location from "../../../components/Location/location";
 import { useState, useEffect, useRef } from "react";
 import { MdAddCircleOutline } from "react-icons/md";
@@ -68,20 +68,19 @@ const InventoryMNG = ({ setNavActive }) => {
   return (
     <div className="manager-inventory">
       <div className="grid-content">
-        <CommandsMNG />
+        <CommandsView />
         <Location />
         <div className="stocks">
+          <HeadStocks title={"Stocks"} setSearchTerm={setSearchTerm} />
+          <ToolBox
+            firstbutton={<Button child={<><MdAddCircleOutline /> Ajouter</>} />}
+            types={types}
+            btnActive={btnActive}
+            SetTypeFilter={SetTypeFilter}
+          />
           {isLoading
             ? <Spinner />
             : <>
-              <HeadStocks title={"Stocks"} setSearchTerm={setSearchTerm} />
-
-              <ToolBox
-                firstbutton={<Button child={<><MdAddCircleOutline /> Ajouter</>} />}
-                types={types}
-                btnActive={btnActive}
-                SetTypeFilter={SetTypeFilter}
-              />
 
               <Table data={data} type={type} searchTerm={searchTerm} />
 

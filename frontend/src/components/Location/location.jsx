@@ -3,16 +3,23 @@ import { useEffect, useState } from "react";
 import HeadStocks from "../stocks/head-stock";
 import DynamicTable from "../table/table";
 import Spinner from "../spinner/spinner";
+import ButtonAdd from "../stocks/button-add";
+import { useLocation, useNavigate } from "react-router-dom";
+import { RiShoppingBag3Fill } from "react-icons/ri";
 
 const Location = () => {
   // Data acquisition
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
   useEffect(() => {
     // Fetch data from the API
     const fetchData = async () => {
       setIsLoading(true);
+
       try {
         const response = await fetch("http://localhost:3000/get/borrows"); // Replace with the correct URL
         const borrows = await response.json();
@@ -26,6 +33,7 @@ const Location = () => {
     };
 
     fetchData();
+
   }, []);
 
   // Search
@@ -33,66 +41,59 @@ const Location = () => {
 
   return (
     <div className="location">
-      {isLoading
-        ? <Spinner />
-        : <>
-          <HeadStocks title={"Location"} setSearchTerm={setSearchTerm} />
-          <DynamicTable
-            theadChild={
-              <tr>
-                <th className="component" style={{ width: "27%" }}>
-                  Composant
-                </th>
-                <th className="emprunter" style={{ width: "23%" }}>
-                  Emprunter
-                </th>
-                <th className="quantity" style={{ width: "15%" }}>
-                  Quantité
-                </th>
-                <th style={{ width: "35%" }}>Status</th>
-              </tr>
-            }
-            tbodyChild={data
-              .filter((borrow) => {
-                return (
-                  borrow.user.toLowerCase().includes(searchTerm.toLowerCase())
-                );
-              })
-              .map((borrow, ind0) =>
-                borrow.Listborrow.map((product, ind1) => (
-                  <tr key={`${ind0}-${ind1}`}>
-                    <td className="component" style={{ width: "27%" }}>
-                      <div>
-                        {/* Assuming you have an image URL in the product object */}
-                        <img
-                          src={`http://localhost:3000/img/${product.product_image}`}
-                          alt={product.product_name}
-                        />
-                        {product.product_name.length <= 15
-                          ? product.product_name
-                          : `${product.product_name.slice(0, 12)}...`}
-                      </div>
-                    </td>
-                    <td className="emprunter" style={{ width: "23%" }}>
-                      {borrow.user.length <= 17
-                        ? borrow.user
-                        : `${borrow.user.slice(0, 14)} ...`}
-                    </td>
-                    <td className="quantity" style={{ width: "15%" }}>
-                      <button className="btn">&lt;</button>
-                      <span>{product.quantity}</span>
-                      <button className="btn">&gt;</button>
-                    </td>
-                    <td className="status" style={{ width: "35%" }}>
-                      Du {getStringDate(borrow.startDate)} au{" "}
-                      {getStringDate(borrow.endDate)}
-                    </td>
-                  </tr>
-                ))
+      <HeadStocks title={"Location"} setSearchTerm={setSearchTerm} />
+      <DynamicTable
+        theadChild={
+          <tr>
+            <th className="component" style={{ width: "27%" }}>
+              Commande ID
+            </th>
+            <th className="emprunter" style={{ width: "23%" }}>
+              Emprunter
+            </th>
+            <th className="quantity" style={{ width: "15%" }}>
+              Quantité
+            </th>
+            <th style={{ width: "35%" }}>Status</th>
+          </tr>
+        }
+        tbodyChild={
+          isLoading
+            ? <Spinner />
+            : data.filter((borrow) => {
+              return (
+                borrow.user.toLowerCase().includes(searchTerm.toLowerCase())
+              );
+            })
+              .map((borrow, index) =>
+              (
+                <tr key={index}>
+                  <td className="component" style={{ width: "27%" }}>
+                    <div>
+                      {/* Assuming you have an image URL in the product object */}
+                      <RiShoppingBag3Fill size={30} className="icon" />
+                      {borrow.id.length <= 13
+                        ? borrow.id
+                        : `${borrow.id.slice(0, 11)}...`}
+                    </div>
+                  </td>
+                  <td className="emprunter" style={{ width: "23%" }}>
+                    {borrow.user.length <= 17
+                      ? borrow.user
+                      : `${borrow.user.slice(0, 14)} ...`}
+                  </td>
+                  <td className="quantity" style={{ width: "15%" }}>
+                    {borrow.Listborrow.reduce((acc, prod) => (acc + prod.quantity), 0)}
+                  </td>
+                  <td className="status" style={{ width: "35%" }}>
+                    Du {getStringDate(borrow.startDate)} au{" "}
+                    {getStringDate(borrow.endDate)}
+                  </td>
+                </tr>
+              )
               )}
-          />
-        </>
-      }
+      />
+      <ButtonAdd child={"Voir commandes"} onClick={() => navigate(location.pathname + "/list-commands")} />
     </div>
   );
 };
