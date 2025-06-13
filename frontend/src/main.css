@@ -7,6 +7,9 @@
   --light-dark : #909090;
   --dark-color: black;
   --blur-color: rgba(255, 255, 255, 0.288);
+  --waiting-color: #f1cf71;
+  --rejected-color: #ec8080;
+  --accepted-color: #80eca4;
 }
 
 .dark-mode {

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import DynamicTable from "./table";
+import { IoPersonCircleSharp } from "react-icons/io5";
 
 
 const MembersTableView = ({ numberItemDisplay, activeNumberGroup, searchTerm, showDetailView, data }) => {
@@ -37,7 +38,7 @@ const MembersTableView = ({ numberItemDisplay, activeNumberGroup, searchTerm, sh
                         <tr key={i}>
                             <td className="component" style={{ width: "37%" }}>
                                 <div>
-                                    <img src={`/src/assets/profile-icon.svg`} alt={member.member.name} />
+                                    <IoPersonCircleSharp size={30} className="icon" />
                                     <a onClick={
                                         () => detailView(member.member.firstName, member.member.name, member.member.email, member.role)}>
                                         {member.member.name.length <= 20 ? member.member.name : `${member.member.name.slice(0, 18)} ...`}

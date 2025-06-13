@@ -227,6 +227,7 @@ app.get("/get/borrows", async (req, res) => {
     ]);
 
     const formattedBorrows = borrows.map((borrow, index) => ({
+      id: borrow.id,
       user: `${borrows[index].user.name + " " + borrows[index].user.firstName}`, // Nom de l'emprunteur
       startDate: borrow.startDate,
       endDate: borrow.endDate,

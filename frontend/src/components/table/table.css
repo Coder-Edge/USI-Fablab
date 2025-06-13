@@ -54,6 +54,10 @@
     border-radius: 100px;
 }
 
+.table table tr td .icon {
+    fill: var(--blue-color);
+}
+
 /* quantity button */
 .table table td.quantity button {
     background-color: transparent;

@@ -1,4 +1,4 @@
-import CommandsMNG from "../../../components/commands/commands";
+import CommandsView from "../../../components/commands/commands";
 import Location from "../../../components/Location/location";
 import { useState, useEffect, useRef } from "react";
 import { MdAddCircleOutline } from "react-icons/md";
@@ -68,7 +68,7 @@ const InventoryMBR = ({ setNavActive }) => {
   return (
     <div className="manager-inventory">
       <div className="grid-content">
-        <CommandsMNG />
+        <CommandsView />
         <Location />
         <div className="stocks">
           {isLoading

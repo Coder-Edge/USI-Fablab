@@ -5,8 +5,9 @@ import { commands } from "../../models/command";
 import ButtonAdd from "../stocks/button-add";
 import HeadStocks from "../stocks/head-stock";
 import DynamicTable from "../table/table";
+import { PiShoppingCartSimpleFill } from "react-icons/pi";
 
-const CommandsMNG = () => {
+const CommandsView = () => {
     // State for search term
     const [searchTerm, setSearchTerm] = useState("");
 
@@ -50,7 +51,7 @@ const CommandsMNG = () => {
                         <tr key={index}>
                             <td className="component" style={{ width: "50%" }}>
                                 <div>
-                                    <img src={command.product.image} alt={command.product.name} />
+                                    <PiShoppingCartSimpleFill size={30} className="icon"/>
                                     {command.product.name.length <= 15 ? command.product.name : `${command.product.name.slice(0, 12)}...`}
                                 </div>
                             </td>
@@ -74,4 +75,4 @@ const CommandsMNG = () => {
     );
 }
 
-export default CommandsMNG;
+export default CommandsView;

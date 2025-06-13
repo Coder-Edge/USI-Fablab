@@ -33,6 +33,7 @@ import MembersPageMBR from "./pages/member/members/members";
 import ParamatreMNG from "./pages/manager/parametre/parametre";
 import Shop from "./pages/member/shop/shop";
 import ShopMNG from "./pages/manager/shop/shop";
+import CommandsList from "./pages/manager/commandes/commands";
 
 export default function Main() {
 
@@ -110,6 +111,7 @@ export default function Main() {
                       <Route path="/members" element={<MembersPage setNavActive={setNavActive} />} />
                       <Route path="/shop" element={<ShopMNG setNavActive={setNavActive} />} />
                       <Route path="/parametre" element={<Simplifier title={"Parametre"}><ParamatreMNG setNavActive={setNavActive} /></Simplifier>} />
+                      <Route path="/list-commands" element={<CommandsList setNavActive={setNavActive} />} />
 
                       {/* Route pour le calendrier */}
                       <Route
@@ -221,6 +223,7 @@ export default function Main() {
                           </Simplifier>
                         }
                       />
+                      <Route path="/list-commands" element={<CommandsList setNavActive={setNavActive} />} />
                     </Routes>
                   </>
                 }

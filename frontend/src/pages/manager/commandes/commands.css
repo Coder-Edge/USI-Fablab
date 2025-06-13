@@ -1,0 +1,60 @@
+.commands-list {
+    height: 100%;
+    width: 100%;
+    padding: 10px 20px;
+}
+
+.commands-content {
+    height: 100%;
+    width: 100%;
+    padding: 20px;
+    background-color: var(--light-color);
+    border-radius: 14px;
+    margin-top: 5px;
+}
+
+.commands-list-content .list-items {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: start;
+    justify-content: start;
+}
+
+.commands-list-content .command-item {
+    border: 1px solid var(--light-dark);
+    padding: 10px 10px;
+    border-radius: 10px;
+    height: fit-content;
+    flex: 1;
+    font-size: 14px;
+    min-width: 400px;
+}
+
+.commands-list-content .command-item .btns {
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+}
+
+.commands-list-content .command-item h5 {
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.commands-list-content .command-item span{
+    color: var(--light-dark);
+}
+
+.commands-list-content .command-item .status.waiting {
+    background-color: var(--waiting-color);
+}
+
+.commands-list-content .command-item .status.accepted {
+    background-color: var(--accepted-color);
+}
+
+.commands-list-content .command-item .status.rejected {
+    background-color: var(--rejected-color);
+}
