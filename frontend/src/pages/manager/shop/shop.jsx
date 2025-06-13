@@ -73,7 +73,7 @@ const ShopMNG = ({ setNavActive }) => {
                     </div>
                     <div className="shop-buttons">
                         <Button child={<><MdFilterList /> Filtre</>} type={"button"} />
-                        <ButtonAdd child={<><MdAddCircleOutline /> Inviter</>} type={"button"}
+                        <ButtonAdd child={<><MdAddCircleOutline />Ajouter</>} type={"button"}
                             onClick={() => document.querySelector("#add-article").style.visibility = "visible"} />
                     </div>
 

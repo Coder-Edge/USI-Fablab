@@ -150,7 +150,7 @@ export default function Main() {
                 path="/extern/*"
                 element={
                   <>
-                    <NavbarOTH param={navActive} />
+                    <NavbarOTH param={navActive} role={Role.extern} />
                     <Routes>
                       <Route
                         index
@@ -244,7 +244,7 @@ export default function Main() {
                       <div className="main-content">
                         <Header title={"Membres"} /> name={auth.name} role=
                         {auth.userType}
-                        <Membres />
+                         <Membres />
                       </div>
                     }
                   />
