@@ -29,7 +29,7 @@ const borrowSchema = new mongoose.Schema({
   ],
   status: {
     type: String,
-    enum: ["en attente", "accepté", "rejeté", "en cours", "terminé"],
+    enum: ["en attente", "accepté", "rejeté", "terminé"],
     default: "en attente",
   },
 });

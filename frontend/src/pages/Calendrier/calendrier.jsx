@@ -14,7 +14,7 @@ export default function Calendrier({ setNavActive }) {
 
   // Chargement des événements depuis l'API
   useEffect(() => {
-    setNavActive(NavParams.calendrier)
+    setNavActive(NavParams.calendrier);
 
     const fetchEvents = async () => {
       setIsLoading(true);
@@ -27,8 +27,7 @@ export default function Calendrier({ setNavActive }) {
         setEvents(data);
       } catch (error) {
         console.error("Erreur :", error);
-      }
-      finally {
+      } finally {
         setIsLoading(false);
       }
     };
@@ -48,20 +47,15 @@ export default function Calendrier({ setNavActive }) {
     const endDate = clickInfo.event.end
       ? clickInfo.event.end.toLocaleDateString()
       : "Date inconnue";
+    const borrowId = clickInfo.event.id;
 
     Swal.fire({
       title: "Détails de l'emprunt",
       html: `
-<<<<<<< HEAD
-        <p><strong>Nom de l'emprunteur :</strong> ${user.charAt(1).toUpperCase() + user.slice(2)
+        <p><strong>Nom de l'emprunteur :</strong> ${
+          user.charAt(0).toUpperCase() + user.slice(1)
         }</p>
-        <br>
-        <hr>
-        <br>
-=======
-        <p><strong>Nom de l'emprunteur :</strong> ${user.charAt(0).toUpperCase() + user.slice(1)}</p>
         <br><hr><br>
->>>>>>> origin/master
         <p><strong>Description :</strong> ${description}</p>
         <br><hr>
         <p><strong>Date de début :</strong> ${startDate}</p>
@@ -69,52 +63,78 @@ export default function Calendrier({ setNavActive }) {
       `,
       icon: "info",
       showCancelButton: true, // Active le bouton "Rendu"
-      showDenyButton: true,   // Active le bouton "Accepter"
+      showDenyButton: true, // Active le bouton "Accepter"
       confirmButtonText: "Fermer",
       cancelButtonText: "Refuser",
       denyButtonText: "Accepter",
       customClass: {
-        denyButton: 'custom-deny-btn', // Pour styliser
-        cancelButton: 'custom-cancel-btn'
+        denyButton: "custom-deny-btn", // Pour styliser
+        cancelButton: "custom-cancel-btn",
       },
     }).then((result) => {
       if (result.isDenied) {
         // Action pour "Accepter"
-        Swal.fire("Accepté !", "L'emprunt a été approuvé.", "success");
-        // Ajoutez ici votre logique d'acceptation (ex: appel API)
-        fetch(`http://localhost:3000/borrows/${borrowId}/accept`, { method: "PATCH" });
-
+        fetch(`http://localhost:3000/borrows/${borrowId}/accept`, {
+          method: "PATCH",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            Swal.fire({
+              title: data.success ? "Accepté !" : "Erreur",
+              text: data.message || data.error || "L'emprunt a été approuvé avec succès",
+              icon: data.success ? "success" : "error",
+            });
+          })
+          .catch((error) => {
+            Swal.fire(
+              "Erreur",
+              "Échec de la requête: " + error.message,
+              "error"
+            );
+          });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         // Action pour "Refuser"
-        Swal.fire("Rejeté !", "Le matériel est marqué comme rejeté.", "success");
-        // Logique pour mettre à jour le statut
-        fetch(`http://localhost:3000/borrows/${borrowId}/reject`, { method: "PATCH" });
-
-      } else if (result.isConfirmed) {
-        // Action pour "Fermer" (par défaut, la popup se ferme)
-        console.log("Fermeture de la boîte de dialogue");
+        fetch(`http://localhost:3000/borrows/${borrowId}/reject`, {
+          method: "PATCH",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            Swal.fire({
+              title: data.success ? "Rejeté !" : "Erreur",
+              text: data.message || "Le matériel a été marqué comme rejeté",
+              icon: data.success ? "success" : "error",
+            });
+          })
+          .catch((error) => {
+            Swal.fire(
+              "Erreur",
+              "Échec de la requête: " + error.message,
+              "error"
+            );
+          });
       }
     });
   };
 
   return (
     <div className="cal">
-      {
-        isLoading
-          ? <Spinner />
-          : <FullCalendar
-            plugins={[dayGridPlugin, interactionPlugin]}
-            initialView="dayGridMonth"
-            headerToolbar={{
-              start: "today",
-              center: "title",
-              end: "prev next",
-            }}
-            aspectRatio={2}
-            events={events}
-            eventClick={handleEventClick}
-          />
-      }
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <FullCalendar
+          plugins={[dayGridPlugin, interactionPlugin]}
+          initialView="dayGridMonth"
+          headerToolbar={{
+            start: "today",
+            center: "title",
+            end: "prev next",
+          }}
+          aspectRatio={2}
+          events={events}
+          eventClick={handleEventClick}
+        />
+      )}
     </div>
   );
 }
