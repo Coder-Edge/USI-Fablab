@@ -25,6 +25,7 @@ export default function Calendrier({ setNavActive }) {
         }
         const data = await response.json();
         setEvents(data);
+        console.log("Événements chargés :", data);
       } catch (error) {
         console.error("Erreur :", error);
       } finally {
@@ -48,7 +49,16 @@ export default function Calendrier({ setNavActive }) {
       ? clickInfo.event.end.toLocaleDateString()
       : "Date inconnue";
     const borrowId = clickInfo.event.id;
-
+    const status = clickInfo.event.extendedProps.status;
+    const statusHTML = `
+  <p><strong>Statut :</strong> 
+    <span style="color: ${
+      status === "accepté" ? "green" : status === "rejeté" ? "red" : "orange" // Par défaut pour "en attente" ou tout autre statut
+    }">
+      ${status.toUpperCase()}
+    </span>
+  </p>
+`;
     Swal.fire({
       title: "Détails de l'emprunt",
       html: `
@@ -57,6 +67,8 @@ export default function Calendrier({ setNavActive }) {
         }</p>
         <br><hr><br>
         <p><strong>Description :</strong> ${description}</p>
+        <br><hr><br>
+        ${statusHTML}
         <br><hr>
         <p><strong>Date de début :</strong> ${startDate}</p>
         <p><strong>Date de retour :</strong> ${endDate}</p>
@@ -82,7 +94,10 @@ export default function Calendrier({ setNavActive }) {
             console.log(data);
             Swal.fire({
               title: data.success ? "Accepté !" : "Erreur",
-              text: data.message || data.error || "L'emprunt a été approuvé avec succès",
+              text:
+                data.message ||
+                data.error ||
+                "L'emprunt a été approuvé avec succès",
               icon: data.success ? "success" : "error",
             });
           })

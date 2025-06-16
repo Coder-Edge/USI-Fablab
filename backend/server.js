@@ -872,6 +872,7 @@ app.get("/calendar", async (req, res) => {
       start: borrow.startDate, // Date formatée en YYYY-MM-DD
       end: borrow.endDate,
       motif: borrow.motif,
+      status: borrow.status,
       description: borrow.Listborrow.map(
         (item) => `${item.product_name} (x${item.quantity})`
       ) // Liste des items avec leur quantité
