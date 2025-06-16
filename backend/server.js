@@ -280,7 +280,7 @@ app.get("/borrows/accept", async (req, res) => {
     ]);
 
     const formattedBorrows = borrows.map((borrow, index) => ({
-      // id: borrow._id,
+      id: borrow._id,
       user: `${borrows[index].user.name + " " + borrows[index].user.firstName}`, // Nom de l'emprunteur
       startDate: borrow.startDate,
       endDate: borrow.endDate,
@@ -302,7 +302,7 @@ app.get("/borrows/reject", async (req, res) => {
     ]);
 
     const formattedBorrows = borrows.map((borrow, index) => ({
-      // id: borrow._id,
+      id: borrow._id,
       user: `${borrows[index].user.name + " " + borrows[index].user.firstName}`, // Nom de l'emprunteur
       startDate: borrow.startDate,
       endDate: borrow.endDate,
