@@ -316,6 +316,28 @@ app.get("/borrows/reject", async (req, res) => {
   }
 });
 
+// Récupérer tous les emprunts en attente
+app.get("/borrows/waiting", async (req, res) => {
+  try {
+    const borrows = await BorrowModel.find({ status: "en attente" }).populate([
+      { path: "user", select: "name firstName email" }, // Récupérer le nom et l'email de l'utilisateur
+    ]);
+
+    const formattedBorrows = borrows.map((borrow, index) => ({
+      id: borrow._id,
+      user: `${borrows[index].user.name + " " + borrows[index].user.firstName}`, // Nom de l'emprunteur
+      startDate: borrow.startDate,
+      endDate: borrow.endDate,
+      motif: borrow.motif,
+      Listborrow: borrow.Listborrow,
+      status: borrow.status,
+    }));
+    res.json(formattedBorrows);
+  } catch (error) {
+    res.status(500).json({ error: "Échec de la récupération des emprunts en attente" });
+  }
+});
+
 // Accepter un emprunt
 app.patch("/borrows/:id/accept", async (req, res) => {
   try {
