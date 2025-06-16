@@ -117,7 +117,7 @@ export default function Calendrier({ setNavActive }) {
           .then((data) => {
             Swal.fire({
               title: data.success ? "Rejeté !" : "Erreur",
-              text: data.message || "Le matériel a été marqué comme rejeté",
+              text: data.message || data.error || "Le matériel a été marqué comme rejeté",
               icon: data.success ? "success" : "error",
             });
           })

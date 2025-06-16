@@ -8,6 +8,7 @@
 
 .cal {
   overflow-y: auto;
+  height: auto;
   margin-top: 20px;
   background-color: var(--light-color);
   margin: 20px;
