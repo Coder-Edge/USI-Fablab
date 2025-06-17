@@ -5,7 +5,7 @@ import "./commands.css"
 import ToolBox from "../../../components/stocks/toolbox";
 import Button from "../../../components/button/Button";
 import { RiShoppingBag3Fill } from "react-icons/ri";
-import { MdAddCircleOutline, MdDeleteOutline, MdInfoOutline, MdOutlineEdit } from "react-icons/md";
+import { MdAddCircleOutline, MdInfoOutline } from "react-icons/md";
 import axios from "../../../api/api";
 import HeadStocks from "../../../components/stocks/head-stock";
 import Spinner from "../../../components/spinner/spinner";

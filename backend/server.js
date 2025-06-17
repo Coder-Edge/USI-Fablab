@@ -416,6 +416,45 @@ app.patch("/borrows/:id/reject", async (req, res) => {
   }
 });
 
+// Terminer un emprunt
+app.patch("/borrows/:id/done", async (req, res) => {
+  try {
+    const borrow = await BorrowModel.findById(req.params.id).populate([
+      { path: "user", select: "name firstName email" }, // Récupérer le nom et l'email de l'utilisateur
+    ]);
+    if (!borrow) return res.status(404).json({ error: "Emprunt non trouvé" });
+
+    // si l'emprunt a déjà été accepté ou rejeté
+    if (borrow.status === "terminé") {
+      return res.status(400).json({ error: `Cet emprunt a déjà été ${borrow.status}` });
+    }
+
+    borrow.status = "terminé";
+    await borrow.save();
+
+    formattedBorrow = {
+      _id: borrow._id,
+      user: `${borrow.user.name} ${borrow.user.firstName}`,
+      startDate: borrow.startDate,
+      endDate: borrow.endDate,
+      motif: borrow.motif,
+      Listborrow: borrow.Listborrow,
+      status: borrow.status,
+    }
+
+    res.json({
+      success: true,
+      message: "Emprunt terminer avec succès",
+      borrow: formattedBorrow
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "Échec du rejet",
+      details: error.message
+    });
+  }
+});
+
 // Get a product by ID
 app.get("/get/products/:id", async (req, res) => {
   const { id } = req.params; // Récupérer l'ID depuis les paramètres de l'URL
