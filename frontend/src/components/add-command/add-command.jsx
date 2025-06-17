@@ -59,8 +59,6 @@ const AddCommand = ({ data }) => {
         // Créer un objet contenant les données de la commande
         const newCommand_product = { listproduct : newCommand, date : DateNow };
 
-        console.log(newCommand_product);
-
         const insertcommand = async (b) => {
         try {
             const res = await axios.post("/add_command", b);

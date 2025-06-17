@@ -16,7 +16,12 @@ const CommandsView = () => {
     // State for loading indicator
     const [isLoading, setIsLoading] = useState(false);
 
-    // Calculate total price whenever `commands` changes
+    const [totalValue, setTotalValue] = useState(0);
+    const calculateTotalValue = () => commands.reduce((total, command) => {
+        return total + command.ListCommand.reduce((accCommand, command) => (accCommand + command.product_id.price * command.quantity), 0);
+    }, 0);
+
+    // get commands from the API
     useEffect(() => {
 
         const fetchCommands = async () => {
@@ -24,7 +29,6 @@ const CommandsView = () => {
             try {
                 const response = await axios.get("/get_commands");
                 setCommands(response.data);
-                console.log(response.data);
             } catch (error) {
                 console.error("Erreur lors du chargement des commandes :", error);
             } finally {
@@ -36,9 +40,29 @@ const CommandsView = () => {
     }, []);
 
     // Filtered commands based on search term
-    const filteredCommands = commands.filter((command) => (
+    const filteredCommands = () => commands.filter((command) => (
         command.user.name.toLowerCase().includes(searchTerm.toLowerCase())
     ));
+
+    useEffect(() => {
+        let val = 0;
+        const total = calculateTotalValue();
+        const step = total / (1500 / 50); // 2000ms / 50ms = 40 steps
+
+        const counter = setInterval(() => {
+            val += step;
+
+            if (val >= total) {
+                setTotalValue(total);
+                clearInterval(counter);
+            } else {
+                setTotalValue(Math.floor(val));
+            }
+
+        }, 50);
+        
+
+    }, [commands])
 
     return (
         <div className="commands">
@@ -46,18 +70,14 @@ const CommandsView = () => {
             <div className="total-price">
                 <div className="info-price">
                     <p className="label">Cout total</p>
-                    <p className="value">$ {
-                        commands.reduce((total, command) => {
-                            return total + command.ListCommand.reduce((accCommand, command) => (accCommand + command.product_id.price * command.quantity), 0);
-                        }, 0)
-                    }</p>
+                    <p className="value">$ {totalValue}</p>
                 </div>
                 <FaMoneyBills className="icon-money" />
             </div>
             <DynamicTable
                 theadChild={
                     <tr>
-                        <th style={{ width: "50%" }} className="component">Composant</th>
+                        <th style={{ width: "50%" }} className="component">Identifiant</th>
                         <th className="price" style={{ width: "20%" }}>Prix</th>
                         <th className="quantity" style={{ width: "20%" }}>Quantité</th>
                     </tr>
@@ -65,7 +85,7 @@ const CommandsView = () => {
                 tbodyChild={
                     isLoading
                         ? <Spinner />
-                        : commands.map((command, index) => (
+                        : filteredCommands().map((command, index) => (
 
                             <tr key={index}>
                                 <td className="component" style={{ width: "50%" }}>
@@ -94,4 +114,4 @@ const CommandsView = () => {
     );
 }
 
-export default CommandsView; name
+export default CommandsView;
