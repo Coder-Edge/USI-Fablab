@@ -6,10 +6,12 @@
   --background-color: #f0f7ff;
   --light-dark : #909090;
   --dark-color: black;
-  --blur-color: rgba(255, 255, 255, 0.288);
-  --waiting-color: #f1cf71;
-  --rejected-color: #ec8080;
-  --accepted-color: #80eca4;
+  --blur-color: rgba(190, 190, 190, 0.432);
+  --waiting-color: #ffedba;
+  --rejected-color: #ffb7b7;
+  --accepted-color: #bcffd3;
+  --in-progress-color: #cce1fa;
+  --done-color: rgb(255, 209, 255);
 }
 
 .dark-mode {

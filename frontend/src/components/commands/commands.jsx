@@ -16,7 +16,7 @@ const CommandsView = () => {
     // State for loading indicator
     const [isLoading, setIsLoading] = useState(false);
 
-    // Calculate total price whenever `commands` changes
+    // get commands from the API
     useEffect(() => {
 
         const fetchCommands = async () => {
@@ -24,7 +24,6 @@ const CommandsView = () => {
             try {
                 const response = await axios.get("/get_commands");
                 setCommands(response.data);
-                console.log(response.data);
             } catch (error) {
                 console.error("Erreur lors du chargement des commandes :", error);
             } finally {
@@ -57,7 +56,7 @@ const CommandsView = () => {
             <DynamicTable
                 theadChild={
                     <tr>
-                        <th style={{ width: "50%" }} className="component">Composant</th>
+                        <th style={{ width: "50%" }} className="component">Identifiant</th>
                         <th className="price" style={{ width: "20%" }}>Prix</th>
                         <th className="quantity" style={{ width: "20%" }}>Quantité</th>
                     </tr>

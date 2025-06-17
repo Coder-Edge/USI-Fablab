@@ -81,6 +81,7 @@
 
 .table table tbody {
     display: block;
+    position: relative;
     overflow-y: auto;
     /* Active le scroll vertical */
     width: 100%;

@@ -52,16 +52,8 @@ export default function Calendrier({ setNavActive }) {
     Swal.fire({
       title: "Détails de l'emprunt",
       html: `
-<<<<<<< HEAD
-        <p><strong>Nom de l'emprunteur :</strong> ${user.charAt(1).toUpperCase() + user.slice(2)
-        }</p>
-        <br>
-        <hr>
-        <br>
-=======
         <p><strong>Nom de l'emprunteur :</strong> ${user.charAt(0).toUpperCase() + user.slice(1)}</p>
         <br><hr><br>
->>>>>>> origin/master
         <p><strong>Description :</strong> ${description}</p>
         <br><hr>
         <p><strong>Date de début :</strong> ${startDate}</p>
