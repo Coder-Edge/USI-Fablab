@@ -272,15 +272,81 @@ app.get("/get/borrows/:id", async (req, res) => {
   }
 });
 
+// Récupérer tous les emprunts acceptés
+app.get("/borrows/accept", async (req, res) => {
+  try {
+    const borrows = await BorrowModel.find({ status: "accepté" }).populate([
+      { path: "user", select: "name firstName email" }, // Récupérer le nom et l'email de l'utilisateur
+    ]);
+
+    const formattedBorrows = borrows.map((borrow, index) => ({
+      id: borrow._id,
+      user: `${borrows[index].user.name + " " + borrows[index].user.firstName}`, // Nom de l'emprunteur
+      startDate: borrow.startDate,
+      endDate: borrow.endDate,
+      motif: borrow.motif,
+      Listborrow: borrow.Listborrow,
+      status: borrow.status,
+    }));
+    res.json(formattedBorrows);
+  } catch (error) {
+    res.status(500).json({ error: "Échec de la récupération des emprunts acceptés" });
+  }
+});
+
+// Récupérer tous les emprunts rejetés
+app.get("/borrows/reject", async (req, res) => {
+  try {
+    const borrows = await BorrowModel.find({ status: "rejeté" }).populate([
+      { path: "user", select: "name firstName email" }, // Récupérer le nom et l'email de l'utilisateur
+    ]);
+
+    const formattedBorrows = borrows.map((borrow, index) => ({
+      id: borrow._id,
+      user: `${borrows[index].user.name + " " + borrows[index].user.firstName}`, // Nom de l'emprunteur
+      startDate: borrow.startDate,
+      endDate: borrow.endDate,
+      motif: borrow.motif,
+      Listborrow: borrow.Listborrow,
+      status: borrow.status,
+    }));
+    res.json(formattedBorrows);
+  } catch (error) {
+    res.status(500).json({ error: "Échec de la récupération des emprunts rejetés" });
+  }
+});
+
+// Récupérer tous les emprunts en attente
+app.get("/borrows/waiting", async (req, res) => {
+  try {
+    const borrows = await BorrowModel.find({ status: "en attente" }).populate([
+      { path: "user", select: "name firstName email" }, // Récupérer le nom et l'email de l'utilisateur
+    ]);
+
+    const formattedBorrows = borrows.map((borrow, index) => ({
+      id: borrow._id,
+      user: `${borrows[index].user.name + " " + borrows[index].user.firstName}`, // Nom de l'emprunteur
+      startDate: borrow.startDate,
+      endDate: borrow.endDate,
+      motif: borrow.motif,
+      Listborrow: borrow.Listborrow,
+      status: borrow.status,
+    }));
+    res.json(formattedBorrows);
+  } catch (error) {
+    res.status(500).json({ error: "Échec de la récupération des emprunts en attente" });
+  }
+});
+
 // Accepter un emprunt
 app.patch("/borrows/:id/accept", async (req, res) => {
   try {
     const borrow = await BorrowModel.findById(req.params.id);
     if (!borrow) return res.status(404).json({ error: "Emprunt non trouvé" });
 
-    // Dans la route /accept
-    if (borrow.status !== "en_attente") {
-      return res.status(400).json({ error: "Seuls les emprunts en attente peuvent être acceptés" });
+    // si l'emprunt a déjà été accepté ou rejeté
+    if (borrow.status === "accepté" || borrow.status === "rejeté") {
+      return res.status(400).json({ error: `Cet emprunt a déjà été ${borrow.status}`});
     }
 
     borrow.status = "accepté";
@@ -304,6 +370,11 @@ app.patch("/borrows/:id/reject", async (req, res) => {
   try {
     const borrow = await BorrowModel.findById(req.params.id);
     if (!borrow) return res.status(404).json({ error: "Emprunt non trouvé" });
+
+    // si l'emprunt a déjà été accepté ou rejeté
+    if (borrow.status === "rejeté") {
+      return res.status(400).json({ error: `Cet emprunt a déjà été ${borrow.status}`});
+    }
 
     borrow.status = "rejeté";
     await borrow.save();
@@ -806,6 +877,7 @@ app.get("/calendar", async (req, res) => {
       start: borrow.startDate, // Date formatée en YYYY-MM-DD
       end: borrow.endDate,
       motif: borrow.motif,
+      status: borrow.status,
       description: borrow.Listborrow.map(
         (item) => `${item.product_name} (x${item.quantity})`
       ) // Liste des items avec leur quantité
