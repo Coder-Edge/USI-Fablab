@@ -3,9 +3,11 @@ import DynamicTable from "../table/table"
 
 const AddCommandTable = ({ context }) => {
 
-    const { data, type, searchTerm, setNewCommand, newCommand, closePop } = useContext(context);
+    const { data, type, searchTerm, setNewCommand, newCommand } = useContext(context);
 
     const onChecked = (e, product) => {
+        e.preventDefault();
+        e.stopPropagation();
         if (e.target.checked) {
             setNewCommand((prevCommands) => {
                 const updatedProduct = { ...product, quantity: 1 };

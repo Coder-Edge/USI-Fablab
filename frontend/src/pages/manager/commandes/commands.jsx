@@ -27,33 +27,58 @@ const CommandsList = ({ setNavActive }) => {
     const [numberItemDisplay, setNumberItemDisplay] = useState(10);
     const [activeNumberGroup, setActiveNumberGroup] = useState(1);
 
+    const confirmationButtonRef = useRef();
+    // State for loading index rows in the table
+    const [indexRowsTableLoading, setIndexRowsTableLoading] = useState([]);
+
     const confirmationPopupRef = useRef();
     const [confirmationAction, setConfirmationAction] = useState(null);
-    const showConfirmationPopup = (action) => {
+    const showConfirmationPopup = (action, url, index, id) => {
         setConfirmationAction(action);
+
         confirmationPopupRef.current.style.visibility = "visible";
+        confirmationButtonRef.current.onclick = async () => {
+            confirmationPopupRef.current.style.visibility = "hidden";
+            setIndexRowsTableLoading(prev => [...prev, index]);
+            let newData = {}
+            try {
+                const response = await axios.patch(url);
+                newData = response.data.borrow;
+
+            } catch (error) {
+                console.error("Erreur lors de la mise à jour :", error);
+            } finally {
+                setIndexRowsTableLoading(prev => prev.filter(i => i !== index));
+            }
+            
+            setData((prevData) => {
+                return prevData.map(item => item._id === id ? newData._id ? newData : item : item);
+            })
+        }
     }
 
     const setFilter = (type) => {
         setBtnActive(type);
     }
 
+    const fetchCommands = async () => {
+        setIsLoading(true);
+        try {
+            const response = await axios.get("/get/borrows");
+            setData(response.data);
+            // console.log(response.data);
+
+        } catch (error) {
+            console.error("Erreur lors du chargement des commandes :", error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     useEffect(() => {
         setNavActive(NavParams.inventaire)
 
-        const fetchCommands = async () => {
-            setIsLoading(true);
-            try {
-                const response = await axios.get("/get/borrows");
-                setData(response.data);
-                // console.log(response.data);
 
-            } catch (error) {
-                console.error("Erreur lors du chargement des commandes :", error);
-            } finally {
-                setIsLoading(false);
-            }
-        }
         fetchCommands();
     }, [])
 
@@ -115,16 +140,16 @@ const CommandsList = ({ setNavActive }) => {
                                             .slice(numberItemDisplay * (activeNumberGroup - 1), numberItemDisplay * activeNumberGroup)
                                             .map((borrow, index) => {
 
-                                                const status = CommandStatus(borrow.status, borrow.id);
+                                                const status = CommandStatus(borrow.status, borrow._id);
 
                                                 return <tr key={index}>
                                                     <td className="component" style={{ width: "35%" }}>
                                                         <div>
                                                             {/* Assuming you have an image URL in the product object */}
                                                             <RiShoppingBag3Fill size={30} className="icon" />
-                                                            {borrow.id.length <= 30
-                                                                ? borrow.id
-                                                                : `${borrow.id.slice(0, 11)}...`}
+                                                            {borrow._id.length <= 30
+                                                                ? borrow._id
+                                                                : `${borrow._id.slice(0, 11)}...`}
                                                         </div>
                                                     </td>
                                                     <td className="emprunter" style={{ width: "15%" }}>
@@ -141,13 +166,16 @@ const CommandsList = ({ setNavActive }) => {
                                                     <td style={{ width: "20%" }}>
                                                         <div className="actions-container">
                                                             <div>
-                                                                {status.actions.map((icon, idx) => (
-                                                                    <span key={idx} className={`action-icon ${icon.Text == "terminé" ? "done" : icon.Text == "rejeté" ? "cancelled" : icon.Text == "accepté" ? "accepted" : ""}`} onClick={() => {
-                                                                        showConfirmationPopup(icon.action)
-                                                                    }}>
-                                                                        {icon.icon}
-                                                                    </span>
-                                                                ))}
+                                                                {indexRowsTableLoading.includes(index)
+                                                                    ? <Spinner />
+                                                                    : status.actions.map((icon, idx) => (
+                                                                        <span key={idx} className={`action-icon ${icon.Text == "terminé" ? "done" : icon.Text == "rejeté" ? "cancelled" : icon.Text == "accepté" ? "accepted" : ""}`} onClick={() => {
+                                                                            showConfirmationPopup(icon.action, icon.url, index, borrow._id);
+                                                                        }}>
+                                                                            {icon.icon}
+                                                                        </span>
+                                                                    ))
+                                                                }
                                                             </div>
                                                             {/* <div>
                                                                 <span className="action-icon in-progress"><MdDeleteOutline size={16} fill="#5899DD" onClick={() => showConfirmationPopup("Supprimer")} /></span>
@@ -170,10 +198,10 @@ const CommandsList = ({ setNavActive }) => {
                 <div className="confirmation-popup" ref={confirmationPopupRef}>
                     <div className="confirmation-popup-content">
                         <p><MdInfoOutline size={30} className="icon" />Êtes-vous sûr de vouloir effectuer cette action ?</p>
-                        <p style={{color: "var(--blue-color)"}}>{confirmationAction}</p>
+                        <p style={{ color: "var(--blue-color)" }}>{confirmationAction}</p>
                         <div className="buttons">
                             <Button child="Annuler" onClick={() => confirmationPopupRef.current.style.visibility = "hidden"} />
-                            <Button child="Confirmer" onClick={() => {}} className="active"/>
+                            <Button child="Confirmer" className="active" btnRef={confirmationButtonRef} />
                         </div>
                     </div>
                 </div>

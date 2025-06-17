@@ -16,6 +16,11 @@ const CommandsView = () => {
     // State for loading indicator
     const [isLoading, setIsLoading] = useState(false);
 
+    const [totalValue, setTotalValue] = useState(0);
+    const calculateTotalValue = () => commands.reduce((total, command) => {
+        return total + command.ListCommand.reduce((accCommand, command) => (accCommand + command.product_id.price * command.quantity), 0);
+    }, 0);
+
     // get commands from the API
     useEffect(() => {
 
@@ -35,9 +40,29 @@ const CommandsView = () => {
     }, []);
 
     // Filtered commands based on search term
-    const filteredCommands = commands.filter((command) => (
+    const filteredCommands = () => commands.filter((command) => (
         command.user.name.toLowerCase().includes(searchTerm.toLowerCase())
     ));
+
+    useEffect(() => {
+        let val = 0;
+        const total = calculateTotalValue();
+        const step = total / (1500 / 50); // 2000ms / 50ms = 40 steps
+
+        const counter = setInterval(() => {
+            val += step;
+
+            if (val >= total) {
+                setTotalValue(total);
+                clearInterval(counter);
+            } else {
+                setTotalValue(Math.floor(val));
+            }
+
+        }, 50);
+        
+
+    }, [commands])
 
     return (
         <div className="commands">
@@ -45,11 +70,7 @@ const CommandsView = () => {
             <div className="total-price">
                 <div className="info-price">
                     <p className="label">Cout total</p>
-                    <p className="value">$ {
-                        commands.reduce((total, command) => {
-                            return total + command.ListCommand.reduce((accCommand, command) => (accCommand + command.product_id.price * command.quantity), 0);
-                        }, 0)
-                    }</p>
+                    <p className="value">$ {totalValue}</p>
                 </div>
                 <FaMoneyBills className="icon-money" />
             </div>
@@ -64,7 +85,7 @@ const CommandsView = () => {
                 tbodyChild={
                     isLoading
                         ? <Spinner />
-                        : commands.map((command, index) => (
+                        : filteredCommands().map((command, index) => (
 
                             <tr key={index}>
                                 <td className="component" style={{ width: "50%" }}>
@@ -93,4 +114,4 @@ const CommandsView = () => {
     );
 }
 
-export default CommandsView; name
+export default CommandsView;

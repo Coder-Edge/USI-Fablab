@@ -23,7 +23,7 @@ const Location = () => {
       setIsLoading(true);
 
       try {
-        const response = await axios.get("/get/borrows");
+        const response = await axios.get("/borrows/accept");
         setData(response.data);
       } catch (error) {
         console.error("Erreur lors de la récupération des borrows :", error);
@@ -73,9 +73,9 @@ const Location = () => {
                     <div>
                       {/* Assuming you have an image URL in the product object */}
                       <RiShoppingBag3Fill size={30} className="icon" />
-                      {borrow.id.length <= 13
-                        ? borrow.id
-                        : `${borrow.id.slice(0, 11)}...`}
+                      {borrow._id.length <= 13
+                        ? borrow._id
+                        : `${borrow._id.slice(0, 11)}...`}
                     </div>
                   </td>
                   <td className="emprunter" style={{ width: "23%" }}>

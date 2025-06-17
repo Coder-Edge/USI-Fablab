@@ -16,9 +16,9 @@ const CommandStatus = (status, id) => {
     }
     const waitingIncon = { icon: <FaRegHourglassHalf size={16} fill="orange" />, Text: status_data.waiting, action: "Mettre en attente" }
     const acceptedIcon = { icon: <IoIosCheckmarkCircleOutline size={16} fill="green" />, Text: status_data.accepted, action: "Accepter", url: `/borrows/${id}/accept` }
-    const cancelledIcon = { icon: <MdOutlineCancel size={16} fill="red" />, Text: status_data.cancelled, action: "Annuler", url: `/borrows/${id}/reject` }
+    const cancelledIcon = { icon: <MdOutlineCancel size={16} fill="red" />, Text: status_data.cancelled, action: "Réjecter", url: `/borrows/${id}/reject` }
     const inProgressIcon = { icon: <RiTimeLine size={16} fill="blue" />, Text: status_data.inProgress, action: "Mettre en cours" }
-    const doneIcon = { icon: <BsCheck2Square size={16} fill="purple" />, Text: status_data.done, action: "Terminer" }
+    const doneIcon = { icon: <BsCheck2Square size={16} fill="purple" />, Text: status_data.done, action: "Terminer", url: `/borrows/${id}/done` }
     const unknownIcon = { icon: <AiOutlineQuestionCircle size={16} fill="gray" />, Text: "Inconnue", action: "Inconnue" }
 
     const listIcons = [
