@@ -65,7 +65,7 @@ const CommandStatus = (status, id) => {
                 main: <div className="status-icon done">
                     {doneIcon.icon}{doneIcon.Text}
                 </div>,
-                actions: actionsIcon([4])
+                actions: actionsIcon([0, 1, 2])
             } // done
         default:
             return {
