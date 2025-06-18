@@ -4,6 +4,8 @@ import HeadStocks from "../stocks/head-stock";
 import DynamicTable from "../table/table";
 import Spinner from "../spinner/spinner";
 import ButtonAdd from "../stocks/button-add";
+import { getStringDate } from "../../utils/date";
+import axios from "../../api/api";
 import { useLocation, useNavigate } from "react-router-dom";
 import { RiShoppingBag3Fill } from "react-icons/ri";
 
@@ -21,9 +23,8 @@ const Location = () => {
       setIsLoading(true);
 
       try {
-        const response = await fetch("http://localhost:3000/get/borrows"); // Replace with the correct URL
-        const borrows = await response.json();
-        setData(borrows);
+        const response = await axios.get("/borrows/accept");
+        setData(response.data);
       } catch (error) {
         console.error("Erreur lors de la récupération des borrows :", error);
       }
@@ -46,7 +47,7 @@ const Location = () => {
         theadChild={
           <tr>
             <th className="component" style={{ width: "27%" }}>
-              Commande ID
+              Identifiant
             </th>
             <th className="emprunter" style={{ width: "23%" }}>
               Emprunter
@@ -72,9 +73,9 @@ const Location = () => {
                     <div>
                       {/* Assuming you have an image URL in the product object */}
                       <RiShoppingBag3Fill size={30} className="icon" />
-                      {borrow.id.length <= 13
-                        ? borrow.id
-                        : `${borrow.id.slice(0, 11)}...`}
+                      {borrow._id.length <= 13
+                        ? borrow._id
+                        : `${borrow._id.slice(0, 11)}...`}
                     </div>
                   </td>
                   <td className="emprunter" style={{ width: "23%" }}>
@@ -97,11 +98,5 @@ const Location = () => {
     </div>
   );
 };
-
-function getStringDate(dateparam) {
-  let date = new Date(dateparam);
-  const option = { day: "2-digit", month: "2-digit", year: "2-digit" };
-  return new Intl.DateTimeFormat("fr-FR", option).format(date);
-}
 
 export default Location;

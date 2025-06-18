@@ -39,7 +39,7 @@ const Bottom = ({numberItemDisplay, setNumberItemDisplay, activeNumberGroup, set
                     <option value="100">100</option>
                 </select>
             </div>
-            <p>Affichage de {numberItemDisplay * (activeNumberGroup-1)} à {numberItemDisplay * activeNumberGroup} de {data.length} membres</p>
+            <p>{numberItemDisplay * (activeNumberGroup-1)} - {numberItemDisplay * activeNumberGroup} sur {data.length}</p>
             <div className="row-number">
                 <button 
                     className={activeNumberGroup == 1 || !getGroupeNumber()? "non-valaible-btn": ""}
