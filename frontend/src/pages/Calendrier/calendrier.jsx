@@ -5,15 +5,19 @@ import interactionPlugin from "@fullcalendar/interaction";
 import Swal from "sweetalert2";
 import "./calendrier.css";
 import { NavParams } from "../../components/Navbar/navParams";
+import Spinner from "../../components/spinner/spinner";
 
-export default function Calendrier({setNavActive}) {
+export default function Calendrier({ setNavActive }) {
   const [events, setEvents] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   // Chargement des événements depuis l'API
   useEffect(() => {
-    setNavActive(NavParams.calendrier)
+    setNavActive(NavParams.calendrier);
 
     const fetchEvents = async () => {
+      setIsLoading(true);
       try {
         const response = await fetch("http://localhost:3000/calendar");
         if (!response.ok) {
@@ -22,12 +26,60 @@ export default function Calendrier({setNavActive}) {
         const data = await response.json();
         setEvents(data);
       } catch (error) {
-        console.error("Erreur :", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchEvents();
   }, []);
+
+  // Action pour "Refuser"
+  function rejectBorrow(borrowId, currentStatus) {
+    if (currentStatus === "accepté") {
+      Swal.fire({
+        title: "Attention !",
+        text: "Cet emprunt est déjà accepté. Voulez-vous vraiment le rejeter ?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Oui, rejeter",
+        cancelButtonText: "Annuler",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          proceedWithRejection(borrowId);
+        }
+      });
+    } else {
+      proceedWithRejection(borrowId);
+    }
+  }
+
+  function proceedWithRejection(borrowId) {
+    fetch(`http://localhost:3000/borrows/${borrowId}/reject`, {
+      method: "PATCH",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        Swal.fire({
+          title: data.success ? "Rejeté !" : "Erreur",
+          text:
+            data.message ||
+            data.error ||
+            "Le matériel a été marqué comme rejeté",
+          icon: data.success ? "success" : "error",
+        }).then(() => {
+          if (data.success) {
+            // Actualiser la page ou mettre à jour l'UI
+            window.location.reload(); // ou votre logique de mise à jour
+          }
+        });
+      })
+      .catch((error) => {
+        Swal.fire("Erreur", "Échec de la requête: " + error.message, "error");
+      });
+  }
 
   // Gestion du clic sur un événement
   const handleEventClick = (clickInfo) => {
@@ -41,51 +93,94 @@ export default function Calendrier({setNavActive}) {
     const endDate = clickInfo.event.end
       ? clickInfo.event.end.toLocaleDateString()
       : "Date inconnue";
-
+    const borrowId = clickInfo.event.id;
+    const status = clickInfo.event.extendedProps.status;
+    const statusHTML = `
+  <p><strong>Statut :</strong> 
+    <span style="color: ${
+      status === "accepté" ? "green" : status === "rejeté" ? "red" : "orange" // Par défaut pour "en attente" ou tout autre statut
+    }">
+      ${status.toUpperCase()}
+    </span>
+  </p>
+`;
     Swal.fire({
       title: "Détails de l'emprunt",
       html: `
         <p><strong>Nom de l'emprunteur :</strong> ${
-          user.charAt(1).toUpperCase() + user.slice(2)
+          user.charAt(0).toUpperCase() + user.slice(1)
         }</p>
-        <br>
-        <hr>
-        <br>
+        <br><hr><br>
         <p><strong>Description :</strong> ${description}</p>
-        <br>
-        <hr>
+        <br><hr><br>
+        ${statusHTML}
+        <br><hr>
         <p><strong>Date de début :</strong> ${startDate}</p>
         <p><strong>Date de retour :</strong> ${endDate}</p>
       `,
       icon: "info",
+      showCancelButton: true, // Active le bouton "Rendu"
+      showDenyButton: true, // Active le bouton "Accepter"
       confirmButtonText: "Fermer",
-      showCancelButton: true,
-      cancelButtonText: "Détails",
+      cancelButtonText: "Refuser",
+      denyButtonText: "Accepter",
+      customClass: {
+        denyButton: "custom-deny-btn", // Pour styliser
+        cancelButton: "custom-cancel-btn",
+      },
     }).then((result) => {
-      if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire({
-          title: "Détails supplémentaires",
-          text: "Plus d'informations seront bientôt disponibles.",
-          icon: "info",
-        });
+      if (result.isDenied) {
+        // Action pour "Accepter"
+        fetch(`http://localhost:3000/borrows/${borrowId}/accept`, {
+          method: "PATCH",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            Swal.fire({
+              title: data.success ? "Accepté !" : "Erreur",
+              text:
+                data.message ||
+                data.error ||
+                "L'emprunt a été approuvé avec succès",
+              icon: data.success ? "success" : "error",
+            }).then((result) => {
+              if (data.success && (result.isConfirmed || result.isDismissed)) {
+                window.location.reload();
+              }
+            });
+          })
+          .catch((error) => {
+            Swal.fire(
+              "Erreur",
+              "Échec de la requête: " + error.message,
+              "error"
+            );
+          });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // Action pour "Refuser"
+        rejectBorrow(borrowId, status);
       }
     });
   };
 
   return (
     <div className="cal">
-      <FullCalendar
-        plugins={[dayGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        headerToolbar={{
-          start: "today",
-          center: "title",
-          end: "prev next",
-        }}
-        aspectRatio={2}
-        events={events}
-        eventClick={handleEventClick}
-      />
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <FullCalendar
+          plugins={[dayGridPlugin, interactionPlugin]}
+          initialView="dayGridMonth"
+          headerToolbar={{
+            start: "today",
+            center: "title",
+            end: "prev next",
+          }}
+          aspectRatio={2}
+          events={events}
+          eventClick={handleEventClick}
+        />
+      )}
     </div>
   );
 }

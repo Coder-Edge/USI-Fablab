@@ -31,7 +31,7 @@ const Bottom = ({numberItemDisplay, setNumberItemDisplay, activeNumberGroup, set
                 <select value={numberItemDisplay} name="display" id="number" 
                 onChange={(e) => {
                     setNumberItemDisplay(e.target.value)
-                    setActiveNumberGroup(1)                  
+                    setActiveNumberGroup(1)                                 
                 }}>
                     <option value="10">10</option>
                     <option value="20">20</option>
@@ -39,10 +39,10 @@ const Bottom = ({numberItemDisplay, setNumberItemDisplay, activeNumberGroup, set
                     <option value="100">100</option>
                 </select>
             </div>
-            <p>Affichage de {numberItemDisplay * (activeNumberGroup-1)} à {numberItemDisplay * activeNumberGroup} de {data.length} membres</p>
+            <p>{numberItemDisplay * (activeNumberGroup-1)} - {numberItemDisplay * activeNumberGroup} sur {data.length}</p>
             <div className="row-number">
                 <button 
-                    className={activeNumberGroup == 1? "non-valaible-btn": ""}
+                    className={activeNumberGroup == 1 || !getGroupeNumber()? "non-valaible-btn": ""}
                     onClick={decreaseActiveNumber}>&lt;</button>
                 {Array.from({length: getGroupeNumber()}, (_, i) => (                    
                     <button 
@@ -52,7 +52,7 @@ const Bottom = ({numberItemDisplay, setNumberItemDisplay, activeNumberGroup, set
                             {i+1}</button>
                 ))}
                 <button 
-                    className={activeNumberGroup == getGroupeNumber() ? "non-valaible-btn": ""}
+                    className={activeNumberGroup == getGroupeNumber() || !getGroupeNumber() ? "non-valaible-btn": ""}
                     onClick={increaseActiveNumber}>&gt;</button>
             </div>
         </div>

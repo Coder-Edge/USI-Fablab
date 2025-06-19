@@ -1,4 +1,4 @@
-import React, { Children, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDom from "react-dom/client";
 import Navbar from "./components/Navbar/navbar"; //importation du composant navbar
 import "./main.css"; //importation du fichier style main.css
@@ -31,10 +31,22 @@ import BudgetMNG from "./pages/manager/budget/budget";
 import MembersPage from "./pages/manager/members/members";
 import MembersPageMBR from "./pages/member/members/members";
 import ParamatreMNG from "./pages/manager/parametre/parametre";
+import Shop from "./pages/member/shop/shop";
+import ShopMNG from "./pages/manager/shop/shop";
+import CommandsList from "./pages/manager/commandes/commands";
 
 export default function Main() {
+
   const { auth } = useAuth();
   const [navActive, setNavActive] = useState(NavParams.inventaire);
+
+  useEffect(() => {
+    
+    if (localStorage.getItem("darkMode") === "true") {
+        document.body.classList.add("dark-mode");        
+    }
+
+  }, [])
 
   // La siplification de l'expession
   // <div className="main-content"><Header title={"Inventaire"} name={auth.name} role={auth.userType} /> <PAGE /></div>
@@ -97,6 +109,9 @@ export default function Main() {
                       />
                       <Route path="/budget" element={<Simplifier title={"Budget"}><BudgetMNG setNavActive={setNavActive} /></Simplifier>} />
                       <Route path="/members" element={<MembersPage setNavActive={setNavActive} />} />
+                      <Route path="/shop" element={<ShopMNG setNavActive={setNavActive} />} />
+                      <Route path="/parametre" element={<Simplifier title={"Parametre"}><ParamatreMNG setNavActive={setNavActive} /></Simplifier>} />
+                      <Route path="/list-commands" element={<CommandsList setNavActive={setNavActive} />} />
 
                       {/* Route pour le calendrier */}
                       <Route
@@ -119,16 +134,10 @@ export default function Main() {
                 path="/student/*"
                 element={
                   <>
-                    <NavbarOTH param={navActive} />
+                    <NavbarOTH param={navActive} role={Role.student} />
                     <Routes>
-                      <Route
-                        index
-                        element={
-                          <Simplifier title={"Inventaire"}>
-                            <InventorySTD />
-                          </Simplifier>
-                        }
-                      />
+                      <Route index element={<InventorySTD setNavActive={setNavActive}/>}/>
+                      <Route path="/parametre" element={<Simplifier title={"Paramètre"}><ParamatreMNG setNavActive={setNavActive} /></Simplifier>} />
                     </Routes>
                   </>
                 }
@@ -141,13 +150,21 @@ export default function Main() {
                 path="/extern/*"
                 element={
                   <>
-                    <NavbarOTH param={navActive} />
+                    <NavbarOTH param={navActive} role={Role.extern} />
                     <Routes>
                       <Route
                         index
                         element={
                           <Simplifier title={"Inventaire"}>
                             <InventoryEXT setNavActive={setNavActive} />
+                          </Simplifier>
+                        }
+                      />
+                      <Route
+                        path="/parametre"
+                        element={
+                          <Simplifier title={"Paramètre"}>
+                            <ParamatreMNG setNavActive={setNavActive} />
                           </Simplifier>
                         }
                       />
@@ -189,6 +206,7 @@ export default function Main() {
                           </Simplifier>
                         }
                       />
+                      <Route path="/shop" element={<Shop setNavActive={setNavActive} />} />
                       <Route
                         path="/calendar"
                         element={
@@ -205,6 +223,7 @@ export default function Main() {
                           </Simplifier>
                         }
                       />
+                      <Route path="/list-commands" element={<CommandsList setNavActive={setNavActive} />} />
                     </Routes>
                   </>
                 }
@@ -225,7 +244,7 @@ export default function Main() {
                       <div className="main-content">
                         <Header title={"Membres"} /> name={auth.name} role=
                         {auth.userType}
-                        <Membres />
+                         <Membres />
                       </div>
                     }
                   />

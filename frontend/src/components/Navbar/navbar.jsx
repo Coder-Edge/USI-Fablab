@@ -11,18 +11,17 @@ import {
   FiLogOut,
 } from "react-icons/fi";
 import "./Navbar.css";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const Navbar = ({param, role}) => {  
+const Navbar = ({ param, role }) => {
 
   const menuItems = [
-    { icon: FiGrid, text: "Tableau de bord", link: `/${role.toLowerCase()}/board`},
-    { icon: FiBox, text: "Inventaire", link: `/${role.toLowerCase()}`},
-    { icon: FiDollarSign, text: "Budget", link: `/${role.toLowerCase()}/budget`},
-    { icon: FiCalendar, text: "Calendrier", link: `/${role.toLowerCase()}/calendar`},
-    { icon: FiUsers, text: "Membres", link: `/${role.toLowerCase()}/members`},
-    { icon: FiShoppingBag, text: "Boutique", link: ""},
-    { icon: FiSettings, text: "Paramètre", link: `/${role.toLowerCase()}/parametre`},
+    { icon: FiBox, text: "Inventaire", link: `/${role.toLowerCase()}` },
+    { icon: FiDollarSign, text: "Budget", link: `/${role.toLowerCase()}/budget` },
+    { icon: FiCalendar, text: "Calendrier", link: `/${role.toLowerCase()}/calendar` },
+    { icon: FiUsers, text: "Membres", link: `/${role.toLowerCase()}/members` },
+    { icon: FiShoppingBag, text: "Boutique", link: `/${role.toLowerCase()}/shop` },
+    { icon: FiSettings, text: "Paramètre", link: `/${role.toLowerCase()}/parametre` },
   ];
 
   const navigate = useNavigate()
@@ -37,8 +36,12 @@ const Navbar = ({param, role}) => {
         />
       </div>
       <ul className="nav-links">
+        <li className="dashboard">
+          <FiGrid className="nav-logo" />
+          <a>{"Tableau de bord"}</a>
+        </li>
         {menuItems.map((link, index) => (
-          <li key={index} className={param == link.text ? "active": ""} onClick={() => navigate(link.link)}>
+          <li key={index} className={param == link.text ? "active" : ""} onClick={() => navigate(link.link)}>
             <link.icon className="nav-logo" />
             <a>{link.text}</a>
           </li>

@@ -9,13 +9,13 @@ import logout from "./logout";
 import { MdOutlineShoppingBag } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
-const NavbarOTH = ({param}) => {
+const NavbarOTH = ({param, role}) => {
 
   const navigate = useNavigate()
 
   const menuItems = [
-    { icon: MdOutlineShoppingBag, text: "Boutique"},
-    { icon: FiBox, text: "Inventaire"},
+    { icon: MdOutlineShoppingBag, text: "Boutique" , link: `/${role.toLowerCase()}/shop`},
+    { icon: FiBox, text: "Inventaire", link: `/${role.toLowerCase()}` },	
     { icon: FiCalendar, text: "Calendrier"},
     { icon: FiSettings, text: "Paramètre"},
   ];
@@ -31,10 +31,10 @@ const NavbarOTH = ({param}) => {
       </div>
       <ul className="nav-links">
         {menuItems.map((link, index) => (
-          <li key={index} className={param == link.text ? "active": ""}>
-            <link.icon className="nav-logo" />
-            <a href={link.text}>{link.text}</a>
-          </li>
+          <li key={index} className={param == link.text ? "active" : ""} onClick={() => navigate(link.link)}>
+          <link.icon className="nav-logo" />
+          <a>{link.text}</a>
+        </li>
         ))}
       </ul>
 

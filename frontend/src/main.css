@@ -1,15 +1,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&display=swap');
 
 :root {
-  --primary-color: white;
-  --secondary-color: #54abc9;
+  --light-color: rgb(255, 255, 255);
+  --blue-color: #5899DD;
   --background-color: #f0f7ff;
+  --light-dark : #909090;
+  --dark-color: black;
+  --blur-color: rgba(190, 190, 190, 0.432);
+  --waiting-color: #ffedba;
+  --rejected-color: #ffcbcb;
+  --accepted-color: #bcffd3;
+  --in-progress-color: #cce1fa;
+  --done-color: rgb(255, 209, 255);
+}
+
+.dark-mode {
+  --light-color: #141414;
+  --background-color: #000;
+  --dark-color: #fff;
+  --blur-color: rgba(175, 175, 175, 0.288);
 }
 
 * {
   padding: 0px;
   margin: 0px;
   font-family: 'Lexend', sans-serif;
+  color: var(--dark-color);
 }
 
 #root {
@@ -24,11 +40,21 @@ main {
 }
 
 body {
-  background-color: #f0f7ff;
+  background-color: var(--background-color);
+  transition: all 0.2s;
 }
 
 .main-content {
   width: 100%;
   height: 100%;
   overflow-y: auto;
+}
+
+.row {
+  display: flex;
+}
+
+.table-load {
+    position: relative;
+    min-height: 150px;
 }

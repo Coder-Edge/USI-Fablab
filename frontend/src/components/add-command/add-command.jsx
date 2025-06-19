@@ -59,8 +59,6 @@ const AddCommand = ({ data }) => {
         // Créer un objet contenant les données de la commande
         const newCommand_product = { listproduct : newCommand, date : DateNow };
 
-        console.log(newCommand_product);
-
         const insertcommand = async (b) => {
         try {
             const res = await axios.post("/add_command", b);
@@ -188,9 +186,9 @@ const AddCommand = ({ data }) => {
                                                 $200
                                             </td>
                                             <td className="quantity" style={{ width: "25%" }}>
-                                                <button className="btn">&lt;</button>
+                                                <button type="button" className="btn">&lt;</button>
                                                 <span>1</span>
-                                                <button className="btn">&gt;</button>
+                                                <button type="button" className="btn">&gt;</button>
                                             </td>
                                         </tr>
                                         <tr>

@@ -1,0 +1,122 @@
+.commands-list {
+    height: 100%;
+    width: 100%;
+    padding: 10px 20px;
+}
+
+.commands-content {
+    height: 100%;
+    width: 100%;
+    padding: 20px;
+    background-color: var(--light-color);
+    border-radius: 14px;
+    margin-top: 5px;
+    position: relative;
+}
+
+.commands-content .table{
+    padding: 20px;
+}
+
+.commands-content .table tbody {
+    height: 350px;
+}
+
+.commands-content .table .status-icon {
+    width: 120px;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.commands-content .table .action-icon {
+    padding: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.commands-content .table .action-icon:not(:hover) {
+    background-color: transparent;
+}
+
+.commands-content .table .accepted {
+    background-color: var(--accepted-color);
+}
+
+.commands-content .table .in-progress {
+    background-color: var(--in-progress-color);
+}
+
+.commands-content .table .cancelled {
+    background-color: var(--rejected-color);
+}
+
+.commands-content .table .done {
+    background-color: var(--done-color);
+}
+
+.commands-content .table .waiting {
+    background-color: var(--waiting-color);
+}
+
+.commands-content .bottom-stock {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+}
+
+.commands-content .table .actions-container {
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30%;
+}
+
+.commands-content .table .spinner::after {
+    width: 12px;
+    height: 12px;
+    border: 4px solid #ddd;
+    border-top-color: var(--blue-color);
+}
+
+.commands-content .table .actions-container div {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 16px;
+}
+
+.commands-list .confirmation-popup {
+    visibility: hidden;
+    position: absolute;
+    inset: 0;
+    background-color: var(--blur-color);
+}
+
+.commands-list .confirmation-popup .confirmation-popup-content {
+    background-color: var(--light-color);
+    padding: 32px;
+    border-radius: 16px;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.commands-list .confirmation-popup,
+.commands-list .confirmation-popup .confirmation-popup-content,
+.commands-list .confirmation-popup .icon,
+.commands-list .confirmation-popup .buttons,
+.commands-list .confirmation-popup p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    fill: var(--blue-color);
+}
+
+.commands-list .confirmation-popup .buttons {
+    gap: 16px;
+}

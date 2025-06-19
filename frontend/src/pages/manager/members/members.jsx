@@ -1,7 +1,7 @@
 
 import MemberDetailView from "../../../components/member-detail-view/member-detail-view"
 import AddMember from "../../../components/add-memeber/add-member"
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { NavParams } from "../../../components/Navbar/navParams";
 import MembersTableView from "../../../components/table/members-table";
 import HeadStocks from "../../../components/stocks/head-stock";
@@ -14,6 +14,7 @@ import Bottom from "../../../components/stocks/bottom";
 import SimpleFilter from "../../../components/popup/simple-filter";
 import Simplifier from "../../../components/simplifier/simplifier";
 import "./members.css";
+import Spinner from "../../../components/spinner/spinner";
 
 
 const MembersPage = ({ setNavActive }) => {
@@ -22,9 +23,11 @@ const MembersPage = ({ setNavActive }) => {
 
     const [title, setTitle] = useState("Member")
     const [data, setData] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const fetchMembers = async () => {
+            setIsLoading(true);
             try {
                 const response = await fetch("http://localhost:3000/get_members");
                 if (!response.ok) {
@@ -34,6 +37,9 @@ const MembersPage = ({ setNavActive }) => {
                 setData(data); // Mettre à jour l'état avec les données récupérées
             } catch (error) {
                 console.error("Erreur :", error);
+            }
+            finally {
+                setIsLoading(false);
             }
         };
 
@@ -118,7 +124,13 @@ const MembersPage = ({ setNavActive }) => {
                         types={types}
                         SetTypeFilter={setFilter}
                         btnActive={btnActive} />
-                    <MembersTableView numberItemDisplay={numberItemDisplay} activeNumberGroup={activeNumberGroup} searchTerm={searchTerm} showDetailView={showDetailView} />
+                    <div className="table-load">
+                        {isLoading
+                            ? <Spinner />
+                            : <MembersTableView numberItemDisplay={numberItemDisplay} activeNumberGroup={activeNumberGroup} searchTerm={searchTerm} showDetailView={showDetailView} data={data} />
+                        }
+                    </div>
+
                     <ButtonAdd child={<><MdAddCircleOutline /> Inviter</>} onClick={
                         () => {
                             document.querySelector("#add-member").style.visibility = "visible"

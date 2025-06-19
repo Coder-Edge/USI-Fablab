@@ -2,6 +2,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import axios from "../api/api"
 import { useEffect, useState } from "react";
 import useAuth from "./AuthProvider";
+import Spinner from "../components/spinner/spinner";
 
 const RequireAuth = () => {
 
@@ -34,7 +35,7 @@ const RequireAuth = () => {
         status === 200 && !loading
         ? <Outlet />
         : loading
-        ? <div> Loading ..... </div>
+        ? <Spinner />
         :<Navigate to={"/login"} />
     )
 }

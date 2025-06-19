@@ -1,7 +1,6 @@
-
-
 .location {
-    padding: 30px;
+    position: relative;
+    padding: 30px 30px 0 30px;
 }
 
 .location .head {
@@ -12,10 +11,19 @@
 }
 
 .location .table table tbody {
-    height: 240px;
+    height: 200px;
 }
 
-.head  input {
+.location .button-add {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.head input {
     border: 0;
     outline: 0;
     width: 100%;

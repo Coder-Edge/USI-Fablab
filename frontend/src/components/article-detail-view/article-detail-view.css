@@ -1,0 +1,187 @@
+#product-detail-view {
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--background-color);
+    z-index: 1;
+    padding: 20px;
+    visibility: hidden;
+}
+
+.product-detail-view-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 30px 20px;
+    background-color: var(--light-color);
+    border-radius: 14px;
+    overflow-y: auto;
+}
+
+
+.product-detail-view-content  .header {
+    display: flex;
+    gap: 8px;
+}
+
+.product-detail-view-content  .header h3 {
+    font-size: 16px;
+}
+
+.product-detail-view-content  .header button {
+    background-color: transparent;
+    border: 0;
+    padding: 0 4px;
+    cursor: pointer;
+}
+
+.product-detail-view-content .product-detail-body {
+    display: flex;
+    gap: 50px;
+    padding: 0 10px;
+}
+
+.product-detail-view-content .product-detail-body .images {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.product-detail-view-content .product-detail-body .images .image-view .slide-button {
+    width: 100%;
+    height: 100%;
+    padding: 0 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.product-detail-view-content .product-detail-body .images .image-view .slide-button button {
+    background-color: rgba(0, 0, 0, 0.37);
+    color: var(--light-color);
+    font-size: 20px;
+    padding: 10px;
+    border: 0;
+}
+
+.product-detail-view-content .product-detail-body .images .image-view {
+    width: 250px;
+    min-height: 250px;
+    border-radius: 14px;
+    box-shadow: 4px 4px 10px 2px var(--background-color);
+}
+
+.product-detail-view-content .product-detail-body .images .other-view{
+    display: flex;
+    flex-wrap: wrap;
+    gap:  14px;
+}
+
+.product-detail-view-content .product-detail-body .images .other-view .img {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+}
+
+.product-detail-view-content .product-detail-body .images .other-view .img.active{
+    border: 3px var(--blue-color) solid;
+}
+
+.product-detail-view-content .product-detail-body .images .other-view .li-image {
+    position: relative;
+}
+
+.product-detail-view-content .product-detail-body .images .other-view .li-image .close {
+    position: absolute;
+    display: flex;
+    top: -8px;
+    left: -8px;
+    padding: 2px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 14px;
+    background-color: var(--light-dark);
+}
+
+.product-detail-view-content .product-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.product-detail-view-content .input-field {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.product-detail-view-content .input-field.desc {
+    width: 100%;
+}
+
+.product-detail-view-content .input-field input,
+.product-detail-view-content .input-field select {
+    width: 100%;
+    padding: 8px 15px;
+    border-radius: 4px;
+    border: 1px solid var(--light-dark);
+    outline: 0;
+}
+
+.product-detail-view-content .product-info .pay {
+    display: flex;
+    gap: 30px;
+}
+
+.product-detail-view-content .product-info .pay  >div.input-field {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.product-detail-view-content .product-info .pay #quantity {
+    width: 100px;
+}
+
+.product-detail-view-content .product-info .pay #price {
+    width: 60%;
+}
+
+.product-detail-view-content .product-info .pay #device {
+    width: initial;
+    padding: 8px 4px;
+}
+
+
+.product-detail-view-content .product-info .input-field textarea{
+    width: 100%;
+    height: 160px;
+    margin-top: 3px;
+    resize: none;
+    padding: 5px 10px;
+    outline: 0;
+    border-radius: 6px 10px;
+    font-size: 14px;
+}
+
+.product-detail-view-content .product-info .input-field button{
+    padding: 8px;
+    border-radius: 4px;
+    outline: 0;
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.product-detail-view-content .footer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

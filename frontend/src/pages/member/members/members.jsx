@@ -6,11 +6,13 @@ import ToolBox from "../../../components/stocks/toolbox"
 import { MdFilterList } from "react-icons/md"
 import Button from "../../../components/button/Button"
 import Bottom from "../../../components/stocks/bottom"
-import { users } from "../../../models/users"
+import Spinner from "../../../components/spinner/spinner"
+
 
 const MembersPageMBR = ({ setNavActive }) => {
 
     const [data, setData] = useState([])
+    const [isLoading, setIsLoading] = useState(false);
 
     const [searchTerm, setSearchTerm] = useState("");
     const [types, setTypes] = useState(["Etudiant", "Manager"]);
@@ -23,7 +25,23 @@ const MembersPageMBR = ({ setNavActive }) => {
         // Activer le bouton budget de la navbar
         setNavActive(NavParams.membres)
 
-        setData(users);
+        const fetchMembers = async () => {
+            setIsLoading(true);
+            try {
+                const response = await fetch("http://localhost:3000/get_members");
+                if (!response.ok) {
+                    throw new Error("Erreur lors de la récupération des membres");
+                }
+                const data = await response.json();
+                setData(data); // Mettre à jour l'état avec les données récupérées
+            } catch (error) {
+                console.error("Erreur :", error);
+            } finally {
+                setIsLoading(false); // Arrêter le chargement une fois les données récupérées
+            }
+        };
+
+        fetchMembers();
 
     }, [])
 
@@ -44,7 +62,12 @@ const MembersPageMBR = ({ setNavActive }) => {
                     types={types}
                     btnActive={btnActive}
                     SetTypeFilter={setFilter} />
-                <MembersTableView numberItemDisplay={numberItemDisplay} activeNumberGroup={activeNumberGroup} searchTerm={searchTerm}/>
+                <div className="table-load">
+                    {isLoading
+                        ? <Spinner />
+                        : <MembersTableView numberItemDisplay={numberItemDisplay} activeNumberGroup={activeNumberGroup} searchTerm={searchTerm} data={data}/>
+                    }
+                </div>
             </div>
             <Bottom
                 numberItemDisplay={numberItemDisplay}

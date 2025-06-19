@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import useAuth from "./AuthProvider"
 import { Navigate, Outlet } from "react-router-dom"
 import axios from "../api/api"
+import Spinner from "../components/spinner/spinner"
 
 const UnknowRequire = () => {
 
@@ -36,7 +37,7 @@ const UnknowRequire = () => {
 
     return (
         loading && !url
-            ? <div>Loading ...</div>
+            ? <Spinner />
             : !url
                 ? <Outlet />
                 : <Navigate to={url} />
