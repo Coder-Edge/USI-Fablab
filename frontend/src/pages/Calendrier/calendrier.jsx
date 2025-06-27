@@ -25,9 +25,7 @@ export default function Calendrier({ setNavActive }) {
         }
         const data = await response.json();
         setEvents(data);
-        console.log("Événements chargés :", data);
       } catch (error) {
-        console.error("Erreur :", error);
       } finally {
         setIsLoading(false);
       }
@@ -35,6 +33,53 @@ export default function Calendrier({ setNavActive }) {
 
     fetchEvents();
   }, []);
+
+  // Action pour "Refuser"
+  function rejectBorrow(borrowId, currentStatus) {
+    if (currentStatus === "accepté") {
+      Swal.fire({
+        title: "Attention !",
+        text: "Cet emprunt est déjà accepté. Voulez-vous vraiment le rejeter ?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Oui, rejeter",
+        cancelButtonText: "Annuler",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          proceedWithRejection(borrowId);
+        }
+      });
+    } else {
+      proceedWithRejection(borrowId);
+    }
+  }
+
+  function proceedWithRejection(borrowId) {
+    fetch(`http://localhost:3000/borrows/${borrowId}/reject`, {
+      method: "PATCH",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        Swal.fire({
+          title: data.success ? "Rejeté !" : "Erreur",
+          text:
+            data.message ||
+            data.error ||
+            "Le matériel a été marqué comme rejeté",
+          icon: data.success ? "success" : "error",
+        }).then(() => {
+          if (data.success) {
+            // Actualiser la page ou mettre à jour l'UI
+            window.location.reload(); // ou votre logique de mise à jour
+          }
+        });
+      })
+      .catch((error) => {
+        Swal.fire("Erreur", "Échec de la requête: " + error.message, "error");
+      });
+  }
 
   // Gestion du clic sur un événement
   const handleEventClick = (clickInfo) => {
@@ -91,7 +136,6 @@ export default function Calendrier({ setNavActive }) {
         })
           .then((response) => response.json())
           .then((data) => {
-            console.log(data);
             Swal.fire({
               title: data.success ? "Accepté !" : "Erreur",
               text:
@@ -99,6 +143,10 @@ export default function Calendrier({ setNavActive }) {
                 data.error ||
                 "L'emprunt a été approuvé avec succès",
               icon: data.success ? "success" : "error",
+            }).then((result) => {
+              if (data.success && (result.isConfirmed || result.isDismissed)) {
+                window.location.reload();
+              }
             });
           })
           .catch((error) => {
@@ -110,24 +158,7 @@ export default function Calendrier({ setNavActive }) {
           });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         // Action pour "Refuser"
-        fetch(`http://localhost:3000/borrows/${borrowId}/reject`, {
-          method: "PATCH",
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            Swal.fire({
-              title: data.success ? "Rejeté !" : "Erreur",
-              text: data.message || data.error || "Le matériel a été marqué comme rejeté",
-              icon: data.success ? "success" : "error",
-            });
-          })
-          .catch((error) => {
-            Swal.fire(
-              "Erreur",
-              "Échec de la requête: " + error.message,
-              "error"
-            );
-          });
+        rejectBorrow(borrowId, status);
       }
     });
   };
