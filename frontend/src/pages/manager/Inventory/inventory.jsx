@@ -13,6 +13,7 @@ import { NavParams } from "../../../components/Navbar/navParams";
 import AddProduct from "../../../components/add_product/add-product";
 import AddCommand from "../../../components/add-command/add-command";
 import Spinner from "../../../components/spinner/spinner";
+import { IoFilterSharp } from "react-icons/io5";
 
 const InventoryMNG = ({ setNavActive }) => {
   // data acquisition
@@ -20,6 +21,11 @@ const InventoryMNG = ({ setNavActive }) => {
   const [data, setData] = useState([]); // Store filtered products
   const [types, setTypes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  //show add command
+  const [showAddCommand, setShowAddCommand] = useState(false);
+  const showAddCommandPopup = () => setShowAddCommand(true)
+  const hideAddCommandPopup = () => setShowAddCommand(false)
 
   useEffect(() => {
 
@@ -68,12 +74,12 @@ const InventoryMNG = ({ setNavActive }) => {
   return (
     <div className="manager-inventory">
       <div className="grid-content">
-        <CommandsView />
+        <CommandsView showAddCommand={showAddCommandPopup}/>
         <Location />
         <div className="stocks">
           <HeadStocks title={"Stocks"} setSearchTerm={setSearchTerm} />
           <ToolBox
-            firstbutton={<Button child={<><MdAddCircleOutline /> Ajouter</>} />}
+            firstbutton={<Button className={"active"} child={<IoFilterSharp fill="#ffffff" size={16}/>}/>}
             types={types}
             btnActive={btnActive}
             SetTypeFilter={SetTypeFilter}
@@ -83,7 +89,6 @@ const InventoryMNG = ({ setNavActive }) => {
             : <>
 
               <Table data={data} type={type} searchTerm={searchTerm} />
-
               <ButtonAdd child={<><MdAddCircleOutline /> Ajouter</>} onClick={() => { document.querySelector("#add-product").style.visibility = "visible" }} />
             </>
           }
@@ -91,7 +96,7 @@ const InventoryMNG = ({ setNavActive }) => {
       </div>
 
       <AddProduct />
-      <AddCommand data={data} />
+      {showAddCommand && <AddCommand hide={hideAddCommandPopup}/>}
 
     </div>
   );
