@@ -14,6 +14,12 @@
     position: relative;
 }
 
+.commands-content .box-toolbox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .commands-content .table{
     padding: 20px;
 }

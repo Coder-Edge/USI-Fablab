@@ -11,6 +11,10 @@ import DynamicTable from "../../../components/table/table";
 import { PiShoppingCartSimpleFill } from "react-icons/pi";
 import CommandStatus from "../../../utils/command_status";
 import Swal from "sweetalert2";
+import Bottom from "../../../components/stocks/bottom";
+import ButtonAdd from "../../../components/stocks/button-add";
+import { MdOutlineAddCircleOutline } from "react-icons/md";
+import AddCommand from "../../../components/add-command/add-command";
 
 const CommandList = ({ setNavActive }) => {
 
@@ -21,6 +25,14 @@ const CommandList = ({ setNavActive }) => {
     const [btnActive, setBtnActive] = useState("");
     // data variable
     const [data, setData] = useState([]);
+    // Display limited number of items
+    const [numberItemDisplay, setNumberItemDisplay] = useState(10);
+    const [activeNumberGroup, setActiveNumberGroup] = useState(1);
+    //show add command
+    const [showAddCommand, setShowAddCommand] = useState(false);
+    const showAddCommandPopup = () => setShowAddCommand(true)
+    const hideAddCommandPopup = () => setShowAddCommand(false)
+
     // State for loading index rows in the table
     const [indexRowsTableLoading, setIndexRowsTableLoading] = useState([]);
 
@@ -48,7 +60,7 @@ const CommandList = ({ setNavActive }) => {
                     } else {
                         const response = await axios.put(url);
                         console.log(response.data);
-                        
+
                         newData = response.data.command;
                         setData((prevData) => {
                             return prevData.map(item => item._id === id ? newData._id ? newData : item : item);
@@ -88,7 +100,7 @@ const CommandList = ({ setNavActive }) => {
     }
 
     const filterData = () => data
-    .filter((command) => command.status.match(
+        .filter((command) => command.status.match(
             btnActive
                 ? btnActive.toLowerCase() === "en attente"
                     ? "en attente"
@@ -103,9 +115,9 @@ const CommandList = ({ setNavActive }) => {
                                 : ""
                 : ""
         ))
-    .filter(
-        (command) => `${command.user.firstName.toLowerCase()} ${command.user.name.toLowerCase()}`.includes(searchTerm.toLowerCase())
-    )
+        .filter(
+            (command) => `${command.user.firstName.toLowerCase()} ${command.user.name.toLowerCase()}`.includes(searchTerm.toLowerCase())
+        )
 
     useEffect(() => {
         setNavActive(NavParams.inventaire)
@@ -117,11 +129,14 @@ const CommandList = ({ setNavActive }) => {
             <div className="commands-list">
                 <div className="commands-content">
                     <HeadStocks title={"Liste des commandes"} setSearchTerm={setSearchTerm} />
-                    <ToolBox
-                        firstbutton={<Button className={"active"} child={<IoFilterSharp fill="#ffffff" size={16} />} />}
-                        types={["en attente", "acceptées", "rejetées"]}
-                        btnActive={btnActive}
-                        SetTypeFilter={setFilter} />
+                    <div className="box-toolbox">
+                        <ToolBox
+                            firstbutton={<Button className={"active"} child={<IoFilterSharp fill="#ffffff" size={16} />} />}
+                            types={["en attente", "acceptées", "rejetées"]}
+                            btnActive={btnActive}
+                            SetTypeFilter={setFilter} />
+                        <ButtonAdd child={<><MdOutlineAddCircleOutline /> Ajouter</>} onClick={showAddCommandPopup} />
+                    </div>
                     {
                         isLoading
                             ? <Spinner />
@@ -188,7 +203,16 @@ const CommandList = ({ setNavActive }) => {
                                         })
                                 } />
                     }
+                    <Bottom
+                        numberItemDisplay={numberItemDisplay}
+                        setNumberItemDisplay={setNumberItemDisplay}
+                        activeNumberGroup={activeNumberGroup}
+                        setActiveNumberGroup={setActiveNumberGroup}
+                        data={filterData()}
+                    />
+                    
                 </div>
+                {showAddCommand && <AddCommand hide={hideAddCommandPopup} reload={fetchCommands}/>}
             </div>
         </Simplifier>
     )

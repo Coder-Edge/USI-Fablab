@@ -22,6 +22,11 @@ const InventoryMNG = ({ setNavActive }) => {
   const [types, setTypes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  //show add command
+  const [showAddCommand, setShowAddCommand] = useState(false);
+  const showAddCommandPopup = () => setShowAddCommand(true)
+  const hideAddCommandPopup = () => setShowAddCommand(false)
+
   useEffect(() => {
 
     // set active button in sidebar
@@ -69,7 +74,7 @@ const InventoryMNG = ({ setNavActive }) => {
   return (
     <div className="manager-inventory">
       <div className="grid-content">
-        <CommandsView />
+        <CommandsView showAddCommand={showAddCommandPopup}/>
         <Location />
         <div className="stocks">
           <HeadStocks title={"Stocks"} setSearchTerm={setSearchTerm} />
@@ -91,7 +96,7 @@ const InventoryMNG = ({ setNavActive }) => {
       </div>
 
       <AddProduct />
-      <AddCommand data={data} />
+      {showAddCommand && <AddCommand hide={hideAddCommandPopup}/>}
 
     </div>
   );

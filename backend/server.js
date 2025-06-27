@@ -668,7 +668,7 @@ app.put("/command/accept/:id", async (req, res) => {
     const { id } = req.params;
 
     // Vérifier si la commande existe
-    const command = await CommandModel.findById(id);
+    const command = await CommandModel.findById(id).populate("user", "name firstName email");;
     if (!command) {
       return res.status(404).json({ message: "Commande non trouvée" });
     }
@@ -715,7 +715,7 @@ app.put("/command/reject/:id", async (req, res) => {
     const { id } = req.params;
 
     // Vérifier si la commande existe
-    const command = await CommandModel.findById(id).populate("user", "name firstName email") ;
+    const command = await CommandModel.findById(id).populate("user", "name firstName email");
     if (!command) {
       return res.status(404).json({ message: "Commande non trouvée" });
     }

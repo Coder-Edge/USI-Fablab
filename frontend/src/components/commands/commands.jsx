@@ -3,7 +3,6 @@ import "./commands.css"
 import { FaMoneyBills } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import ButtonAdd from "../stocks/button-add";
-import HeadStocks from "../stocks/head-stock";
 import DynamicTable from "../table/table";
 import axios from "../../api/api"
 import { PiShoppingCartSimpleFill } from "react-icons/pi";
@@ -11,7 +10,7 @@ import Spinner from "../spinner/spinner";
 import { MdOutlineAddCircleOutline } from "react-icons/md";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const CommandsView = () => {
+const CommandsView = ({showAddCommand}) => {
     // State for search term
     const [searchTerm, setSearchTerm] = useState("");
     const [commands, setCommands] = useState([]);
@@ -73,10 +72,7 @@ const CommandsView = () => {
         <div className="commands">
             <div className="head">
                 <h2>Commandes</h2>
-                <ButtonAdd child={<><MdOutlineAddCircleOutline /> Ajouter</>} onClick={() => {
-                    const component = document.querySelector("#add-command");
-                    component.style.visibility = "visible";
-                }} />
+                <ButtonAdd child={<><MdOutlineAddCircleOutline /> Ajouter</>} onClick={showAddCommand} />
             </div>
             <div className="total-price">
                 <div className="info-price">
