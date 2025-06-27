@@ -24,6 +24,12 @@
   font-size: 16px;
 }
 
+.head .button-add {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
 .head .search {
   display: flex;
   align-items: center;

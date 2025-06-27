@@ -2,12 +2,15 @@ import { useState } from "react"
 import HeadStocks from "../stocks/head-stock"
 import "./member-detail-view.css"
 import DynamicTable from "../table/table"
+import Button from "../button/Button"
+import ButtonAdd from "../stocks/button-add"
+import { MdOutlineAddCircleOutline } from "react-icons/md"
+
 
 const MemberDetailView = ({memberInfo}) => {
 
     const [searchTermDone, setSearchTermDone] = useState("")
     const [searchTermToDO, setSearchTermToDO] = useState("")
-
 
     return (
         <div id="detail-member-view">
@@ -17,7 +20,8 @@ const MemberDetailView = ({memberInfo}) => {
                     <h2>{memberInfo.firstname} {memberInfo.name}</h2>
                     <p className="email"><img src="/src/assets/icon/email-outline.svg" alt="" />{memberInfo.email}</p>
                     <p className="poste">Poste : <span>{memberInfo.poste}</span></p>
-                    <p className="promotion">Promotion <span>O2</span></p>
+                    <p className="poste">Salaire : <span>{memberInfo.salaire}</span></p>
+                    <ButtonAdd child={<><MdOutlineAddCircleOutline /> Ajouter une tâche</>}/>
                 </div>
             </div>
             <div className="member-tasks">
@@ -113,59 +117,13 @@ const MemberDetailView = ({memberInfo}) => {
                                 <td style={{ width: "70%" }}>changer la buse de l'imprimante 3D</td>
                                 <td style={{ width: "30%" }}>Le 26/07/2025</td>
                             </tr>
-                            <tr>
-                                <td style={{ width: "70%" }}>changer la buse de l'imprimante 3D</td>
-                                <td style={{ width: "30%" }}>Le 26/07/2025</td>
-                            </tr>
-                            <tr>
-                                <td style={{ width: "70%" }}>changer la buse de l'imprimante 3D</td>
-                                <td style={{ width: "30%" }}>Le 26/07/2025</td>
-                            </tr>
-                            <tr>
-                                <td style={{ width: "70%" }}>changer la buse de l'imprimante 3D</td>
-                                <td style={{ width: "30%" }}>Le 26/07/2025</td>
-                            </tr>
-                            <tr>
-                                <td style={{ width: "70%" }}>changer la buse de l'imprimante 3D</td>
-                                <td style={{ width: "30%" }}>Le 26/07/2025</td>
-                            </tr>
-                            <tr>
-                                <td style={{ width: "70%" }}>changer la buse de l'imprimante 3D</td>
-                                <td style={{ width: "30%" }}>Le 26/07/2025</td>
-                            </tr>
-                            <tr>
-                                <td style={{ width: "70%" }}>changer la buse de l'imprimante 3D</td>
-                                <td style={{ width: "30%" }}>Le 26/07/2025</td>
-                            </tr>
-                            <tr>
-                                <td style={{ width: "70%" }}>changer la buse de l'imprimante 3D</td>
-                                <td style={{ width: "30%" }}>Le 26/07/2025</td>
-                            </tr>
-                            <tr>
-                                <td style={{ width: "70%" }}>changer la buse de l'imprimante 3D</td>
-                                <td style={{ width: "30%" }}>Le 26/07/2025</td>
-                            </tr>
-                            <tr>
-                                <td style={{ width: "70%" }}>changer la buse de l'imprimante 3D</td>
-                                <td style={{ width: "30%" }}>Le 26/07/2025</td>
-                            </tr>
-                            <tr>
-                                <td style={{ width: "70%" }}>changer la buse de l'imprimante 3D</td>
-                                <td style={{ width: "30%" }}>Le 26/07/2025</td>
-                            </tr>
-                            <tr>
-                                <td style={{ width: "70%" }}>changer la buse de l'imprimante 3D</td>
-                                <td style={{ width: "30%" }}>Le 26/07/2025</td>
-                            </tr>
-                            <tr>
-                                <td style={{ width: "70%" }}>changer la buse de l'imprimante 3D</td>
-                                <td style={{ width: "30%" }}>Le 26/07/2025</td>
-                            </tr>
                             </>
                         }
                     />
                 </div>
+                
             </div>
+            
         </div>
     )
 }

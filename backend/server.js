@@ -572,7 +572,7 @@ app.get("/get_commands", async (req, res) => {
 
     // Récupérer toutes les commandes 
     const commands = await CommandModel.find()
-      .populate("user", "name email") // infos utilisateur
+      .populate("user", "name firstName email") // infos utilisateur
       .populate("ListCommand.product_id"); // pour avoir les infos produits
 
     res.status(200).json(commands);
@@ -668,7 +668,7 @@ app.put("/command/accept/:id", async (req, res) => {
     const { id } = req.params;
 
     // Vérifier si la commande existe
-    const command = await CommandModel.findById(id);
+    const command = await CommandModel.findById(id).populate("user", "name firstName email");;
     if (!command) {
       return res.status(404).json({ message: "Commande non trouvée" });
     }
@@ -715,7 +715,7 @@ app.put("/command/reject/:id", async (req, res) => {
     const { id } = req.params;
 
     // Vérifier si la commande existe
-    const command = await CommandModel.findById(id);
+    const command = await CommandModel.findById(id).populate("user", "name firstName email");
     if (!command) {
       return res.status(404).json({ message: "Commande non trouvée" });
     }
