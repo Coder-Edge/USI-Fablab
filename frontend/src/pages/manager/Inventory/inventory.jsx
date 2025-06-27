@@ -13,6 +13,7 @@ import { NavParams } from "../../../components/Navbar/navParams";
 import AddProduct from "../../../components/add_product/add-product";
 import AddCommand from "../../../components/add-command/add-command";
 import Spinner from "../../../components/spinner/spinner";
+import { IoFilterSharp } from "react-icons/io5";
 
 const InventoryMNG = ({ setNavActive }) => {
   // data acquisition
@@ -73,7 +74,7 @@ const InventoryMNG = ({ setNavActive }) => {
         <div className="stocks">
           <HeadStocks title={"Stocks"} setSearchTerm={setSearchTerm} />
           <ToolBox
-            firstbutton={<Button child={<><MdAddCircleOutline /> Ajouter</>} />}
+            firstbutton={<Button className={"active"} child={<IoFilterSharp fill="#ffffff" size={16}/>}/>}
             types={types}
             btnActive={btnActive}
             SetTypeFilter={SetTypeFilter}
@@ -83,7 +84,6 @@ const InventoryMNG = ({ setNavActive }) => {
             : <>
 
               <Table data={data} type={type} searchTerm={searchTerm} />
-
               <ButtonAdd child={<><MdAddCircleOutline /> Ajouter</>} onClick={() => { document.querySelector("#add-product").style.visibility = "visible" }} />
             </>
           }

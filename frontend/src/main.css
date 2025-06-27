@@ -11,7 +11,7 @@
   --rejected-color: #ffcbcb;
   --accepted-color: #bcffd3;
   --in-progress-color: #cce1fa;
-  --done-color: rgb(255, 209, 255);
+  --done-color: #e7e7e7;
 }
 
 .dark-mode {

@@ -1,0 +1,176 @@
+.commands-list {
+    height: 100%;
+    width: 100%;
+    padding: 10px 20px;
+}
+
+.commands-content {
+    height: 100%;
+    width: 100%;
+    padding: 20px;
+    background-color: var(--light-color);
+    border-radius: 14px;
+    margin-top: 5px;
+    position: relative;
+}
+
+.commands-content .table{
+    padding: 20px;
+}
+
+.commands-content .table tbody {
+    height: 350px;
+}
+
+.commands-content .table #id-borrow {
+    cursor: pointer;
+}
+
+.commands-content .status-icon,
+.borrow-detail .status-icon {
+    width: 120px;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.commands-content .action-icon,
+.borrow-detail .action-icon 
+{
+    padding: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.commands-content .action-icon:not(:hover),
+.borrow-detail .action-icon:not(:hover) 
+{
+    background-color: transparent;
+}
+
+.commands-content .accepted,
+.borrow-detail .accepted {
+    background-color: var(--accepted-color);
+}
+
+.commands-content .in-progress,
+.borrow-detail .in-progress
+{
+    background-color: var(--in-progress-color);
+}
+
+.commands-content .cancelled,
+.borrow-detail .cancelled {
+    background-color: var(--rejected-color);
+}
+
+.commands-content .done,
+.borrow-detail .done {
+    background-color: var(--done-color);
+}
+
+.commands-content .waiting,
+.borrow-detail .waiting
+{
+    background-color: var(--waiting-color);
+}
+
+.commands-content .bottom-stock {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+}
+
+.commands-content .table .actions-container {
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30%;
+}
+
+.commands-content .table .spinner::after {
+    width: 12px;
+    height: 12px;
+    border: 4px solid #ddd;
+    border-top-color: var(--blue-color);
+}
+
+.commands-content .table .actions-container div {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 16px;
+}
+
+
+.borrow-detail {
+    width: 100%;
+    height: 100%;
+    padding: 30px;
+}
+
+.borrow-detail .head h2 {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    gap: 12px;
+}
+
+.borrow-detail .head h2 div {
+    justify-content: center;
+    gap: 8px;
+    margin-left: 8px;
+    font-weight: 400;
+}
+
+.borrow-detail .borrow-detail-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 20px;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    background-color: var(--light-color);
+    border-radius: 14px;
+}
+
+.borrow-detail .borrow-detail-content .table, .borrow-detail .borrow-info {
+    padding: 10px 30px;
+}
+
+.borrow-detail-main-content header h1, .borrow-detail .borrow-info p {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.borrow-detail .borrow-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.borrow-detail span.text {
+    color: var(--light-dark);
+}
+
+.borrow-detail .status-icon {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.borrow-detail .action-icon {
+    border-radius: 8px;
+    gap: 4px;
+}
+
+.borrow-detail-main-content header .icon {
+    cursor: pointer;
+}

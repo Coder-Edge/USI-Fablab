@@ -15,6 +15,7 @@ import SimpleFilter from "../../../components/popup/simple-filter";
 import Simplifier from "../../../components/simplifier/simplifier";
 import "./members.css";
 import Spinner from "../../../components/spinner/spinner";
+import { IoFilterSharp } from "react-icons/io5";
 
 
 const MembersPage = ({ setNavActive }) => {
@@ -64,7 +65,7 @@ const MembersPage = ({ setNavActive }) => {
     };
 
     // show detail view
-    const showDetailView = (firstname, name, email, poste) => {
+    const showDetailView = (firstname, name, email, poste, salaire, device) => {
         setTitle(
             <div className="detailview-title">
                 <button type="button" onClick={
@@ -76,10 +77,11 @@ const MembersPage = ({ setNavActive }) => {
             </div>
         );
         setUserDetailViewInfo({
-            firstname: firstname,
-            name: name,
-            email: email,
-            poste: poste
+            firstname,
+            name,
+            email,
+            poste,
+            salaire : device + salaire
         })
 
     }
@@ -91,11 +93,6 @@ const MembersPage = ({ setNavActive }) => {
             salary += data[i].salary;
         }
         return salary;
-    };
-
-    // show pop up
-    const showAddMember = () => {
-        document.getElementById("filter-popup").style.visibility = "visible";
     };
 
     return (
@@ -110,17 +107,12 @@ const MembersPage = ({ setNavActive }) => {
                     </div>
                     <div className="card">
                         <p>Coût total du personnel</p>
-                        <p className="content">$ {36000}</p>
+                        <p className="content">$ {sum_salary()}</p>
                     </div>
                 </div>
                 <div className="content">
                     <ToolBox
-                        firstbutton={
-                            <Button
-                                // className={quantityFilter !== "" ? "active" : ""}
-                                child={<><MdFilterList /> Filtre</>}
-                                onClick={showAddMember}
-                            />}
+                        firstbutton={<Button className={"active"} child={<IoFilterSharp fill="#ffffff" size={16}/>}/>}
                         types={types}
                         SetTypeFilter={setFilter}
                         btnActive={btnActive} />
@@ -144,8 +136,6 @@ const MembersPage = ({ setNavActive }) => {
                     setActiveNumberGroup={setActiveNumberGroup}
                     data={data}
                 />
-
-                <SimpleFilter />
                 <MemberDetailView memberInfo={userDetailViewInfo} />
 
             </div>

@@ -94,7 +94,7 @@ const Location = () => {
               )
               )}
       />
-      <ButtonAdd child={"Voir commandes"} onClick={() => navigate(location.pathname + "/list-commands")} />
+      <ButtonAdd child={"Voir locations"} onClick={() => navigate(location.pathname + "/list-locations")} />
     </div>
   );
 };

@@ -38,15 +38,17 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: 8px;
     width: 100%;
+}
+
+#detail-member-view .member-info .member-info-text .button-add{
+    display: flex;
+    justify-content: end;
 }
 
 #detail-member-view .member-info .member-info-text h2 {
     color: var(--blue-color);
-}
-
-#detail-member-view .member-info .member-info-text .promotion {
-    text-align: right;
 }
 
 #detail-member-view .member-tasks {
@@ -60,7 +62,7 @@
     background-color: var(--light-color);
     flex: 1;
     border-radius: 14px;
-    padding: 20px;
+    padding: 20px 20px 0 20px;
 }
 
 #detail-member-view .member-tasks .member-tasks-group .head h2{
@@ -84,4 +86,12 @@
 
 #detail-member-view .member-tasks .member-tasks-group .table table tbody td {
     padding: 8px 0;
+}
+
+#detail-member-view .button-add {
+    background-color: var(--light-color);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

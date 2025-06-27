@@ -1,19 +1,22 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { NavParams } from "../../../components/Navbar/navParams";
 import Simplifier from "../../../components/simplifier/simplifier";
-import "./commands.css"
+import "./borrows.css"
 import ToolBox from "../../../components/stocks/toolbox";
 import Button from "../../../components/button/Button";
 import { RiShoppingBag3Fill } from "react-icons/ri";
-import { MdAddCircleOutline, MdInfoOutline } from "react-icons/md";
+import { MdAddCircleOutline } from "react-icons/md";
 import axios from "../../../api/api";
 import HeadStocks from "../../../components/stocks/head-stock";
 import Spinner from "../../../components/spinner/spinner";
 import DynamicTable from "../../../components/table/table";
-import CommandStatus from "../../../utils/command_status";
+import BorrowStatus from "../../../utils/borrow_status";
 import Bottom from "../../../components/stocks/bottom";
+import Swal from "sweetalert2";
+import { useLocation, useNavigate } from "react-router-dom";
+import { IoFilterSharp } from "react-icons/io5";
 
-const CommandsList = ({ setNavActive }) => {
+const BorrowsList = ({ setNavActive }) => {
 
     // Active button
     const [btnActive, setBtnActive] = useState("");
@@ -27,34 +30,43 @@ const CommandsList = ({ setNavActive }) => {
     const [numberItemDisplay, setNumberItemDisplay] = useState(10);
     const [activeNumberGroup, setActiveNumberGroup] = useState(1);
 
-    const confirmationButtonRef = useRef();
+    const location = useLocation();
+    const navigate = useNavigate();
+
     // State for loading index rows in the table
     const [indexRowsTableLoading, setIndexRowsTableLoading] = useState([]);
 
-    const confirmationPopupRef = useRef();
-    const [confirmationAction, setConfirmationAction] = useState(null);
     const showConfirmationPopup = (action, url, index, id) => {
-        setConfirmationAction(action);
 
-        confirmationPopupRef.current.style.visibility = "visible";
-        confirmationButtonRef.current.onclick = async () => {
-            confirmationPopupRef.current.style.visibility = "hidden";
-            setIndexRowsTableLoading(prev => [...prev, index]);
-            let newData = {}
-            try {
-                const response = await axios.patch(url);
-                newData = response.data.borrow;
+        Swal.fire({
+            title: "Confirmation",
+            text: `Êtes-vous sûr de vouloir ${action} cet emprunt ?`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Oui, confirmer",
+            cancelButtonText: "Annuler",
+            cancelButtonColor: "#5899DD",
+            confirmButtonColor: "#0f963e"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                setIndexRowsTableLoading(prev => [...prev, index]);
+                let newData = {}
+                try {
+                    const response = await axios.patch(url);
+                    newData = response.data.borrow;
 
-            } catch (error) {
-                console.error("Erreur lors de la mise à jour :", error);
-            } finally {
-                setIndexRowsTableLoading(prev => prev.filter(i => i !== index));
+                } catch (error) {
+                    console.error("Erreur lors de la mise à jour :", error);
+                } finally {
+                    setIndexRowsTableLoading(prev => prev.filter(i => i !== index));
+                }
+
+                setData((prevData) => {
+                    return prevData.map(item => item._id === id ? newData._id ? newData : item : item);
+                })
             }
-            
-            setData((prevData) => {
-                return prevData.map(item => item._id === id ? newData._id ? newData : item : item);
-            })
-        }
+        })
+
     }
 
     const setFilter = (type) => {
@@ -109,7 +121,7 @@ const CommandsList = ({ setNavActive }) => {
 
                     <HeadStocks title={"Liste des emprunts"} setSearchTerm={setSearchTerm} />
                     <ToolBox
-                        firstbutton={<Button child={<><MdAddCircleOutline /> Ajouter</>} />}
+                        firstbutton={<Button className={"active"} child={<IoFilterSharp fill="#ffffff" size={16}/>}/>}
                         types={["en attente", "acceptées", "rejetées", "Terminés", "anciennes"]}
                         btnActive={btnActive}
                         SetTypeFilter={setFilter} />
@@ -140,11 +152,11 @@ const CommandsList = ({ setNavActive }) => {
                                             .slice(numberItemDisplay * (activeNumberGroup - 1), numberItemDisplay * activeNumberGroup)
                                             .map((borrow, index) => {
 
-                                                const status = CommandStatus(borrow.status, borrow._id);
+                                                const status = BorrowStatus(borrow.status, borrow._id);
 
                                                 return <tr key={index}>
                                                     <td className="component" style={{ width: "35%" }}>
-                                                        <div>
+                                                        <div id="id-borrow" onClick={() => navigate(`${location.pathname}/${borrow._id}`)}>
                                                             {/* Assuming you have an image URL in the product object */}
                                                             <RiShoppingBag3Fill size={30} className="icon" />
                                                             {borrow._id.length <= 30
@@ -177,10 +189,6 @@ const CommandsList = ({ setNavActive }) => {
                                                                     ))
                                                                 }
                                                             </div>
-                                                            {/* <div>
-                                                                <span className="action-icon in-progress"><MdDeleteOutline size={16} fill="#5899DD" onClick={() => showConfirmationPopup("Supprimer")} /></span>
-                                                                <span className="action-icon in-progress"><MdOutlineEdit size={16} fill="#5899DD" onClick={() => showConfirmationPopup("Modifier")} /></span>
-                                                            </div> */}
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -195,19 +203,9 @@ const CommandsList = ({ setNavActive }) => {
                         data={filterData()}
                     />
                 </div>
-                <div className="confirmation-popup" ref={confirmationPopupRef}>
-                    <div className="confirmation-popup-content">
-                        <p><MdInfoOutline size={30} className="icon" />Êtes-vous sûr de vouloir effectuer cette action ?</p>
-                        <p style={{ color: "var(--blue-color)" }}>{confirmationAction}</p>
-                        <div className="buttons">
-                            <Button child="Annuler" onClick={() => confirmationPopupRef.current.style.visibility = "hidden"} />
-                            <Button child="Confirmer" className="active" btnRef={confirmationButtonRef} />
-                        </div>
-                    </div>
-                </div>
             </div>
         </Simplifier>
     )
 }
 
-export default CommandsList;
+export default BorrowsList;

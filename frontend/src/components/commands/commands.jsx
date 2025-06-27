@@ -8,6 +8,8 @@ import DynamicTable from "../table/table";
 import axios from "../../api/api"
 import { PiShoppingCartSimpleFill } from "react-icons/pi";
 import Spinner from "../spinner/spinner";
+import { MdOutlineAddCircleOutline } from "react-icons/md";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const CommandsView = () => {
     // State for search term
@@ -15,6 +17,9 @@ const CommandsView = () => {
     const [commands, setCommands] = useState([]);
     // State for loading indicator
     const [isLoading, setIsLoading] = useState(false);
+
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const [totalValue, setTotalValue] = useState(0);
     const calculateTotalValue = () => commands.reduce((total, command) => {
@@ -60,13 +65,19 @@ const CommandsView = () => {
             }
 
         }, 50);
-        
+
 
     }, [commands])
 
     return (
         <div className="commands">
-            <HeadStocks title={"Commandes"} setSearchTerm={setSearchTerm} />
+            <div className="head">
+                <h2>Commandes</h2>
+                <ButtonAdd child={<><MdOutlineAddCircleOutline /> Ajouter</>} onClick={() => {
+                    const component = document.querySelector("#add-command");
+                    component.style.visibility = "visible";
+                }} />
+            </div>
             <div className="total-price">
                 <div className="info-price">
                     <p className="label">Cout total</p>
@@ -106,10 +117,7 @@ const CommandsView = () => {
                         ))
                 }
             />
-            <ButtonAdd child={"Ajouter au stock"} onClick={() => {
-                const component = document.querySelector("#add-command");
-                component.style.visibility = "visible";
-            }} />
+            <ButtonAdd child={"Voir commandes"} onClick={() => navigate(location.pathname + "/list-commandes")}/>
         </div>
     );
 }
