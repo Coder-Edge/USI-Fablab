@@ -540,6 +540,22 @@ app.get("/get_members", async (req, res) => {
   }
 });
 
+// Route pour récupérer un membre par son ID
+app.get("/get_member/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const member = await MemberModel.findById(id).populate([
+      { path: "member", select: "name firstName email" }, // Récupérer le nom et l'email de l'utilisateur
+    ]);
+    if (!member) {
+      return res.status(404).json({ error: "Membre non trouvé" });
+    }
+    res.json(member);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch member" });
+  }
+});
+
 // Route pour supprimer un membre
 app.delete("/remove_member/:memberId", async (req, res) => {
   try {
@@ -590,15 +606,12 @@ app.post("/add_command", async (req, res) => {
   try {
     const { date, listproduct } = req.body;
 
-    console.log(listproduct, date);
-
     for (let i = 0; i < listproduct.length; i++) {
       Listproduct.push({
         product_id: listproduct[i]._id,
         quantity: listproduct[i].quantity,
       });
     }
-    console.log(Listproduct);
 
     // Validation des champs
     if (!date || !listproduct) {
@@ -626,8 +639,6 @@ app.post("/add_command", async (req, res) => {
       ListCommand: Listproduct,
       status: "en attente",
     });
-
-    console.log(command);
 
     // Sauvegarde dans la base de données
     await command.save();

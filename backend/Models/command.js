@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const commandSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   startDate: { type: Date, required: true },
+  acceptDate: { type: Date, required: false },
   ListCommand: [
     {
       product_id: {
