@@ -119,8 +119,8 @@ export default function Calendrier({ setNavActive }) {
         <p><strong>Date de retour :</strong> ${endDate}</p>
       `,
       icon: "info",
-      showCancelButton: true, // Active le bouton "Rendu"
-      showDenyButton: true, // Active le bouton "Accepter"
+      showCancelButton: status !== "rejeté" , // Active le bouton "Rendu"
+      showDenyButton: status !== "accepté" && status ==="en attente", // Active le bouton "Accepter"
       confirmButtonText: "Fermer",
       cancelButtonText: "Refuser",
       denyButtonText: "Accepter",
