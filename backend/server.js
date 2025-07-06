@@ -111,6 +111,64 @@ app.post("/products", upload.single("image"), async (req, res) => {
   }
 });
 
+// Route pour modifier un produit (avec ou sans image)
+app.put("/products/:id", upload.single("image"), async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const { name, price, quantity, type, is_available } = req.body;
+
+    // 1. Vérifier si le produit existe
+    const existingProduct = await ProductModel.findById(productId).populate("image");
+    if (!existingProduct) {
+      return res.status(404).json({ message: "Produit introuvable" });
+    }
+
+    // 2. Gestion de l'image (si une nouvelle image est fournie)
+    let imageId = existingProduct.image?._id;
+    if (req.file) {
+      const { path: imagePath, filename } = req.file;
+
+      // Créer une nouvelle image
+      const newImage = await new ImageModel({
+        path: imagePath,
+        filename,
+      }).save();
+
+      imageId = newImage._id;
+
+      // Optionnel : Supprimer l'ancienne image du stockage et de la DB
+      if (existingProduct.image) {
+        fs.unlinkSync(existingProduct.image.path); // Supprime le fichier
+        await ImageModel.findByIdAndDelete(existingProduct.image._id);
+      }
+    }
+
+    // 3. Mettre à jour le produit
+    const updatedProduct = await ProductModel.findByIdAndUpdate(
+      productId,
+      {
+        name,
+        price,
+        quantity,
+        type,
+        is_available,
+        image: imageId,
+      },
+      { new: true } // Retourne le document mis à jour
+    ).populate("image");
+
+    res.status(200).json({
+      message: "Produit mis à jour avec succès",
+      product: updatedProduct,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "Erreur lors de la mise à jour du produit",
+      details: error.message,
+    });
+  }
+});
+
 // Get all products
 app.get("/get/products", async (req, res) => {
   try {
