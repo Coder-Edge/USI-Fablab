@@ -121,6 +121,21 @@ app.get("/get/products", async (req, res) => {
   }
 });
 
+// Get a product by ID
+app.get("/get/products/:id", async (req, res) => {
+  const { id } = req.params; // Récupérer l'ID depuis les paramètres de l'URL
+
+  try {
+    const product = await ProductModel.findById(id); // Recherche par ID
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+    res.json(product);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch the Product" });
+  }
+});
+
 // Delete products
 app.delete("/products/:id", async (req, res) => {
   try {
@@ -465,21 +480,6 @@ app.patch("/borrows/:id/done", async (req, res) => {
       error: "Échec du rejet",
       details: error.message,
     });
-  }
-});
-
-// Get a product by ID
-app.get("/get/products/:id", async (req, res) => {
-  const { id } = req.params; // Récupérer l'ID depuis les paramètres de l'URL
-
-  try {
-    const product = await ProductModel.findById(id); // Recherche par ID
-    if (!product) {
-      return res.status(404).json({ error: "Product not found" });
-    }
-    res.json(product);
-  } catch (error) {
-    res.status(500).json({ error: "Failed to fetch the Product" });
   }
 });
 
