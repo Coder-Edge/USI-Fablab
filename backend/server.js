@@ -14,6 +14,7 @@ const MemberModel = require("./Models/member.js");
 const CommandModel = require("./Models/command.js");
 const TaskModel = require("./Models/task.js");
 const ArticleModel = require("./Models/article.js");
+const mongoose = require("mongoose"); // Ajoutez cette ligne
 
 const app = express();
 app.use(express.static("uploads"));
@@ -146,7 +147,7 @@ app.delete("/products/:id", async (req, res) => {
   }
 });
 
-// Get images 
+// Get images
 app.get("/img/:id", async (req, res) => {
   const { id } = req.params;
   try {
@@ -246,7 +247,7 @@ app.get("/get/borrows", async (req, res) => {
 app.get("/get/borrows/:id", async (req, res) => {
   try {
     const borrow = await BorrowModel.findById(req.params.id).populate([
-      { path: "user", select: "name firstName email" }
+      { path: "user", select: "name firstName email" },
     ]);
 
     if (!borrow) {
@@ -267,7 +268,7 @@ app.get("/get/borrows/:id", async (req, res) => {
   } catch (error) {
     res.status(500).json({
       error: "Échec de la récupération de l'emprunt",
-      details: error.message
+      details: error.message,
     });
   }
 });
@@ -290,7 +291,9 @@ app.get("/borrows/accept", async (req, res) => {
     }));
     res.json(formattedBorrows);
   } catch (error) {
-    res.status(500).json({ error: "Échec de la récupération des emprunts acceptés" });
+    res
+      .status(500)
+      .json({ error: "Échec de la récupération des emprunts acceptés" });
   }
 });
 
@@ -312,7 +315,9 @@ app.get("/borrows/reject", async (req, res) => {
     }));
     res.json(formattedBorrows);
   } catch (error) {
-    res.status(500).json({ error: "Échec de la récupération des emprunts rejetés" });
+    res
+      .status(500)
+      .json({ error: "Échec de la récupération des emprunts rejetés" });
   }
 });
 
@@ -334,7 +339,9 @@ app.get("/borrows/waiting", async (req, res) => {
     }));
     res.json(formattedBorrows);
   } catch (error) {
-    res.status(500).json({ error: "Échec de la récupération des emprunts en attente" });
+    res
+      .status(500)
+      .json({ error: "Échec de la récupération des emprunts en attente" });
   }
 });
 
@@ -348,7 +355,9 @@ app.patch("/borrows/:id/accept", async (req, res) => {
 
     // si l'emprunt a déjà été accepté ou rejeté
     if (borrow.status === "accepté" || borrow.status === "rejeté") {
-      return res.status(400).json({ error: `Cet emprunt a déjà été ${borrow.status}` });
+      return res
+        .status(400)
+        .json({ error: `Cet emprunt a déjà été ${borrow.status}` });
     }
 
     borrow.status = "accepté";
@@ -362,17 +371,17 @@ app.patch("/borrows/:id/accept", async (req, res) => {
       motif: borrow.motif,
       Listborrow: borrow.Listborrow,
       status: borrow.status,
-    }
+    };
 
     res.json({
       success: true,
       message: "Emprunt accepté avec succès",
-      borrow: formattedBorrow
+      borrow: formattedBorrow,
     });
   } catch (error) {
     res.status(500).json({
       error: "Échec de l'acceptation",
-      details: error.message
+      details: error.message,
     });
   }
 });
@@ -387,7 +396,9 @@ app.patch("/borrows/:id/reject", async (req, res) => {
 
     // si l'emprunt a déjà été accepté ou rejeté
     if (borrow.status === "rejeté") {
-      return res.status(400).json({ error: `Cet emprunt a déjà été ${borrow.status}` });
+      return res
+        .status(400)
+        .json({ error: `Cet emprunt a déjà été ${borrow.status}` });
     }
 
     borrow.status = "rejeté";
@@ -401,17 +412,17 @@ app.patch("/borrows/:id/reject", async (req, res) => {
       motif: borrow.motif,
       Listborrow: borrow.Listborrow,
       status: borrow.status,
-    }
+    };
 
     res.json({
       success: true,
       message: "Emprunt rejeté avec succès",
-      borrow: formattedBorrow
+      borrow: formattedBorrow,
     });
   } catch (error) {
     res.status(500).json({
       error: "Échec du rejet",
-      details: error.message
+      details: error.message,
     });
   }
 });
@@ -426,7 +437,9 @@ app.patch("/borrows/:id/done", async (req, res) => {
 
     // si l'emprunt a déjà été accepté ou rejeté
     if (borrow.status === "terminé") {
-      return res.status(400).json({ error: `Cet emprunt a déjà été ${borrow.status}` });
+      return res
+        .status(400)
+        .json({ error: `Cet emprunt a déjà été ${borrow.status}` });
     }
 
     borrow.status = "terminé";
@@ -440,17 +453,17 @@ app.patch("/borrows/:id/done", async (req, res) => {
       motif: borrow.motif,
       Listborrow: borrow.Listborrow,
       status: borrow.status,
-    }
+    };
 
     res.json({
       success: true,
       message: "Emprunt terminer avec succès",
-      borrow: formattedBorrow
+      borrow: formattedBorrow,
     });
   } catch (error) {
     res.status(500).json({
       error: "Échec du rejet",
-      details: error.message
+      details: error.message,
     });
   }
 });
@@ -585,13 +598,34 @@ app.delete("/remove_member/:memberId", async (req, res) => {
 // Récupérer toutes les commandes du user connecté
 app.get("/get_commands", async (req, res) => {
   try {
-
-    // Récupérer toutes les commandes 
+    // Récupérer toutes les commandes
     const commands = await CommandModel.find()
       .populate("user", "name firstName email") // infos utilisateur
       .populate("ListCommand.product_id"); // pour avoir les infos produits
 
     res.status(200).json(commands);
+  } catch (error) {
+    res.status(500).json({ message: "Erreur serveur", error });
+  }
+});
+
+// Récupérer une commande par son ID
+app.get("/get_command/:commandId", async (req, res) => {
+  try {
+    const { commandId } = req.params;
+
+    // Vérifier si l'ID est valide (optionnel mais recommandé)
+    if (!mongoose.Types.ObjectId.isValid(commandId)) {
+      return res.status(400).json({ message: "ID de commande invalide" });
+    }
+    // Récupérer la commande par ID
+    const command = await CommandModel.findById(commandId)
+      .populate("user", "name firstName email") // infos utilisateur
+      .populate("ListCommand.product_id"); // pour avoir les infos produits
+    if (!command) {
+      return res.status(404).json({ message: "Commande non trouvée" });
+    }
+    res.json(command);
   } catch (error) {
     res.status(500).json({ message: "Erreur serveur", error });
   }
@@ -679,27 +713,44 @@ app.put("/command/accept/:id", async (req, res) => {
     const { id } = req.params;
 
     // Vérifier si la commande existe
-    const command = await CommandModel.findById(id).populate("user", "name firstName email");;
+    const command = await CommandModel.findById(id).populate(
+      "user",
+      "name firstName email"
+    );
     if (!command) {
       return res.status(404).json({ message: "Commande non trouvée" });
     }
 
-    // Vérifier si la commande est déjà acceptée
-    if (command.status === "accepté") {
+    // Vérifier si la commande est déjà acceptée ou rejetée
+    if (command.status === "accepté" || command.status === "rejeté") {
       return res
         .status(400)
-        .json({ message: "Cette commande est déjà acceptée" });
+        .json({ message: `Cette commande est déjà ${command.status}e` });
+    }
+
+    //Liste des produits introuvables
+    const unavailableProducts = [];
+
+    for (let item of command.ListCommand) {
+      const product = await ProductModel.findById(item.product_id);
+      if (!product) {
+        unavailableProducts.push(item.product_id);
+        continue; // Passer au produit suivant si celui-ci est introuvable
+      }
+    }
+
+    //Arreter si un produit est introuvable
+    if (unavailableProducts.length > 0) {
+      return res.status(404).json({
+        message: `Produits introuvables avec les IDs : ${unavailableProducts.join(
+          ", "
+        )}`,
+      });
     }
 
     // Mettre à jour la quantité de chaque produit en stock
-    for (let item of command.listproduct) {
+    for (let item of command.ListCommand) {
       const product = await ProductModel.findById(item.product_id);
-      if (!product) {
-        return res
-          .status(404)
-          .json({ message: `Produit avec ID ${item.product_id} introuvable` });
-      }
-
       product.quantity += item.quantity; // Augmenter la quantité en stock
       await product.save();
     }
@@ -708,12 +759,10 @@ app.put("/command/accept/:id", async (req, res) => {
     command.status = "accepté";
     await command.save();
 
-    res
-      .status(200)
-      .json({
-        message: "Commande acceptée avec succès et stock mis à jour",
-        command,
-      });
+    res.status(200).json({
+      message: "Commande acceptée avec succès et stock mis à jour",
+      command,
+    });
   } catch (error) {
     console.error("Erreur lors de l'acceptation de la commande :", error);
     res.status(500).json({ message: "Erreur serveur" });
@@ -726,7 +775,10 @@ app.put("/command/reject/:id", async (req, res) => {
     const { id } = req.params;
 
     // Vérifier si la commande existe
-    const command = await CommandModel.findById(id).populate("user", "name firstName email");
+    const command = await CommandModel.findById(id).populate(
+      "user",
+      "name firstName email"
+    );
     if (!command) {
       return res.status(404).json({ message: "Commande non trouvée" });
     }
@@ -939,7 +991,6 @@ app.put("/update_article/:id", upload.array("images", 4), async (req, res) => {
     res.status(500).json({ message: "Erreur serveur" });
   }
 });
-
 
 // Route pour recupérer les emprunts et les afficher sur le calandrier
 app.get("/calendar", async (req, res) => {
