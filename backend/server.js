@@ -23,6 +23,10 @@ const {
 const {
   generateBorrowRejectionEmail,
 } = require("./template_mails/borrow_reject.js");
+const {
+  generateBorrowCompletionEmail,
+} = require("./template_mails/borrow_done.js");
+
 
 const app = express();
 app.use(express.static("uploads"));
@@ -590,19 +594,13 @@ app.patch("/borrows/:id/done", async (req, res) => {
       status: borrow.status,
     };
 
-    message = `Bonjour ${
-      borrow.user.name
-    },\n\nVotre emprunt de ${borrow.Listborrow.map(
-      (item) => `${item.product_name} (quantité: ${item.quantity})`
-    ).join(
-      ", "
-    )} est terminé.\nMerci de le retourner au Fablab.\n\nCordialement,\nL'équipe du Fablab ULC-Icam`;
+    message = generateBorrowCompletionEmail(borrow);
 
     const mail = await sendEmail({
       to: borrow.user.email,
-      subject: "Votre emprunt est terminé",
-      text: message,
-      html: `<h1>${message}</h1>`,
+      subject: message.subject,
+      text: message.text,
+      html: `<p>${message.html}</p>`,
     });
 
     res.json({

@@ -59,7 +59,12 @@ L'équipe du FabLab ${borrowDetails.labName || "ULC-Icam"}
         .header { color: #2c3e50; font-size: 22px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
         .section { margin: 20px 0; }
         .section-title { color: #3498db; font-size: 18px; margin-bottom: 10px; }
-        .product-list { margin: 15px 0; padding-left: 20px; }
+        .product-list { 
+            background: #f0f8ff;  /* Fond bleu très clair */
+            padding: 15px; 
+            border-left: 4px solid #3498db; /* Bordure bleue */
+            margin: 20px 0; 
+        }
         .conditions { background: #f9f9f9; padding: 15px; border-radius: 5px; }
         .footer { margin-top: 30px; font-size: 14px; color: #7f8c8d; border-top: 1px solid #eee; padding-top: 15px; }
         .signature { font-weight: bold; color: #2c3e50; }
