@@ -14,7 +14,10 @@ const MemberModel = require("./Models/member.js");
 const CommandModel = require("./Models/command.js");
 const TaskModel = require("./Models/task.js");
 const ArticleModel = require("./Models/article.js");
-const mongoose = require("mongoose"); // Ajoutez cette ligne
+// const NotificationModel = require("./Models/notification.js");
+const mongoose = require("mongoose");
+const sendEmail = require("./Models/send_mail.js");
+const { generateBorrowAcceptanceEmail } = require("./template_mails/borrow_accept.js");
 
 const app = express();
 app.use(express.static("uploads"));
@@ -118,7 +121,9 @@ app.put("/products/:id", upload.single("image"), async (req, res) => {
     const { name, price, quantity, type, is_available } = req.body;
 
     // 1. Vérifier si le produit existe
-    const existingProduct = await ProductModel.findById(productId).populate("image");
+    const existingProduct = await ProductModel.findById(productId).populate(
+      "image"
+    );
     if (!existingProduct) {
       return res.status(404).json({ message: "Produit introuvable" });
     }
@@ -446,6 +451,15 @@ app.patch("/borrows/:id/accept", async (req, res) => {
       status: borrow.status,
     };
 
+    message = generateBorrowAcceptanceEmail(borrow);
+
+    const mail = await sendEmail({
+      to: borrow.user.email,
+      subject: "Votre emprunt est accepté",
+      text: message.text,
+      html: `<p>${message.html}</p>`,
+    });
+
     res.json({
       success: true,
       message: "Emprunt accepté avec succès",
@@ -527,6 +541,21 @@ app.patch("/borrows/:id/done", async (req, res) => {
       Listborrow: borrow.Listborrow,
       status: borrow.status,
     };
+
+    message = `Bonjour ${
+      borrow.user.name
+    },\n\nVotre emprunt de ${borrow.Listborrow.map(
+      (item) => `${item.product_name} (quantité: ${item.quantity})`
+    ).join(
+      ", "
+    )} est terminé.\nMerci de le retourner au Fablab.\n\nCordialement,\nL'équipe du Fablab ULC-Icam`;
+
+    const mail = await sendEmail({
+      to: borrow.user.email,
+      subject: "Votre emprunt est terminé",
+      text: message,
+      html: `<h1>${message}</h1>`,
+    });
 
     res.json({
       success: true,
@@ -1047,6 +1076,24 @@ app.put("/update_article/:id", upload.array("images", 4), async (req, res) => {
   } catch (error) {
     console.error("Erreur lors de la modification de l'article :", error);
     res.status(500).json({ message: "Erreur serveur" });
+  }
+});
+
+app.post("/notify", async (req, res) => {
+  const { email, message } = req.body;
+  console.log(req.body);
+  // Utilisation correcte de sendEmail
+  const success = await sendEmail({
+    to: email,
+    subject: "Nouvelle notification",
+    text: message,
+    html: `<h1>${message}</h1>`,
+  });
+
+  if (success) {
+    res.json({ status: "Email envoyé" });
+  } else {
+    res.status(500).json({ error: "Échec d'envoi" });
   }
 });
 
