@@ -443,6 +443,33 @@ app.patch("/borrows/:id/accept", async (req, res) => {
         .json({ error: `Cet emprunt a déjà été ${borrow.status}` });
     }
 
+    //Liste des produits introuvables
+    const unavailableProducts = [];
+
+    for (let item of borrow.Listborrow) {
+      const product = await ProductModel.findById(item.product_id);
+      if (!product) {
+        unavailableProducts.push(item.product_id);
+        continue; // Passer au produit suivant si celui-ci est introuvable
+      }
+    }
+
+    //Arreter si un produit est introuvable
+    if (unavailableProducts.length > 0) {
+      return res.status(404).json({
+        message: `Produits introuvables avec les IDs : ${unavailableProducts.join(
+          ", "
+        )}`,
+      });
+    }
+
+    // Mettre à jour la quantité de chaque produit en stock
+    for (let item of borrow.Listborrow) {
+      const product = await ProductModel.findById(item.product_id);
+      product.quantity -= item.quantity; // Augmenter la quantité en stock
+      await product.save();
+    }
+
     borrow.status = "accepté";
     await borrow.save();
 
@@ -541,6 +568,13 @@ app.patch("/borrows/:id/done", async (req, res) => {
       return res
         .status(400)
         .json({ error: `Cet emprunt a déjà été ${borrow.status}` });
+    }
+
+    // Mettre à jour la quantité de chaque produit en stock
+    for (let item of borrow.Listborrow) {
+      const product = await ProductModel.findById(item.product_id);
+      product.quantity += item.quantity; // Augmenter la quantité en stock
+      await product.save();
     }
 
     borrow.status = "terminé";
