@@ -17,7 +17,12 @@ const ArticleModel = require("./Models/article.js");
 // const NotificationModel = require("./Models/notification.js");
 const mongoose = require("mongoose");
 const sendEmail = require("./Models/send_mail.js");
-const { generateBorrowAcceptanceEmail } = require("./template_mails/borrow_accept.js");
+const {
+  generateBorrowAcceptanceEmail,
+} = require("./template_mails/borrow_accept.js");
+const {
+  generateBorrowRejectionEmail,
+} = require("./template_mails/borrow_reject.js");
 
 const app = express();
 app.use(express.static("uploads"));
@@ -455,7 +460,7 @@ app.patch("/borrows/:id/accept", async (req, res) => {
 
     const mail = await sendEmail({
       to: borrow.user.email,
-      subject: "Votre emprunt est accepté",
+      subject: "Votre emprunt a été accepté",
       text: message.text,
       html: `<p>${message.html}</p>`,
     });
@@ -500,6 +505,15 @@ app.patch("/borrows/:id/reject", async (req, res) => {
       Listborrow: borrow.Listborrow,
       status: borrow.status,
     };
+
+    message = generateBorrowRejectionEmail(borrow);
+
+    const mail = await sendEmail({
+      to: borrow.user.email,
+      subject: message.subject,
+      text: message.text,
+      html: `<p>${message.html}</p>`,
+    });
 
     res.json({
       success: true,
