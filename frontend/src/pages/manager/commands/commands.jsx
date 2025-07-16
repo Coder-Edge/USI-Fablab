@@ -90,7 +90,6 @@ const CommandList = ({ setNavActive }) => {
         try {
             const response = await axios.get("/get_commands");
             setData(response.data);
-            console.log(response.data);
 
         } catch (error) {
             console.error("Erreur lors du chargement des commandes :", error);

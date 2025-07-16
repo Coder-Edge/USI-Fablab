@@ -26,7 +26,9 @@ const {
 const {
   generateBorrowCompletionEmail,
 } = require("./template_mails/borrow_done.js");
-
+const {
+  generateAdminNominationEmail,
+} = require("./template_mails/add_member.js");
 
 const app = express();
 app.use(express.static("uploads"));
@@ -662,6 +664,15 @@ app.post("/add_member", async (req, res) => {
     });
 
     await newMember.save();
+
+    message = generateAdminNominationEmail(existingUser);
+
+    const mail = await sendEmail({
+      to: email,
+      subject: message.subject,
+      text: message.text,
+      html: `<p>${message.html}</p>`,
+    });
 
     res.status(201).json({
       message: "Utilisateur ajouté comme membre avec succès",
