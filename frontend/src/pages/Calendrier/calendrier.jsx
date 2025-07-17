@@ -119,17 +119,19 @@ export default function Calendrier({ setNavActive }) {
         <p><strong>Date de retour :</strong> ${endDate}</p>
       `,
       icon: "info",
-      showCancelButton: status !== "rejeté" , // Active le bouton "Rendu"
-      showDenyButton: status !== "accepté" && status ==="en attente", // Active le bouton "Accepter"
+      showCancelButton: status !== "rejeté" && status !== "terminé" , // Active le bouton "Rendu"
+      showDenyButton: status !== "rejeté" && status !== "terminé", // Active le bouton "Accepter"
       confirmButtonText: "Fermer",
       cancelButtonText: "Refuser",
-      denyButtonText: "Accepter",
+      denyButtonText: status === "en attente" ? "Accepter" : "Terminer",
       customClass: {
         denyButton: "custom-deny-btn", // Pour styliser
         cancelButton: "custom-cancel-btn",
       },
     }).then((result) => {
       if (result.isDenied) {
+        if (status !== "accepté") {
+          
         // Action pour "Accepter"
         fetch(`http://localhost:3000/borrows/${borrowId}/accept`, {
           method: "PATCH",
@@ -156,6 +158,37 @@ export default function Calendrier({ setNavActive }) {
               "error"
             );
           });
+      
+        }else{
+
+        // Action pour "Terminer"
+        fetch(`http://localhost:3000/borrows/${borrowId}/done`, {
+          method: "PATCH",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            Swal.fire({
+              title: data.success ? "Terminé !" : "Erreur",
+              text:
+                data.message ||
+                data.error ||
+                "L'emprunt est marqué comme terminé",
+              icon: data.success ? "success" : "error",
+            }).then((result) => {
+              if (data.success && (result.isConfirmed || result.isDismissed)) {
+                window.location.reload();
+              }
+            });
+          })
+          .catch((error) => {
+            Swal.fire(
+              "Erreur",
+              "Échec de la requête: " + error.message,
+              "error"
+            );
+          });
+      
+        }
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         // Action pour "Refuser"
         rejectBorrow(borrowId, status);
