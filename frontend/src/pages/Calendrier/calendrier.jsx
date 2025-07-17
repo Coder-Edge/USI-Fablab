@@ -25,6 +25,7 @@ export default function Calendrier({ setNavActive }) {
         }
         const data = await response.json();
         setEvents(data);
+        setActiveEvents(data.filter(event => event.status !== "terminé",));
       } catch (error) {
       } finally {
         setIsLoading(false);
@@ -210,7 +211,15 @@ export default function Calendrier({ setNavActive }) {
             end: "prev next",
           }}
           aspectRatio={2}
-          events={events}
+          events={ events.map(event => ({
+            ...event,
+            color: event.status === "terminé" ? '#CCCCCC' : 
+                   event.status === "en cours" ? '#3498DB' :
+                    event.status === "en attente" ? '#F39C12' :
+                    event.status === "accepté" ? '#2ECC71' :
+                    event.status === "rejeté" ? '#E74C3C' : 
+                   '#2ECC71' // Couleur par défaut
+          }))}
           eventClick={handleEventClick}
         />
       )}
