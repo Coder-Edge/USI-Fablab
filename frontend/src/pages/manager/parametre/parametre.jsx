@@ -162,7 +162,6 @@ const ParamatreMNG = ({ setNavActive }) => {
                                     const body = document.body;
                                     body.classList.toggle("dark-mode");
                                     localStorage.setItem("darkMode", !darkMode);
-                                    console.log(localStorage.getItem("darkMode"));
                                     setDarkMode(!darkMode);
                                 }}
                             />

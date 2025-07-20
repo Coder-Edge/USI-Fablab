@@ -36,6 +36,7 @@ import ShopMNG from "./pages/manager/shop/shop";
 import BorrowsList from "./pages/manager/borrows/borrows";
 import BorroDetails from "./pages/manager/borrows/borrow-detail";
 import CommandList from "./pages/manager/commands/commands";
+import CommandDetails from "./pages/manager/commands/commandsDetail";
 
 export default function Main() {
 
@@ -120,6 +121,7 @@ export default function Main() {
 
                       {/* getion des commandes */}
                       <Route path="/list-commandes" element={<CommandList setNavActive={setNavActive} />} />
+                      <Route path="/list-commandes/:id" element={<CommandDetails setNavActive={setNavActive} />} />
 
                       {/* Route pour le calendrier */}
                       <Route
@@ -238,7 +240,8 @@ export default function Main() {
 
                       {/* getion des commandes */}
                       <Route path="/list-commandes" element={<CommandList setNavActive={setNavActive} />} />
-                      
+                      <Route path="/list-commandes/:id" element={<CommandDetails setNavActive={setNavActive} />} />
+
                     </Routes>
                   </>
                 }
