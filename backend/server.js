@@ -856,6 +856,9 @@ app.put("/command/accept/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
+    console.log(id);
+    
+
     // Vérifier si la commande existe
     const command = await CommandModel.findById(id).populate(
       "user",

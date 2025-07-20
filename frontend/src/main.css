@@ -19,6 +19,11 @@
   --background-color: #000;
   --dark-color: #fff;
   --blur-color: rgba(175, 175, 175, 0.288);
+  --waiting-color: #463e29;
+  --rejected-color: #503232;
+  --accepted-color: #122c1b;
+  --in-progress-color: #2e3641;
+  --done-color: #e7e7e7;
 }
 
 * {

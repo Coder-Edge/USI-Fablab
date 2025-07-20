@@ -15,6 +15,7 @@ import Bottom from "../../../components/stocks/bottom";
 import ButtonAdd from "../../../components/stocks/button-add";
 import { MdOutlineAddCircleOutline } from "react-icons/md";
 import AddCommand from "../../../components/add-command/add-command";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const CommandList = ({ setNavActive }) => {
 
@@ -23,6 +24,10 @@ const CommandList = ({ setNavActive }) => {
     const [searchTerm, setSearchTerm] = useState("");
     // Active button
     const [btnActive, setBtnActive] = useState("");
+
+    const location = useLocation();
+    const navigate = useNavigate();
+
     // data variable
     const [data, setData] = useState([]);
     // Display limited number of items
@@ -58,6 +63,8 @@ const CommandList = ({ setNavActive }) => {
                             return prevData.filter(item => item._id !== id);
                         })
                     } else {
+                        console.log("Mise à jour de la commande :", id);
+
                         const response = await axios.put(url);
                         console.log(response.data);
 
@@ -163,7 +170,7 @@ const CommandList = ({ setNavActive }) => {
 
                                             return <tr key={index}>
                                                 <td className="component" style={{ width: "35%" }}>
-                                                    <div id="id-borrow" onClick={() => navigate(`${location.pathname}/${borrow._id}`)}>
+                                                    <div id="id-borrow" onClick={() => navigate(`${location.pathname}/${command._id}`)}>
                                                         {/* Assuming you have an image URL in the product object */}
                                                         <PiShoppingCartSimpleFill size={30} className="icon" />
                                                         {command._id.length <= 30
@@ -184,15 +191,15 @@ const CommandList = ({ setNavActive }) => {
                                                 </td>
                                                 <td style={{ width: "20%" }}>
                                                     <div className="actions-container">
-                                                        <div>
+                                                        <div className="actions-box">
                                                             {indexRowsTableLoading.includes(index)
                                                                 ? <Spinner />
                                                                 : status.actions.map((icon, idx) => (
-                                                                    <span key={idx} className={`action-icon ${icon.Text == "terminé" ? "done" : icon.Text == "rejeté" ? "cancelled" : icon.Text == "accepté" ? "accepted" : "in-progress"}`} onClick={() => {
+                                                                    <div key={idx} className={`action-icon ${icon.Text == "terminé" ? "done" : icon.Text == "rejeté" ? "cancelled" : icon.Text == "accepté" ? "accepted" : "in-progress"}`} onClick={() => {
                                                                         showConfirmationPopup(icon.action, icon.url, index, command._id);
                                                                     }}>
                                                                         {icon.icon}
-                                                                    </span>
+                                                                    </div>
                                                                 ))
                                                             }
                                                         </div>
