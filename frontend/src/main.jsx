@@ -37,6 +37,7 @@ import BorrowsList from "./pages/manager/borrows/borrows";
 import BorroDetails from "./pages/manager/borrows/borrow-detail";
 import CommandList from "./pages/manager/commands/commands";
 import CommandDetails from "./pages/manager/commands/commandsDetail";
+import MemberDetailView from "./components/member-detail-view/member-detail-view";
 
 export default function Main() {
 
@@ -112,6 +113,7 @@ export default function Main() {
                       />
                       <Route path="/budget" element={<Simplifier title={"Budget"}><BudgetMNG setNavActive={setNavActive} /></Simplifier>} />
                       <Route path="/members" element={<MembersPage setNavActive={setNavActive} />} />
+                      <Route path="/members/:id" element={<MemberDetailView setNavActive={setNavActive} />} />
                       <Route path="/shop" element={<ShopMNG setNavActive={setNavActive} />} />
                       <Route path="/parametre" element={<Simplifier title={"Parametre"}><ParamatreMNG setNavActive={setNavActive} /></Simplifier>} />
 

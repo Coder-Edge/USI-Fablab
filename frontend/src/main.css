@@ -12,6 +12,7 @@
   --accepted-color: #bcffd3;
   --in-progress-color: #cce1fa;
   --done-color: #e7e7e7;
+  --red-color: #fc2b2b;
 }
 
 .dark-mode {
@@ -62,4 +63,29 @@ body {
 .table-load {
     position: relative;
     min-height: 150px;
+}
+
+
+.input-field input,
+.input-field textarea,
+.input-field select {
+    width: 100%;
+    padding: 8px 15px;
+    border: 1px solid #A2A1A8;
+    background-color: var(--light-color);
+    border-radius: 8px;
+    outline: var(--blue-color);
+    resize: none;
+}
+
+.input-field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input-field input:focus, 
+.input-field textarea:focus, 
+.input-field select:focus {
+    border: 2px solid var(--blue-color);
 }

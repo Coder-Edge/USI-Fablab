@@ -1,5 +1,4 @@
 #detail-member-view {
-    position: absolute;
     left: 0;
     top: 0;
     margin: 0;
@@ -8,8 +7,7 @@
     background-color: var(--background-color);
     gap: 20px;
     z-index: 1;
-    padding: 10px;
-    visibility: hidden;
+    padding: 20px;
 }
 
 #detail-member-view .member-info{
@@ -42,9 +40,19 @@
     width: 100%;
 }
 
-#detail-member-view .member-info .member-info-text .button-add{
+#detail-member-view .member-info .member-info-text .btns{
     display: flex;
+    gap: 20px;
+    align-items: center;
     justify-content: end;
+    width: 100%;
+}
+
+#detail-member-view .member-info .member-info-text .delete {
+    background-color: var(--red-color);
+    color: white;
+    border: none;
+    cursor: pointer;
 }
 
 #detail-member-view .member-info .member-info-text h2 {
@@ -88,10 +96,48 @@
     padding: 8px 0;
 }
 
-#detail-member-view .button-add {
-    background-color: var(--light-color);
+.add_task-form  {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: 100%;
+    background-color: var(--blur-color);
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+}
+
+.add_task-form .add_task-form-content {
+    background-color: var(--light-color);
+    padding: 20px;
+    border-radius: 14px;
+    width: min(500px, 90%);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.add_task-form .cancel-button {
+    background-color: var(--red-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.add_task-form .row.dates {
+    justify-content: space-between;
+}
+
+.add_task-form #due_date {
+    background-color: var(--blue-color);
+    border: none;
+    color: white;
+}
+
+.add_task-form .row {
+    display: flex;
+    gap: 20px;
+    justify-content: end;
+    width: 100%;
 }
