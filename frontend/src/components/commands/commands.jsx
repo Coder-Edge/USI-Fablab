@@ -94,9 +94,9 @@ const CommandsView = ({showAddCommand}) => {
                         ? <Spinner />
                         : filteredCommands().map((command, index) => (
 
-                            <tr key={index}>
+                            <tr key={index} onClick={() => navigate(location.pathname + "/list-commandes/" + command._id)} style={{ cursor: "pointer" }}>
                                 <td className="component" style={{ width: "50%" }}>
-                                    <div>
+                                    <div >
                                         <PiShoppingCartSimpleFill size={30} className="icon" />
                                         {command._id <= 15 ? command._id : `${command._id.slice(0, 13)}...`}
                                     </div>

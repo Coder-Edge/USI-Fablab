@@ -11,6 +11,9 @@ import Simplifier from "../simplifier/simplifier"
 import axios from "../../api/api"
 import Spinner from "../spinner/spinner"
 import { HiArrowNarrowLeft } from "react-icons/hi"
+import { getTodayDate } from "../../utils/date"
+import Swal from "sweetalert2"
+import { timer_duration } from "../../utils/config"
 
 
 const MemberDetailView = ({ setNavActive }) => {
@@ -24,6 +27,43 @@ const MemberDetailView = ({ setNavActive }) => {
 
     const [addTaskFormVisible, setAddTaskFormVisible] = useState(false);
     const addTaskFormRef = useRef(null);
+
+    const onSubmitAddTask = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = {
+            email: memberInfo.member.email,
+            title: formData.get("task"),
+            startDate: formData.get("start_date"),
+            endDate: formData.get("due_date"),
+            description: formData.get("description"),
+        };
+
+        try {
+            await axios.post(`/tasks`, data);
+            
+            Swal.fire({
+                title: "Succès",
+                text: "Tâche ajoutée avec succès",
+                icon: "success",
+                timer: timer_duration,
+                showConfirmButton: false
+            });
+        } catch (error) {
+
+            Swal.fire({
+                title: "Erreur",
+                text: "Une erreur s'est produite lors de l'ajout de la tâche",
+                icon: "error",
+                timer: timer_duration,
+                showConfirmButton: false
+            });
+        } finally {
+            setAddTaskFormVisible(false);
+            addTaskFormRef.current.reset();
+        }
+
+    }
 
     const navigate = useNavigate();
 
@@ -41,7 +81,6 @@ const MemberDetailView = ({ setNavActive }) => {
     useEffect(() => {
         setNavActive(NavParams.membres);
         getMember();
-
     }, []);
 
     return (
@@ -58,12 +97,12 @@ const MemberDetailView = ({ setNavActive }) => {
                             <p className="poste">Salaire : <span>{memberInfo.salary} {memberInfo.device}</span></p>
                             <div className="btns">
                                 <Button className={"delete"} child={<><MdDeleteOutline size={16} fill="#ffffff" /> Supprimer</>} onClick={async () => {
-                                    const result = await axios.delete("/remove_member/"+memberId)
+                                    const result = await axios.delete("/remove_member/" + memberId)
                                     console.log(result);
-                                    
+
                                 }} />
                                 <ButtonAdd child={<><MdOutlineAddCircleOutline /> Ajouter une tâche</>} onClick={() => setAddTaskFormVisible(true)} />
-                                
+
                             </div>
                         </div>
                     </div>
@@ -130,7 +169,7 @@ const MemberDetailView = ({ setNavActive }) => {
                 </div>
 
                 {addTaskFormVisible && (
-                    <form className="add_task-form" ref={addTaskFormRef}>
+                    <form className="add_task-form" ref={addTaskFormRef} onSubmit={onSubmitAddTask}>
                         <div className="add_task-form-content">
                             <h3>Nouvelle tâche</h3>
                             <div className="input-field">
@@ -145,11 +184,11 @@ const MemberDetailView = ({ setNavActive }) => {
                             <div className="row dates">
                                 <div className="input-field">
                                     <label htmlFor="start">Date de début</label>
-                                    <input type="date" name="start" id="start" />
+                                    <input type="date" name="start_date" id="start" defaultValue={getTodayDate()} />
                                 </div>
                                 <div className="input-field">
                                     <label htmlFor="due_date">Date d'échéance</label>
-                                    <input type="date" name="due_date" id="due_date" />
+                                    <input type="date" name="due_date" id="due_date" defaultValue={getTodayDate()} />
                                 </div>
                             </div>
                             <div className="input-field">

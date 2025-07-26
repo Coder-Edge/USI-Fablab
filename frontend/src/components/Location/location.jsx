@@ -68,7 +68,7 @@ const Location = () => {
             })
               .map((borrow, index) =>
               (
-                <tr key={index}>
+                <tr key={index} onClick={() => navigate(location.pathname + "/list-locations/" + borrow._id)} style={{ cursor: "pointer" }}>
                   <td className="component" style={{ width: "27%" }}>
                     <div>
                       {/* Assuming you have an image URL in the product object */}
