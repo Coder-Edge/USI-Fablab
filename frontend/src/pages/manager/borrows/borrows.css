@@ -105,7 +105,7 @@
     border-top-color: var(--blue-color);
 }
 
-.commands-content .table .actions-container div {
+.commands-content .table .actions-container div.actions-box {
     flex: 1;
     display: flex;
     align-items: center;
@@ -162,18 +162,21 @@
     gap: 12px;
 }
 
-.borrow-detail span.text {
+.borrow-detail .text {
     color: var(--light-dark);
 }
 
 .borrow-detail .status-icon {
     display: flex;
+    box-sizing: border-box;
     align-items: center;
+    white-space: nowrap;
     gap: 8px;
 }
 
 .borrow-detail .action-icon {
     border-radius: 8px;
+    padding-inline: 10px;
     gap: 4px;
 }
 

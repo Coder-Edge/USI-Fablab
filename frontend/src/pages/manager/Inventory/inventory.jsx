@@ -36,10 +36,10 @@ const InventoryMNG = ({ setNavActive }) => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch("http://localhost:3000/get/products"); // Replace with the correct URL
+        const response = await fetch("http://localhost:3000/get/products"); 
         const products = await response.json();
-        setAllProducts(products);  // Store all products
-        setData(products);  // Start with all products as filtered
+        setAllProducts(products);  
+        setData(products);  
         setTypes([...new Set(products.map((product) => product.type))]);
       } catch (error) {
         console.error("Erreur lors de la récupération des produits :", error);

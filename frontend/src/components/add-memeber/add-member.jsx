@@ -10,11 +10,9 @@ const AddMember = () => {
     await axios
       .post("/add_member", data)
       .then((res) => {
-        console.log(res);
-        Swal.fire("Reussi !",res.data.message, "success");
+        Swal.fire("Reussi !", res.data.message, "success");
       })
       .catch((err) => {
-        console.log(err);
         Swal.fire("Erreur", err.response.data.message, "error");
 
       });

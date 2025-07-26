@@ -1,17 +1,15 @@
 
-import MemberDetailView from "../../../components/member-detail-view/member-detail-view"
+
 import AddMember from "../../../components/add-memeber/add-member"
 import { useEffect, useState } from "react";
 import { NavParams } from "../../../components/Navbar/navParams";
 import MembersTableView from "../../../components/table/members-table";
 import HeadStocks from "../../../components/stocks/head-stock";
 import ToolBox from "../../../components/stocks/toolbox";
-import { MdFilterList } from "react-icons/md";
 import Button from "../../../components/button/Button";
 import ButtonAdd from "../../../components/stocks/button-add";
 import { MdAddCircleOutline } from "react-icons/md";
 import Bottom from "../../../components/stocks/bottom";
-import SimpleFilter from "../../../components/popup/simple-filter";
 import Simplifier from "../../../components/simplifier/simplifier";
 import "./members.css";
 import Spinner from "../../../components/spinner/spinner";
@@ -136,7 +134,6 @@ const MembersPage = ({ setNavActive }) => {
                     setActiveNumberGroup={setActiveNumberGroup}
                     data={data}
                 />
-                <MemberDetailView memberInfo={userDetailViewInfo} />
 
             </div>
 

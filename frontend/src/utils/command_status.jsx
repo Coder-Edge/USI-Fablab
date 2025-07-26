@@ -11,8 +11,8 @@ const CommandStatus = (status, id) => {
     }
 
     const waitingIncon = { icon: <FaRegHourglassHalf size={16} fill="orange" />, Text: status_data.waiting, action: "Mettre en attente" }
-    const acceptedIcon = { icon: <IoIosCheckmarkCircleOutline size={16} fill="green" />, Text: status_data.accepted, action: "Accepter", url: `/command/accept/${id}t` }
-    const cancelledIcon = { icon: <MdOutlineCancel size={16} fill="red" />, Text: status_data.cancelled, action: "Réjecter", url: `/command/reject/${id}` }
+    const acceptedIcon = { icon: <IoIosCheckmarkCircleOutline size={16} fill="green" />, Text: status_data.accepted, action: "Accepter", url: `/command/accept/${id}` }
+    const cancelledIcon = { icon: <MdOutlineCancel size={16} fill="red" />, Text: status_data.cancelled, action: "Réjeter", url: `/command/reject/${id}` }
     const deleteIcon = {icon: <MdDeleteOutline size={16} fill="#5899DD" />, url: `/delete_command/${id}`, action: "Supprimer"}
 
     const listIcons = [
@@ -38,7 +38,7 @@ const CommandStatus = (status, id) => {
                 main: <div className="status-icon accepted">
                     {acceptedIcon.icon}{acceptedIcon.Text}
                 </div>,
-                actions: actionsIcon([0, 1])
+                actions: actionsIcon([0, 1]),
             } // accepted
         case status_data.cancelled:
             return {

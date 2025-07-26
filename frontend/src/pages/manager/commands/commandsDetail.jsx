@@ -7,22 +7,22 @@ import DynamicTable from "../../../components/table/table";
 import { NavParams } from "../../../components/Navbar/navParams";
 import HeadStocks from "../../../components/stocks/head-stock";
 import { RiShoppingBag3Fill } from "react-icons/ri";
-import BorrowStatus from "../../../utils/borrow_status";
 import { HiArrowNarrowLeft } from "react-icons/hi";
 import Swal from "sweetalert2";
+import CommandStatus from "../../../utils/command_status";
 
-const BorroDetails = ({ setNavActive }) => {
+const CommandDetails = ({ setNavActive }) => {
 
     const { id: _id } = useParams();
     const [isLoading, setIsLoading] = useState(true);
-    const [borrowData, setBorrowData] = useState([]);
+    const [commandData, setCommandData] = useState([]);
     const navigate = useNavigate();
 
-    const getBorrow = async () => {
+    const getCommand = async () => {
         setIsLoading(true);
         try {
-            const response = await axios.get("/get/borrows/" + _id)
-            setBorrowData(response.data);
+            const response = await axios.get("/get_command/" + _id)
+            setCommandData(response.data);
 
         } catch (error) {
             console.log(error);
@@ -45,12 +45,21 @@ const BorroDetails = ({ setNavActive }) => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    await axios.patch(url);
+                    if (action === "Supprimer") {
+                        await axios.delete(url);
+                        navigate(-1)
+                    } else {
+                        await axios.put(url);
+                        getCommand();
+                    }
+
                 } catch (error) {
                     console.error("Erreur lors de la mise à jour :", error);
                 } finally {
-                    getBorrow();
+                    setIndexRowsTableLoading(prev => prev.filter(i => i !== index));
                 }
+
+
             }
         })
 
@@ -60,11 +69,11 @@ const BorroDetails = ({ setNavActive }) => {
 
         setNavActive(NavParams.inventaire)
 
-        getBorrow();
+        getCommand();
 
     }, [])
 
-    const status = isLoading ? null : BorrowStatus(borrowData.status, _id);
+    const status = isLoading ? null : CommandStatus(commandData.status, _id);
 
     return (
         <Simplifier title={<><HiArrowNarrowLeft className="icon" onClick={() => navigate(-1)} /> Emprunt</>} className="borrow-detail-main-content">
@@ -75,14 +84,14 @@ const BorroDetails = ({ setNavActive }) => {
                         : <div className="borrow-detail-content">
                             <HeadStocks title={<><RiShoppingBag3Fill size={30} fill="#5899DD" /> {_id} </>} />
                             <div className="borrow-info">
-                                <p><span className="text">Emprunteur:</span> <span>{borrowData.user}</span></p>
+                                <p><span className="text">Emprunteur:</span> <span>{"Remile Bianga"}</span></p>
                                 <p><span className="text">Status:</span> {status.main}</p>
                                 <p><span className="text">actions:</span> {status.actions.length > 0
                                     ? status.actions.map((icon, index) => (
-                                        <div key={index} className={`action-icon ${icon.Text == "terminé" ? "done" : icon.Text == "rejeté" ? "cancelled" : icon.Text == "accepté" ? "accepted" : ""}`} onClick={() => {
+                                        <div key={index} className={`action-icon ${icon.Text == "terminé" ? "done" : icon.Text == "rejeté" ? "cancelled" : icon.Text == "accepté" ? "accepted" : "in-progress"}`} onClick={() => {
                                             showConfirmationPopup(icon.action, icon.url)
                                         }}>
-                                            {icon.icon} {icon.Text}
+                                            {icon.icon} {icon.action}
                                         </div>
                                     ))
                                     : "aucune action"
@@ -100,15 +109,15 @@ const BorroDetails = ({ setNavActive }) => {
                                     </tr>
                                 }
                                 tbodyChild={
-                                    borrowData.Listborrow.map((product, index) => (<tr key={index}>
+                                    commandData.ListCommand.map((product, index) => (<tr key={index}>
                                         <td className="component" style={{ width: "65%" }}>
                                             <div>
-                                                <img src={`http://localhost:3000/img/${product.product_image}`} alt="" />
-                                                {product.product_name}
+                                                <img src={`http://localhost:3000/img/${product.product_id.image}`} alt="" />
+                                                {product.product_id.name}
                                             </div>
                                         </td>
                                         <td className="quantity" style={{ width: "35%" }}>
-                                            {product.quantity}
+                                            {product.product_id.quantity}
                                         </td>
                                     </tr>))
 
@@ -120,4 +129,4 @@ const BorroDetails = ({ setNavActive }) => {
     )
 }
 
-export default BorroDetails
+export default CommandDetails

@@ -11,6 +11,7 @@ import ButtonAdd from "../stocks/button-add";
 import axios from "../../api/api";
 import Swal from "sweetalert2";
 import Spinner from "../spinner/spinner";
+import { timer_duration } from "../../utils/config";
 
 
 const AddCommand = ({ hide, reload }) => {
@@ -80,17 +81,18 @@ const AddCommand = ({ hide, reload }) => {
                     title: "Commande validée !",
                     text: "Votre commande a été enregistrée avec succès.",
                     icon: "success",
-                    confirmButtonText: "OK",
+                    timer: timer_duration,
+                    showConfirmButton: false,
                 });
             } catch (err) {
-                console.error("Erreur lors de la requête :", err);
 
                 // Afficher un message d'erreur en cas d'échec
                 await Swal.fire({
                     title: "Erreur",
                     text: "Une erreur s'est produite lors de l'enregistrement de la commande.",
                     icon: "error",
-                    confirmButtonText: "OK",
+                    timer: timer_duration,
+                    showConfirmButton: false,
                 });
             }
         };
