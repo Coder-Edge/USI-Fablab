@@ -7,12 +7,17 @@ const Simplifier = ({ children, title, className }) => {
     const { auth } = useAuth();
 
     return (
-        <>
-            <div className={`main-content ${className}`}>
-                <Header title={title} name={auth.name} role={auth.userType} />
-                {children}
-            </div>
-        </>
+      <>
+        <div className="main-content">
+          <Header
+            title={title}
+            firstName={auth.firstName}
+            name={auth.name}
+            role={auth.userType}
+          />
+          {children}
+        </div>
+      </>
     );
 };
 

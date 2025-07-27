@@ -12,6 +12,7 @@
   --accepted-color: #bcffd3;
   --in-progress-color: #cce1fa;
   --done-color: #e7e7e7;
+  --red-color: #fc2b2b;
 }
 
 .dark-mode {
@@ -19,6 +20,11 @@
   --background-color: #000;
   --dark-color: #fff;
   --blur-color: rgba(175, 175, 175, 0.288);
+  --waiting-color: #463e29;
+  --rejected-color: #503232;
+  --accepted-color: #122c1b;
+  --in-progress-color: #2e3641;
+  --done-color: #e7e7e7;
 }
 
 * {
@@ -57,4 +63,29 @@ body {
 .table-load {
     position: relative;
     min-height: 150px;
+}
+
+
+.input-field input,
+.input-field textarea,
+.input-field select {
+    width: 100%;
+    padding: 8px 15px;
+    border: 1px solid #A2A1A8;
+    background-color: var(--light-color);
+    border-radius: 8px;
+    outline: var(--blue-color);
+    resize: none;
+}
+
+.input-field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input-field input:focus, 
+.input-field textarea:focus, 
+.input-field select:focus {
+    border: 2px solid var(--blue-color);
 }

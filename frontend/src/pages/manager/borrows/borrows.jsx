@@ -177,15 +177,15 @@ const BorrowsList = ({ setNavActive }) => {
                                                     </td>
                                                     <td style={{ width: "20%" }}>
                                                         <div className="actions-container">
-                                                            <div>
+                                                            <div className="actions-box">
                                                                 {indexRowsTableLoading.includes(index)
                                                                     ? <Spinner />
                                                                     : status.actions.map((icon, idx) => (
-                                                                        <span key={idx} className={`action-icon ${icon.Text == "terminé" ? "done" : icon.Text == "rejeté" ? "cancelled" : icon.Text == "accepté" ? "accepted" : ""}`} onClick={() => {
+                                                                        <div key={idx} className={`action-icon ${icon.Text == "terminé" ? "done" : icon.Text == "rejeté" ? "cancelled" : icon.Text == "accepté" ? "accepted" : ""}`} onClick={() => {
                                                                             showConfirmationPopup(icon.action, icon.url, index, borrow._id);
                                                                         }}>
                                                                             {icon.icon}
-                                                                        </span>
+                                                                        </div>
                                                                     ))
                                                                 }
                                                             </div>
