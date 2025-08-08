@@ -977,14 +977,18 @@ app.post("/tasks", async (req, res) => {
 
     // Vérifier si l'utilisateur existe via son email
     const user = await UserModel.findOne({ email });
-
     if (!user) {
       return res.status(404).json({ message: "Utilisateur non trouvé" });
     }
 
+    const member = await MemberModel.findOne({ member: user._id });
+    if (!member) {
+      return res.status(404).json({ message: "Membre non trouvé" });
+    }
+
     // Créer une nouvelle tâche avec l'ID de l'utilisateur trouvé
     const newTask = new TaskModel({
-      user: user._id, // Récupération de l'ID du User
+      member: member._id, // Récupération de l'ID du Membre
       title,
       description,
       startDate,

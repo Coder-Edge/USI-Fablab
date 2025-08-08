@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 // Définition du schéma
 const taskSchema = new mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  member: { type: mongoose.Schema.Types.ObjectId, ref: "Member", required: true },
   title: { type: String, required: true },
   description: { type: String, required: true },
   startDate: { type: Date, required: true },
