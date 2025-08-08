@@ -951,6 +951,19 @@ app.get("/get_tasks", async (req, res) => {
   }
 });
 
+app.get("/get_tasks/member/:id", async (req, res) => {
+  try{
+    const userId = req.params.id;
+    const tasks = await TaskModel.find({ user: userId }).populate("user", "name email");
+    
+    res.json(tasks);
+  }
+  catch (error) {
+    console.error("Erreur lors de la récupération des tâches pour l'utilisateur :", error);
+    res.status(500).json({ error: "Failed to fetch tasks for user" });
+  }
+});
+
 app.post("/tasks", async (req, res) => {
   try {
     const { email, title, description, startDate, endDate } = req.body;
