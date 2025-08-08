@@ -941,6 +941,16 @@ app.put("/command/reject/:id", async (req, res) => {
   }
 });
 
+app.get("/get_tasks", async (req, res) => {
+  try {
+    const tasks = await TaskModel.find().populate("user", "name email");
+    res.json(tasks);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des tâches :", error);
+    res.status(500).json({ error: "Failed to fetch tasks" });
+  }
+});
+
 app.post("/tasks", async (req, res) => {
   try {
     const { email, title, description, startDate, endDate } = req.body;
@@ -981,7 +991,7 @@ app.post("/tasks", async (req, res) => {
 });
 
 // Modifier le statut à "fait"
-app.put("/tasks/:id/done", async (req, res) => {
+app.put("/task/:id/done", async (req, res) => {
   try {
     const taskId = req.params.id;
 
@@ -1004,7 +1014,7 @@ app.put("/tasks/:id/done", async (req, res) => {
 });
 
 // Modifier le statut à "non fait"
-app.put("/tasks/:id/not-done", async (req, res) => {
+app.put("/task/:id/not-done", async (req, res) => {
   try {
     const taskId = req.params.id;
 
