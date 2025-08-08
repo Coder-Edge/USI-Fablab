@@ -97,9 +97,8 @@ const MemberDetailView = ({ setNavActive }) => {
                             <p className="poste">Salaire : <span>{memberInfo.salary} {memberInfo.device}</span></p>
                             <div className="btns">
                                 <Button className={"delete"} child={<><MdDeleteOutline size={16} fill="#ffffff" /> Supprimer</>} onClick={async () => {
-                                    const result = await axios.delete("/remove_member/" + memberId)
+                                    const result = await axios.delete(`/remove_member/${memberId}`);
                                     console.log(result);
-
                                 }} />
                                 <ButtonAdd child={<><MdOutlineAddCircleOutline /> Ajouter une tâche</>} onClick={() => setAddTaskFormVisible(true)} />
 

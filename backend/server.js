@@ -50,7 +50,7 @@ app.use("/users", userRoute);
 // Route pour récupérer les utilisateurs
 app.get("/users", async (req, res) => {
   try {
-    const users = await UserModel.find();
+    const users = await UserModel.find().select("name email userType");
     return res.json({ user: users });
   } catch (error) {
     return res.status(500).json({
@@ -65,7 +65,7 @@ app.get("/get/users/:id", async (req, res) => {
   const { id } = req.params; // Récupérer l'ID depuis l'URL
 
   try {
-    const user = await UserModel.findById(id).select("name email"); // Recherche de l'utilisateur par ID
+    const user = await UserModel.findById(id).select("name email userType"); // Recherche de l'utilisateur par ID
 
     if (!user) {
       return res.status(404).json({ error: "User not found" }); // Si l'utilisateur n'existe pas
@@ -725,11 +725,11 @@ app.delete("/remove_member/:memberId", async (req, res) => {
       return res.status(404).json({ error: "Membre non trouvé" });
     }
 
-    // Suppression du membre dans MemberModel
-    await MemberModel.findByIdAndDelete(member._id);
-
     // Mise à jour du usertype dans UserModel
     await UserModel.updateOne({ _id: member.member }, { userType: "Student" });
+
+    // Suppression du membre dans MemberModel
+    await MemberModel.findByIdAndDelete(member._id);
 
     res.json({
       message: "Membre supprimé et utilisateur mis à jour avec succès",
