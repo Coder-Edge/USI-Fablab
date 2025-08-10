@@ -719,7 +719,7 @@ app.delete("/remove_member/:memberId", async (req, res) => {
     const { memberId } = req.params;
 
     // Vérifier si le membre existe
-    const member = await MemberModel.findOne({ member: memberId });
+    const member = await MemberModel.findOne({ _id: memberId });
 
     if (!member) {
       return res.status(404).json({ error: "Membre non trouvé" });
