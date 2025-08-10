@@ -954,7 +954,7 @@ app.get("/get_tasks", async (req, res) => {
 app.get("/get_tasks/member/:id", async (req, res) => {
   try{
     const userId = req.params.id;
-    const tasks = await TaskModel.find({ user: userId }).populate("user", "name email");
+    const tasks = await TaskModel.find({ member: userId });
     
     res.json(tasks);
   }
