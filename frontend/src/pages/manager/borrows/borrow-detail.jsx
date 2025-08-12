@@ -75,18 +75,23 @@ const BorroDetails = ({ setNavActive }) => {
                         : <div className="borrow-detail-content">
                             <HeadStocks title={<><RiShoppingBag3Fill size={30} fill="#5899DD" /> {_id} </>} />
                             <div className="borrow-info">
-                                <p><span className="text">Emprunteur:</span> <span>{borrowData.user}</span></p>
-                                <p><span className="text">Status:</span> {status.main}</p>
-                                <p><span className="text">actions:</span> {status.actions.length > 0
-                                    ? status.actions.map((icon, index) => (
-                                        <div key={index} className={`action-icon ${icon.Text == "terminé" ? "done" : icon.Text == "rejeté" ? "cancelled" : icon.Text == "accepté" ? "accepted" : ""}`} onClick={() => {
-                                            showConfirmationPopup(icon.action, icon.url)
-                                        }}>
-                                            {icon.icon} {icon.Text}
-                                        </div>
-                                    ))
-                                    : "aucune action"
-                                }</p>
+                                <div className="initial">
+                                    <p>{`${borrowData.user ? borrowData.user.split(" ")[0] ? borrowData.user.split(" ")[0].toUpperCase().slice(0, 1) : "" : ""}${borrowData.user.split(" ")[1] ? borrowData.user.split(" ")[1].toUpperCase().slice(0, 1) : ""}`}</p>
+                                </div>
+                                <div className="info-group">
+                                    <p><span className="text">Emprunteur:</span> <span>{borrowData.user}</span></p>
+                                    <p><span className="text">Status:</span> {status.main}</p>
+                                    <p><span className="text">actions:</span> {status.actions.length > 0
+                                        ? status.actions.map((icon, index) => (
+                                            <div key={index} className={`action-icon ${icon.Text == "terminé" ? "done" : icon.Text == "rejeté" ? "cancelled" : icon.Text == "accepté" ? "accepted" : ""}`} onClick={() => {
+                                                showConfirmationPopup(icon.action, icon.url)
+                                            }}>
+                                                {icon.icon} {icon.Text}
+                                            </div>
+                                        ))
+                                        : "aucune action"
+                                    }</p>
+                                </div>
                             </div>
                             <DynamicTable
                                 theadChild={

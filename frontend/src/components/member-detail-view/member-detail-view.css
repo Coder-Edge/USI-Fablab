@@ -131,7 +131,6 @@
 
 .add_task-form #due_date {
     background-color: var(--blue-color);
-    border: none;
     color: white;
 }
 

@@ -11,32 +11,51 @@ import Simplifier from "../simplifier/simplifier"
 import axios from "../../api/api"
 import Spinner from "../spinner/spinner"
 import { HiArrowNarrowLeft } from "react-icons/hi"
-import { getTodayDate } from "../../utils/date"
+import { getStringDate, getTodayDate } from "../../utils/date"
 import Swal from "sweetalert2"
 import { timer_duration } from "../../utils/config"
+import eventBus from "../../utils/eventBus"
 
-
-const MemberDetailView = ({ setNavActive }) => {
+const MemberDetailView = ({ setNavActive }) => {    
 
     const memberId = useParams().id
 
     const [searchTermDone, setSearchTermDone] = useState("");
     const [searchTermToDO, setSearchTermToDO] = useState("");
     const [memberInfo, setMemberInfo] = useState({});
+    const [tasks, setTasks] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     const [addTaskFormVisible, setAddTaskFormVisible] = useState(false);
+
+    const [addTaskFormTitleError, setAddTaskFormTitleError] = useState(false);
+    const [addTaskFormEndDateError, setAddTaskFormEndDateError] = useState(false);
+    const [addTaskFormDescriptionError, setAddTaskFormDescriptionError] = useState(false);
+
     const addTaskFormRef = useRef(null);
 
     const onSubmitAddTask = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
+
+        const email = memberInfo.member.email;
+        const title = formData.get("task");
+        const startDate = formData.get("start_date");
+        const endDate = formData.get("due_date");
+        const description = formData.get("description");
+
+        if (!title) setAddTaskFormTitleError(true); else setAddTaskFormTitleError(false);
+        if (!endDate) setAddTaskFormEndDateError(true); else setAddTaskFormEndDateError(false);
+        if (!description) setAddTaskFormDescriptionError(true); else setAddTaskFormDescriptionError(false);
+
+        if (!title || !endDate || !description) return;
+
         const data = {
-            email: memberInfo.member.email,
-            title: formData.get("task"),
-            startDate: formData.get("start_date"),
-            endDate: formData.get("due_date"),
-            description: formData.get("description"),
+            email,
+            title,
+            startDate,
+            endDate,
+            description
         };
 
         try {
@@ -60,6 +79,9 @@ const MemberDetailView = ({ setNavActive }) => {
             });
         } finally {
             setAddTaskFormVisible(false);
+            setAddTaskFormDescriptionError(false);
+            setAddTaskFormEndDateError(false);
+            setAddTaskFormTitleError(false);
             addTaskFormRef.current.reset();
         }
 
@@ -73,8 +95,20 @@ const MemberDetailView = ({ setNavActive }) => {
             const response = await axios.get(`/get_member/${memberId}`);
             setMemberInfo(response.data);
             setIsLoading(false);
+            getTasks(memberId);
         } catch (error) {
             console.error("Erreur lors de la récupération des informations du membre :", error);
+        }
+    }
+
+    const getTasks =  async (id) => {
+        try {
+            const response = await axios.get(`/get_tasks/member/${id}`);
+            setTasks(response.data);
+            console.log(response);
+            
+        } catch (error) {
+            console.error("Erreur lors de la récupération des tâches :", error);
         }
     }
 
@@ -97,10 +131,37 @@ const MemberDetailView = ({ setNavActive }) => {
                             <p className="poste">Salaire : <span>{memberInfo.salary} {memberInfo.device}</span></p>
                             <div className="btns">
                                 <Button className={"delete"} child={<><MdDeleteOutline size={16} fill="#ffffff" /> Supprimer</>} onClick={async () => {
-                                    const result = await axios.delete(`/remove_member/${memberId}`);
-                                    console.log(result);
+                                    navigate(-1);
+                                    let isSuccess;
+                                    try {
+                                        const result = await axios.delete(`/remove_member/${memberId}`);
+                                        isSuccess = true;
+                                        Swal.fire({
+                                            title: "Succès",
+                                            text: "Le membre a été supprimé avec succès",
+                                            icon: "success",
+                                            timer: timer_duration,
+                                            showConfirmButton: false
+                                        });
+                                    } catch (error) {
+                                        isSuccess = false;
+                                        Swal.fire({
+                                            title: "Erreur",
+                                            text: "Une erreur s'est produite lors de la suppression du membre",
+                                            icon: "error",
+                                            timer: timer_duration,
+                                            showConfirmButton: false
+                                        });
+                                    } finally {
+                                        eventBus.emit("DeleteMember", isSuccess)
+                                    }
                                 }} />
-                                <ButtonAdd child={<><MdOutlineAddCircleOutline /> Ajouter une tâche</>} onClick={() => setAddTaskFormVisible(true)} />
+                                <ButtonAdd child={<><MdOutlineAddCircleOutline /> Ajouter une tâche</>} onClick={() => {
+                                    setAddTaskFormDescriptionError(false);
+                                    setAddTaskFormEndDateError(false);
+                                    setAddTaskFormTitleError(false);
+                                    setAddTaskFormVisible(true);
+                                }} />
 
                             </div>
                         </div>
@@ -116,10 +177,12 @@ const MemberDetailView = ({ setNavActive }) => {
                                     </tr>
                                 }
                                 tbodyChild={
-                                    <tr>
-                                        <td style={{ width: "70%" }}>changer la buse de l'imprimante 3D</td>
-                                        <td style={{ width: "30%" }}>Le 26/07/2025</td>
-                                    </tr>
+                                    tasks.map((task) => (
+                                        <tr key={task._id}>
+                                            <td style={{ width: "70%" }}>{task.title}</td>
+                                            <td style={{ width: "30%" }}>{getStringDate(task.endDate)}</td>
+                                        </tr>
+                                    ))
                                 }
                             />
                         </div>
@@ -178,16 +241,17 @@ const MemberDetailView = ({ setNavActive }) => {
                                     id="task"
                                     placeholder="Ex: maintenance des imprimantes 3d"
                                     name="task"
+                                    className={addTaskFormTitleError ? "error": null}
                                 />
                             </div>
                             <div className="row dates">
                                 <div className="input-field">
                                     <label htmlFor="start">Date de début</label>
-                                    <input type="date" name="start_date" id="start" defaultValue={getTodayDate()} />
+                                    <input type="date" name="start_date" id="start" defaultValue={getTodayDate()}/>
                                 </div>
                                 <div className="input-field">
                                     <label htmlFor="due_date">Date d'échéance</label>
-                                    <input type="date" name="due_date" id="due_date" defaultValue={getTodayDate()} />
+                                    <input type="date" name="due_date" id="due_date" className={addTaskFormEndDateError ? "error": null} />
                                 </div>
                             </div>
                             <div className="input-field">
@@ -198,6 +262,7 @@ const MemberDetailView = ({ setNavActive }) => {
                                     placeholder=""
                                     name="description"
                                     rows={5}
+                                    className={addTaskFormDescriptionError ? "error": null}
                                 />
                             </div>
                             <div className="row">

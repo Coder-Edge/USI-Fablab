@@ -84,6 +84,13 @@ body {
     gap: 10px;
 }
 
+.input-field input.error,
+.input-field textarea.error,
+.input-field select.error
+{
+  border: 1px solid var(--red-color);
+}
+
 .input-field input:focus, 
 .input-field textarea:focus, 
 .input-field select:focus {

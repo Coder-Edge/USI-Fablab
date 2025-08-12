@@ -14,6 +14,7 @@ import Simplifier from "../../../components/simplifier/simplifier";
 import "./members.css";
 import Spinner from "../../../components/spinner/spinner";
 import { IoFilterSharp } from "react-icons/io5";
+import eventBus from "../../../utils/eventBus";
 
 
 const MembersPage = ({ setNavActive }) => {
@@ -24,25 +25,37 @@ const MembersPage = ({ setNavActive }) => {
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
+    const getMembers = async () => {
+        setIsLoading(true);
+        try {
+            const response = await fetch("http://localhost:3000/get_members");
+            if (!response.ok) {
+                throw new Error("Erreur lors de la récupération des membres");
+            }
+            const data = await response.json();
+            setData(data); // Mettre à jour l'état avec les données récupérées
+        } catch (error) {
+            console.error("Erreur :", error);
+        }
+        finally {
+            setIsLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchMembers = async () => {
-            setIsLoading(true);
-            try {
-                const response = await fetch("http://localhost:3000/get_members");
-                if (!response.ok) {
-                    throw new Error("Erreur lors de la récupération des membres");
-                }
-                const data = await response.json();
-                setData(data); // Mettre à jour l'état avec les données récupérées
-            } catch (error) {
-                console.error("Erreur :", error);
-            }
-            finally {
-                setIsLoading(false);
-            }
+
+        getMembers(); // Appeler la fonction pour récupérer les membres
+
+        eventBus.on("DeleteMember", (isSuccess) => {
+            if (isSuccess) getMembers();
+        });
+
+        return () => {
+            eventBus.off("DeleteMember", (isSuccess) => {
+                if (isSuccess) getMembers();
+            });
         };
 
-        fetchMembers(); // Appeler la fonction pour récupérer les membres
     }, []); // Le tableau vide signifie que cette fonction ne s'exécute qu'au montage du composant
 
     const [searchTerm, setSearchTerm] = useState("");
@@ -79,7 +92,7 @@ const MembersPage = ({ setNavActive }) => {
             name,
             email,
             poste,
-            salaire : device + salaire
+            salaire: device + salaire
         })
 
     }
@@ -110,7 +123,7 @@ const MembersPage = ({ setNavActive }) => {
                 </div>
                 <div className="content">
                     <ToolBox
-                        firstbutton={<Button className={"active"} child={<IoFilterSharp fill="#ffffff" size={16}/>}/>}
+                        firstbutton={<Button className={"active"} child={<IoFilterSharp fill="#ffffff" size={16} />} />}
                         types={types}
                         SetTypeFilter={setFilter}
                         btnActive={btnActive} />
@@ -137,7 +150,7 @@ const MembersPage = ({ setNavActive }) => {
 
             </div>
 
-            <AddMember />
+            <AddMember refactor={getMembers} />
 
         </Simplifier>
     )

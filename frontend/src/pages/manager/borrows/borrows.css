@@ -147,7 +147,7 @@
 }
 
 .borrow-detail .borrow-detail-content .table, .borrow-detail .borrow-info {
-    padding: 10px 30px;
+    padding: 10px 0px;
 }
 
 .borrow-detail-main-content header h1, .borrow-detail .borrow-info p {
@@ -158,8 +158,28 @@
 
 .borrow-detail .borrow-info {
     display: flex;
-    flex-direction: column;
+    align-items: center;
     gap: 12px;
+}
+
+.initial {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 150px;
+    background-color: var(--blue-color);
+    border-radius: 14px;
+}
+.borrow-detail .borrow-info .info-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.initial p {
+    color: var(--light-color);
+    font-size: 50px;
 }
 
 .borrow-detail .text {

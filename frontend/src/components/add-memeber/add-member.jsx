@@ -4,18 +4,19 @@ import { IoMdClose } from "react-icons/io";
 import axios from "../../api/api";
 import Swal from 'sweetalert2';
 
-const AddMember = () => {
+const AddMember = ({refactor}) => {
 
   const sendData = async (data) => {
     await axios
       .post("/add_member", data)
       .then((res) => {
         Swal.fire("Reussi !", res.data.message, "success");
+        refactor();
       })
       .catch((err) => {
         Swal.fire("Erreur", err.response.data.message, "error");
 
-      });
+      })
   };
 
   const onSubmit = (e) => {
@@ -32,7 +33,6 @@ const AddMember = () => {
 
     sendData(data);
     closePopup();
-    console.log(data);
   };
 
   const closePopup = () => {

@@ -18,6 +18,9 @@ const CommandDetails = ({ setNavActive }) => {
     const [commandData, setCommandData] = useState([]);
     const navigate = useNavigate();
 
+    console.log(commandData);
+    
+
     const getCommand = async () => {
         setIsLoading(true);
         try {
@@ -76,7 +79,7 @@ const CommandDetails = ({ setNavActive }) => {
     const status = isLoading ? null : CommandStatus(commandData.status, _id);
 
     return (
-        <Simplifier title={<><HiArrowNarrowLeft className="icon" onClick={() => navigate(-1)} /> Emprunt</>} className="borrow-detail-main-content">
+        <Simplifier title={<><HiArrowNarrowLeft className="icon" onClick={() => navigate(-1)} /> Commande</>} className="borrow-detail-main-content">
             <div className="borrow-detail">
                 {
                     isLoading
@@ -84,18 +87,23 @@ const CommandDetails = ({ setNavActive }) => {
                         : <div className="borrow-detail-content">
                             <HeadStocks title={<><RiShoppingBag3Fill size={30} fill="#5899DD" /> {_id} </>} />
                             <div className="borrow-info">
-                                <p><span className="text">Emprunteur:</span> <span>{"Remile Bianga"}</span></p>
-                                <p><span className="text">Status:</span> {status.main}</p>
-                                <p><span className="text">actions:</span> {status.actions.length > 0
-                                    ? status.actions.map((icon, index) => (
-                                        <div key={index} className={`action-icon ${icon.Text == "terminé" ? "done" : icon.Text == "rejeté" ? "cancelled" : icon.Text == "accepté" ? "accepted" : "in-progress"}`} onClick={() => {
-                                            showConfirmationPopup(icon.action, icon.url)
-                                        }}>
-                                            {icon.icon} {icon.action}
-                                        </div>
-                                    ))
-                                    : "aucune action"
-                                }</p>
+                                <div className="initial">
+                                    <p>{`${commandData.user.firstName ? commandData.user.firstName.toUpperCase().slice(0, 1) : ""}${commandData.user.name ? commandData.user.name.toUpperCase().slice(0, 1) : ""}`}</p>
+                                </div>
+                                <div className="info-group">
+                                    <p><span className="text">Utilisateur:</span> <span>{`${commandData.user.firstName ?? ""} ${commandData.user.name ?? ""}`}</span></p>
+                                    <p><span className="text">Status:</span> {status.main}</p>
+                                    <p><span className="text">actions:</span> {status.actions.length > 0
+                                        ? status.actions.map((icon, index) => (
+                                            <div key={index} className={`action-icon ${icon.Text == "terminé" ? "done" : icon.Text == "rejeté" ? "cancelled" : icon.Text == "accepté" ? "accepted" : "in-progress"}`} onClick={() => {
+                                                showConfirmationPopup(icon.action, icon.url)
+                                            }}>
+                                                {icon.icon} {icon.action}
+                                            </div>
+                                        ))
+                                        : "aucune action"
+                                    }</p>
+                                </div>
                             </div>
                             <DynamicTable
                                 theadChild={
