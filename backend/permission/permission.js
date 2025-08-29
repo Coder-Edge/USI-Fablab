@@ -4,6 +4,7 @@ require("dotenv").config()
 
 function authentification(req, res, next) {
     const cookie = req.cookies.jwt
+    
     if (!cookie) return res.status(401).json({ message: "Unauthenticated" })
 
     try {
@@ -13,10 +14,10 @@ function authentification(req, res, next) {
 
     } catch (err) {
         if (err.name === "TokenExpiredError") {
-            res.clearCookie("jwt", { httOnly: true })
-            return res.status(401).json({ message: "Token have expired, login again" })
+            res.clearCookie("jwt", { httpOnly: true })
+            return res.status(401).json({ message: "Token have expired, login again", Ucode: 1 })
         }
-        return res.status(401).json({ message: "Unauthenticated" })
+        return res.status(401).json({ message: "Unauthenticated", Ucode: 2 })
     }
 }
 

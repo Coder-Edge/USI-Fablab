@@ -38,7 +38,7 @@ connectDB();
 // authorisation de source
 const corsOption = {
   credentials: true,
-  origin: ["http://localhost:5173"],
+  origin: ["http://localhost:5173", "http://localhost:3001", "http://192.168.0.200:3001"],
 };
 
 app.use(cookieParser());
@@ -318,7 +318,7 @@ app.get("/get/borrows", async (req, res) => {
     ]);
 
     const formattedBorrows = borrows.map((borrow, index) => ({
-      _id: borrow.id,
+      id: borrow.id,
       user: `${borrows[index].user.name + " " + borrows[index].user.firstName}`, // Nom de l'emprunteur
       startDate: borrow.startDate,
       endDate: borrow.endDate,
@@ -344,6 +344,7 @@ app.get("/get/borrows/:id", async (req, res) => {
     }
 
     const formattedBorrow = {
+      id: borrow._id,
       user: `${borrow.user.name} ${borrow.user.firstName}`,
       startDate: borrow.startDate,
       endDate: borrow.endDate,
@@ -370,7 +371,7 @@ app.get("/borrows/accept", async (req, res) => {
     ]);
 
     const formattedBorrows = borrows.map((borrow, index) => ({
-      _id: borrow._id,
+      id: borrow._id,
       user: `${borrows[index].user.name + " " + borrows[index].user.firstName}`, // Nom de l'emprunteur
       startDate: borrow.startDate,
       endDate: borrow.endDate,

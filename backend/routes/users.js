@@ -12,27 +12,29 @@ config();
 
 router.post("/login", unknownPermission, async (req, res) => {
   const { email, password } = req.body;
+
   const user = await userModel.findOne({ email: email });
 
   if (!user) {
-    return res.status(400).json({ message: "Email incorrect" });
+    return res.status(400).json({ message: "Email incorrect", email: true });
   }
 
   if (!(await bcrypt.compare(password, user.password))) {
-    return res.status(400).json({ message: "Mot de passe incorrect" });
+    return res.status(400).json({ message: "Mot de passe incorrect", password: true });
   }
 
   const accessToken = jwt.sign(
-    { _id: user._id.toString() },
+    { _id: user._id.toString(), email: user.email, name: user.name, role: user.userType },
     process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: "7d" }
   );
 
   res.cookie("jwt", accessToken, {
     httpOnly: true,
-    secure: true,
+    sameSite: "lax", // ou "none" si HTTPS
+    secure: false,   // true si HTTPS
     maxAge: 7 * 24 * 60 * 60 * 1000,
-  });
+  })
 
   const { name, userType } = user;
 
@@ -86,11 +88,11 @@ router.post("/registre", unknownPermission, async (req, res) => {
 router.get("/user", authentification, async (req, res) => {
   try {
     user = await userModel.findById(req.user);
-    const { name, firstName, email, userType } = user;
+    const { id, name, firstName, email, userType } = user;
 
     res
       .status(200)
-      .json({ message: "Success", user: { name, firstName, email, userType } });
+      .json({ message: "Success", user: { id, name, firstName, email, userType } });
   } catch (err) {
     return res.status(404).json({ message: "No user with that id" });
   }
@@ -99,7 +101,7 @@ router.get("/user", authentification, async (req, res) => {
 router.get("/userauth", async (req, res) => {
 
   const cookie = req.cookies.jwt
-  if (!cookie) return res.status(200).json({ message: "Unauthenticated", success: false })
+  if (!cookie) return res.status(404).json({ message: "No user found", user: null, success: false, code: 404 })
 
   try {
     const data = jwt.verify(cookie, process.env.ACCESS_TOKEN_SECRET,)
@@ -107,10 +109,10 @@ router.get("/userauth", async (req, res) => {
     const { name, email, userType } = user;
     res
       .status(200)
-      .json({ message: "Success", user: { name, email, userType }, success: true });
+      .json({ message: "Success", user: { name, email, userType }, success: true, code: 200 });
 
   } catch (err) {
-    return res.status(200).json({ message: "Unauthenticated", success: false })
+    return res.status(401).json({ message: "Token expired ou invalide", user: null, success: false, code: 401 })
   }
 });
 
