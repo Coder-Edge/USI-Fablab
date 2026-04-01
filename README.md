@@ -20,6 +20,8 @@ Gestion des durées d'emprunt pour optimiser la rotation du matériel.
 Catalogue de matériel disponible à la location.
 Réservation en ligne avec validation automatique ou manuelle.
 
+---
+
 ## 💻 Stack Technique
 Le projet repose sur la MERN Stack :
 
