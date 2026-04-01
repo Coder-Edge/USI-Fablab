@@ -1,5 +1,5 @@
 # 🛠️ USI Fablab - Système de Gestion Intégré
-USI Fablab est une application web full-stack conçue pour automatiser et simplifier la gestion quotidienne d'un laboratoire de fabrication numérique universitaire. Elle permet de centraliser l'inventaire, de planifier la maintenance des machines et d'offrir aux étudiants une plateforme de réservation en ligne.
+USI Fablab est une application web full-stack conçue pour automatiser et simplifier la gestion quotidienne du Fablab d'ULC-ICAM. Elle permet de centraliser l'inventaire, de planifier la maintenance des machines et d'offrir aux étudiants une plateforme de réservation en ligne.
 
 ---
 
